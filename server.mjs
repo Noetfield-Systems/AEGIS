@@ -38,7 +38,7 @@ const server=http.createServer(async(req,res)=>{
  if(secure(req))res.setHeader('Strict-Transport-Security','max-age=31536000; includeSubDomains');
  const url=new URL(req.url,'http://localhost');
  try{
-  if(url.pathname==='/api/health'){return respond(res,200,{ok:true,app:'aegis-isc',version:'1.0.0',persistence:'file'})}
+  if(url.pathname==='/api/health'){return respond(res,200,{ok:true,app:'aegis-isc',version:'1.1.0',persistence:'file'})}
   if(url.pathname==='/api/auth/login'&&req.method==='POST'){
    if(!originOkay(req))return respond(res,403,{error:'Origin نامعتبر است.'});
    const ip=(req.socket.remoteAddress||'unknown');const a=attempts.get(ip)||{count:0,until:0};if(a.count>=8&&a.until>Date.now())return respond(res,429,{error:'تلاش بیش از حد. بعداً دوباره تلاش کنید.'});

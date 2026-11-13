@@ -1,7 +1,5 @@
-# Isolated AEGIS cockpit deployment. Paths are relative to the repository root.
 [build]
 builder = "RAILPACK"
-watchPatterns = ["apps/aegis-isc-cockpit/**"]
 
 [deploy]
 startCommand = "node server.mjs"
