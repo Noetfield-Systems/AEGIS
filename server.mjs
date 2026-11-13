@@ -30,7 +30,7 @@ async function mutate(op,actor='operator'){
  await safeSave(s);state=s;return {state:s,derived:evaluate(s),...info};});
  mutex=job.then(()=>{},()=>{});return job;
 }
-const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css'};
+const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js'};
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
 const server=http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');res.setHeader('Cache-Control','no-store');
