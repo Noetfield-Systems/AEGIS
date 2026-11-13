@@ -1,0 +1,54 @@
+{
+  "schema": "aegis-agent-registry-v1",
+  "staffing_claim": "AI roles proposed; no human employment inferred",
+  "agents": [
+    {
+      "id": "GM",
+      "role": "Venture General Manager",
+      "mission": "Prioritize real revenue and verified milestones; report to Sina OS",
+      "approval_scope": "tasks/PR"
+    },
+    {
+      "id": "PRODUCT",
+      "role": "Product & Bilingual Design",
+      "mission": "Premium FA/EN UX and user acceptance",
+      "approval_scope": "UI PR"
+    },
+    {
+      "id": "ENGINEER",
+      "role": "Full-stack Engineering",
+      "mission": "Working code, data/API contracts, tests",
+      "approval_scope": "code PR"
+    },
+    {
+      "id": "POLICY",
+      "role": "Canadian AI Policy SME",
+      "mission": "Source-linked obligation mapping and amendments",
+      "approval_scope": "draft evidence"
+    },
+    {
+      "id": "AI-EVAL",
+      "role": "Native AI Evaluation Research",
+      "mission": "Reproducible data/model/output metrics",
+      "approval_scope": "test PR"
+    },
+    {
+      "id": "GTM",
+      "role": "Revenue & Partnerships",
+      "mission": "Real interviews, paid pilots, revenue proof",
+      "approval_scope": "outreach drafts"
+    },
+    {
+      "id": "QA",
+      "role": "Independent Verification",
+      "mission": "Negative tests, model limitations and release receipts",
+      "approval_scope": "independent review"
+    },
+    {
+      "id": "FINANCE",
+      "role": "Operations & Finance",
+      "mission": "Milestone budget, actual collected funds, controls",
+      "approval_scope": "reconciled reports"
+    }
+  ]
+}

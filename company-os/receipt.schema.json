@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AEGIS Execution Receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "workpacket_id",
+    "status",
+    "verified_at",
+    "evidence_refs",
+    "next_action"
+  ],
+  "properties": {
+    "schema": {
+      "const": "aegis-receipt-v1"
+    },
+    "workpacket_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "VERIFIED_PASS",
+        "VERIFIED_FAIL",
+        "BLOCKED",
+        "PARTIAL"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pr_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ci_run_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "test_results": {
+      "type": "object"
+    },
+    "verifier_id": {
+      "type": "string"
+    },
+    "verifier_verdict": {
+      "type": "string"
+    },
+    "deployment_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "health_url": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "actual_cost_cad": {
+      "type": "number",
+      "minimum": 0
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "blocker": {
+      "type": "string"
+    },
+    "verified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "signature_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

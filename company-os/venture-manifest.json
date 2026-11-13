@@ -1,0 +1,31 @@
+{
+  "schema": "aegis-venture-manifest-v1",
+  "venture_id": "aegis",
+  "display_name": "Noetfield AEGIS",
+  "legal_operator": "Noetfield Systems Inc.",
+  "repository": "Noetfield-Systems/AEGIS",
+  "product_boundaries": [
+    "ISC Readiness Studio (internal)",
+    "Continuous AI Assurance Engine (in development)"
+  ],
+  "parent_control_plane": "Sina Founder OS",
+  "orchestration": "Existing Company OS / Paperclip",
+  "runtime": "Existing Noetfield Runway",
+  "verification": "Independent Verifier / Verification Layer",
+  "project": {
+    "railway_project_id": "f11f031e-91dc-4941-8562-a75a0d1b3122",
+    "service_id": "eb2125e2-a991-435b-926a-6262027ebf3b",
+    "environment_id": "dcfb3297-3078-4bfc-9f9d-9f2016658f62",
+    "url": "https://aegis-isc-web-production.up.railway.app/",
+    "persistent_mount": "/data"
+  },
+  "execution_mode": {
+    "github_daily_queue": "configured",
+    "railway_cloud_automations": "unavailable_for_account",
+    "sina_os_dispatch": "pending_authenticated_endpoint",
+    "autonomous_coding_loop": "not_verified"
+  },
+  "score_truth": "Internal reviewed real evidence only; all mandatory gates must pass; hypothetical scenarios excluded",
+  "current_release": "1.1.0",
+  "updated_at": "2026-11-13"
+}
