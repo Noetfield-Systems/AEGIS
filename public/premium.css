@@ -153,3 +153,11 @@ a{transition:color .2s}a:hover{color:#f0c78a}
 @media(max-width:1190px){.app-layout{grid-template-columns:220px minmax(0,1fr)}.side{padding-inline:9px}.content{padding:25px 18px 50px}.main-grid{grid-template-columns:1fr}.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.app-layout{display:block}.side{position:relative;height:auto;max-height:none;width:100%;padding:12px 10px;border-bottom:1px solid #c5a47155;overflow:visible}.side .brand{padding:3px 10px 10px;margin-bottom:2px}.side .brand small,.nav-title,.sidebar-bottom{display:none}.nav{display:flex;overflow-x:auto;gap:4px;padding:7px 0;scrollbar-width:thin}.nav button{width:auto;flex:0 0 auto;font-size:11px;min-height:39px}.nav-icon{font-size:13px}.topbar{height:auto;min-height:70px;padding:10px 13px;flex-wrap:wrap;gap:10px}.top-actions{flex-wrap:wrap}.date-chip{display:none}.content{padding:17px 12px 45px}.hero{grid-template-columns:1fr;padding:23px;gap:16px}.hero h1{font-size:24px}.hero-metric{border:0;border-top:1px solid #dec18c55;padding:15px}.grid4,.crit-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.scenario-item{grid-template-columns:110px 1fr 50px}.work-row{flex-wrap:wrap}.work-meta{width:100%;justify-content:flex-end}.modal{width:95vw;max-height:90vh}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Illustrated Ottawa evening panorama and bespoke golden AEGIS wing emblem. */
+.logo-mark{font-size:0;background:linear-gradient(135deg,#332037,#16152a) url('/aegis-emblem.svg') center / 87% no-repeat;border-color:#d4b47c;transform:none}
+.hero{background:linear-gradient(90deg,rgba(11,13,28,.93) 0%,rgba(20,18,38,.82) 35%,rgba(16,15,34,.55) 70%,rgba(10,12,27,.83) 100%),url('/ottawa-silhouette.svg') center 52%/cover no-repeat;border-color:#d0a8788c}
+.hero:before{opacity:.7}
+.hero .bigscore{filter:drop-shadow(0 0 12px #d19b6942)}
+.hero .btn.primary{font-weight:900}
+@media(max-width:760px){.hero{background-position:63% 50%}}
