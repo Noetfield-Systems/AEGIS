@@ -30,8 +30,8 @@ async function mutate(op,actor='operator'){
  await safeSave(s);state=s;return {state:s,derived:evaluate(s),...info};});
  mutex=job.then(()=>{},()=>{});return job;
 }
-const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js'};
-const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8'};
+const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js','/aegis-emblem.svg':'aegis-emblem.svg','/ottawa-silhouette.svg':'ottawa-silhouette.svg'};
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml'};
 const server=http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');res.setHeader('Cache-Control','no-store');
  res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; connect-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'self'; frame-ancestors 'none'");
