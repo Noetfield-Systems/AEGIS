@@ -177,3 +177,11 @@ a{transition:color .2s}a:hover{color:#f0c78a}
 .os-flow b{color:#e0b97b}
 @media(max-width:1250px){.company-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.company-grid{grid-template-columns:1fr}}
+
+.lab-input{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;direction:ltr;text-align:left;min-height:190px;width:100%;font-size:12px;line-height:1.7;resize:vertical}
+.lab-output{padding:18px;background:#0a0e1d;border:1px solid #66577b;border-radius:12px;direction:ltr;text-align:left;color:#e2d6ed;white-space:pre-wrap;overflow-wrap:anywhere;min-height:226px;max-height:500px;overflow:auto;font-size:11px;line-height:1.8}
+.lab-contracts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.lab-contracts>div{background:#111629;border:1px solid #564d67;padding:14px;border-radius:11px;min-width:0}
+.lab-contracts strong{display:block;color:#e6c193;margin-bottom:8px}
+.lab-contracts code{display:block;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;line-height:1.65;color:#ccc5e3;direction:ltr;text-align:left}
+@media(max-width:720px){.lab-contracts{grid-template-columns:1fr}}

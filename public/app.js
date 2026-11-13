@@ -1,6 +1,6 @@
 const root=document.getElementById('app'),toastBox=document.getElementById('toast');
 let state=null,d=null,meta=null,view='overview',modal=null,filter='';
-const nav=[['overview','نمای کلی','◈'],['criteria','معیارهای Q','▦'],['gaps','شکاف‌ها و اقدام بعدی','⌁'],['evidence','رجیستری شواهد','◉'],['pilot','پایلوت ۳۰روزه','▤'],['tasks','کارها و مسئولان','✓'],['activities','مصاحبه و پیگیری','⌕'],['people','تیم و ظرفیت','♙'],['commercial','تجاری‌سازی','↗'],['risks','ریسک و مهار','△'],['company','Company OS','✦'],['audit','تاریخچه و خروجی','≡']];
+const nav=[['overview','نمای کلی','◈'],['criteria','معیارهای Q','▦'],['gaps','شکاف‌ها و اقدام بعدی','⌁'],['evidence','رجیستری شواهد','◉'],['pilot','پایلوت ۳۰روزه','▤'],['tasks','کارها و مسئولان','✓'],['activities','مصاحبه و پیگیری','⌕'],['people','تیم و ظرفیت','♙'],['commercial','تجاری‌سازی','↗'],['risks','ریسک و مهار','△'],['lab','آزمایشگاه AEGIS','⚗'],['company','Company OS','✦'],['audit','تاریخچه و خروجی','≡']];
 const et=(x='')=>String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const fmt=x=>Number(x||0).toLocaleString('fa-IR');
 const date=x=>x?et(String(x).slice(0,10)):'—';
@@ -39,6 +39,25 @@ function commercial(){return `${sectionIntro('اثبات تجاری‌سازی',
 function risks(){return `${sectionIntro('دفتر ریسک و مهار','ریسک‌های فنی Q4 و ریسک‌های پروژه Q5 را جدا و قابل آزمون نگه دارید.')}${records('risks',state.risks,x=>`<article class="record"><div class="pill-row">${badge(x.type==='technical'?'فنی / Q4':'پروژه / Q5','blue')}${statusBadge(x.status||'open')}${badge(x.severity||'درجه نامشخص','amber')}</div><h3>${et(x.title)}</h3><p>${et(x.impact||'شرح اثر ثبت نشده')}</p><p>مهار: ${et(x.mitigation||'ثبت نشده')}</p><div class="record-footer"><span class="muted">${et(x.owner||'—')} · ${date(x.due)}</span><button class="mini-link" data-edit="risks" data-id="${et(x.id)}">ویرایش ←</button></div></article>`,'ریسکی ثبت نشده است','ثبت ریسک و مهار')}`}
 function audit(){return `${sectionIntro('تاریخچه و بسته شواهد','قابل ردیابی بودن هر تغییر، امتیاز و ادعای بازبینی.')}<div class="toolbar"><button class="btn primary" data-export="json">دریافت بسته JSON</button><button class="btn" data-export="csv">دریافت CSV شواهد</button></div><div class="main-grid"><div class="panel"><div class="panel-head"><h3>رد تغییرات</h3>${badge(state.audit.length+' رویداد','blue')}</div><div class="tablewrap"><table class="data-table"><thead><tr><th>زمان</th><th>اقدام</th><th>شناسه</th><th>تغییر امتیاز</th></tr></thead><tbody>${state.audit.slice().reverse().slice(0,80).map(x=>`<tr><td class="dleft">${et(x.at?.slice(0,16)||'')}</td><td>${et(x.action)}</td><td class="dleft">${et(x.target)}</td><td class="dleft">${fmt(x.previousScore)} → ${fmt(x.nextScore)}</td></tr>`).join('')||'<tr><td colspan="4">تغییری ثبت نشده است.</td></tr>'}</tbody></table></div></div><div class="panel"><h3>کنترل صداقت پرونده</h3><p class="muted" style="line-height:2.3">مدارک فرضی وارد امتیاز نمی‌شوند. هر مرجع باید ادعا و محدودیت روشن داشته باشد. نمره رسمی فقط توسط مرجع ارزیابی تعیین می‌شود. اگر سند رد یا حذف شود، امتیاز وابسته و گیت‌های مربوط به آن بلافاصله کاهش می‌یابند.</p><div class="gate-list" style="margin-top:15px">${gateItem(meta.gates.find(x=>x.id==='M-TRL'))}${gateItem(meta.gates.find(x=>x.id==='M-SOTA'))}</div></div></div>`}
 
+function lab(){
+ return sectionIntro('آزمایشگاه AEGIS','ارزیابی‌های بومی قابل‌تکرار روی داده، مدل و خروجی؛ و بررسی تغییر سیاست بدون دست‌کاری شواهد ثبت‌شده.')+
+ '<div class="source-note" style="margin-bottom:20px"><strong>EXPERIMENTAL ONLY</strong> — نتایج فقط برای آزمایش داخلی هستند؛ در امتیاز ISC، وضعیت TRL، گیت‌ها یا رجیستری مدارک ثبت نمی‌شوند. این نسخه هنوز آزمون کامل ریسک، انصاف و ایمنی AI نیست.</div>'+
+ '<div class="main-grid"><section class="panel"><div class="panel-head"><h3>اجرای آزمون بومی / Native Evaluation</h3><span class="badge amber">NO AUTO-CREDIT</span></div>'+
+ '<div class="form-field"><label for="lab-mode">نوع ارزیابی / Test type</label><select id="lab-mode"><option value="data">Data quality — Schema, missingness, duplicates</option><option value="classifier">Model — Binary classification metrics</option><option value="output">Output — Deterministic phrase rules</option><option value="replay">Policy replay — Historical impact</option></select></div>'+
+ '<div class="form-field" style="margin-top:14px"><label for="lab-input">ورودی JSON — داده واقعی یا fixture صریحاً آزمایشی</label><textarea id="lab-input" spellcheck="false" class="lab-input" placeholder="JSON input payload: { &quot;records&quot;:[], &quot;schema&quot;:{ &quot;age&quot;:&quot;number&quot; } }"></textarea></div>'+
+ '<div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap"><button class="btn primary" type="button" data-lab-run>اجرای ارزیابی / Run evaluation</button><span class="muted">بدون تغییر امتیاز و بدون ذخیره ورودی</span></div>'+
+ '<div id="lab-error" role="alert" style="color:#f9a1ac;margin-top:11px"></div></section>'+
+ '<section class="panel"><div class="panel-head"><h3>نتیجه قابل بازسازی / Measured Result</h3><span class="badge blue">EXPERIMENTAL</span></div>'+
+ '<pre id="lab-result" class="lab-output" aria-live="polite">آزمونی اجرا نشده است. JSON معتبر وارد و دکمه اجرا را انتخاب کنید.</pre>'+
+ '<p class="fineprint">امضای SHA-256 به ورودی تعلق می‌گیرد؛ این امضا به‌تنهایی صحت داده، استقلال بازبینی یا تحقق معیار E6 را اثبات نمی‌کند.</p></section></div>'+
+ '<div class="panel" style="margin-top:18px"><h3>قالب‌های ورودی / Input contracts</h3>'+
+ '<div class="lab-contracts"><div><strong>Data quality</strong><code>{"records":[{"age":32}],"schema":{"age":"number"}}</code></div>'+
+ '<div><strong>Binary classifier</strong><code>{"labels":[1,0,1],"predictions":[1,0,0]}</code></div>'+
+ '<div><strong>Output rules</strong><code>{"outputs":["approved"],"requiredPhrases":["approved"],"forbiddenPhrases":["rejected"]}</code></div>'+
+ '<div><strong>Historical replay</strong><code>{"before":{"controls":{"P1":"old"}},"after":{"controls":{"P1":"new"}},"systems":[{"id":"S1","controlIds":["P1"]}],"assessments":[{"id":"A1","systemId":"S1","finding":"MET"}]}</code></div></div>'+
+ '<p class="fineprint" style="margin-top:12px">نمونه‌های بالا فقط برای یادگیری قرارداد ورودی هستند، نه داده واقعی یا نتیجه بنچمارک.</p></div>';
+}
+
 function company(){const roles=[["GM","Venture Manager","Priority, evidence & revenue"],["PRODUCT","Product Design","FA/EN UX and usability"],["ENGINEER","Platform Engineering","API, data and release"],["AI-EVAL","Evaluation Lab","Native AI tests and metrics"],["POLICY","Policy Intelligence","Canadian source mapping"],["GTM","Growth & Partnerships","Paying pilots and buyer proof"],["QA","Independent Verifier","Reproduction and release QA"],["FINANCE","Operations & Finance","Actual cash and resource tracking"]];
 return sectionIntro('AEGIS Company OS','واحد عملیاتی اختصاصی زیر نظر Sina Founder OS؛ اینجا وضعیت واقعی هماهنگی تیم‌ها و مأموریت‌ها نمایش داده می‌شود.')+
 '<div class="source-note" style="margin-bottom:20px">وضعیت اتصال به Runtime مرکزی: <strong>هنوز تأیید نشده</strong> · Daily GitHub WorkPacket: پیکربندی‌شده، اجرای زمان‌بندی‌شده هنوز اثبات نشده · Railway Automations: غیرفعال برای حساب · هیچ Agent یا رسید اجرای خودکار ساختگی نمایش داده نمی‌شود.</div>'+
@@ -47,7 +66,7 @@ return sectionIntro('AEGIS Company OS','واحد عملیاتی اختصاصی �
 '<div class="main-grid"><div class="panel"><div class="panel-head"><h3>چرخه مأموریت و بازبینی مستقل</h3></div><div class="os-flow"><span>Founder Intent</span><b>→</b><span>Sina OS</span><b>→</b><span>Company OS</span><b>→</b><span>WorkPacket</span><b>→</b><span>GitHub CI</span><b>→</b><span>Verifier</span><b>→</b><span>Railway</span></div><p class="fineprint">ایجاد Issue یا اجرای Cron به معنی Commit، Merge یا Deployment خودکار نیست. برای اعلام موفقیت، رسید شامل SHA، تست، تأیید مستقل و سلامت Deployment لازم است.</p></div><div class="panel"><h3>WorkPacket و منابع زنده</h3><p class="fineprint">۱۰ مأموریت در صف اولویت‌بندی ماشین‌خوان تعریف شده‌اند. اطلاعات دقیق هر مأموریت و سند معماری در مخزن مستقل قرار دارد.</p><div class="actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"><a class="btn primary" href="https://github.com/Noetfield-Systems/AEGIS/issues" target="_blank" rel="noopener noreferrer">مشاهده مأموریت‌ها ↗</a><a class="btn" href="https://github.com/Noetfield-Systems/AEGIS/actions" target="_blank" rel="noopener noreferrer">گردش‌کار روزانه ↗</a><a class="btn" href="https://github.com/Noetfield-Systems/AEGIS/blob/main/docs/COMPANY_OS.md" target="_blank" rel="noopener noreferrer">قرارداد Company OS ↗</a></div></div></div>';
 }
 
-function render(){if(!state)return login();const content={overview,criteria,gaps,evidence,pilot,tasks,activities,people,commercial,risks,company,audit}[view]();root.innerHTML=chrome(content);if(modal){const f=el('#record-form');if(f)f.onsubmit=saveRecord;}}
+function render(){if(!state)return login();const content={overview,criteria,gaps,evidence,pilot,tasks,activities,people,commercial,risks,lab,company,audit}[view]();root.innerHTML=chrome(content);if(modal){const f=el('#record-form');if(f)f.onsubmit=saveRecord;}}
 // Editable record form templates: all are real records, none auto-confirm evidence.
 const field=(key,label,type='text',value='',full=false,options=null)=>`<div class="form-field ${full?'full':''}"><label for="f-${key}">${label}</label>${type==='textarea'?`<textarea id="f-${key}" name="${key}">${et(value)}</textarea>`:type==='select'?`<select id="f-${key}" name="${key}">${options.map(([v,t])=>`<option value="${et(v)}" ${String(value)===String(v)?'selected':''}>${et(t)}</option>`).join('')}</select>`:`<input id="f-${key}" type="${type}" name="${key}" value="${et(value)}" ${key==='url'||key==='proofUrl'?'placeholder="https://..."':''}>`}</div>`;
 const selectOptions=(xs)=>xs.map(x=>[x,x]);
@@ -68,6 +87,18 @@ async function saveRecord(e){e.preventDefault();const fd=new FormData(e.target),
  try{const x=await api('record',{method:'POST',body:JSON.stringify({collection:modal.collection,record:r})});modal=null;setData(x);alertToast('رکورد ذخیره شد؛ ارزیابی و شکاف‌ها به‌روزرسانی شدند.');}catch(ex){alertToast(ex.message,true)}}
 root.addEventListener('click',async e=>{
  const n=e.target.closest('button');if(!n){if(e.target.matches('[data-modal-bg]')){modal=null;render()}return}
+ if(n.dataset.labRun!==undefined){
+  const elMode=root.querySelector('#lab-mode'),elInput=root.querySelector('#lab-input'),out=root.querySelector('#lab-result'),err=root.querySelector('#lab-error');
+  if(!elMode||!elInput||!out)return;
+  err.textContent='';out.textContent='Running…';
+  try{
+   const payload=JSON.parse(elInput.value);
+   if(!payload||typeof payload!=='object'||Array.isArray(payload))throw new Error('Input must be a JSON object');
+   const r=await api('assurance/run',{method:'POST',body:JSON.stringify({mode:elMode.value,input:payload})});
+   out.textContent=JSON.stringify(r,null,2);
+  }catch(ex){err.textContent=ex.message;out.textContent='No valid result. Read the error and correct your JSON.'}
+  return;
+ }
  if(n.dataset.nav){view=n.dataset.nav;filter='';modal=null;render();window.scrollTo(0,0);return}
  if('close'in n.dataset){modal=null;render();return}
  if('logout'in n.dataset){logout();return}
