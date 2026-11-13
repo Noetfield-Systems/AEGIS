@@ -1,5 +1,11 @@
 name: AEGIS Company OS — Daily Evidence & Build Queue
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily-operations.yml'
+      - 'ops/backlog.json'
+      - 'scripts/daily-operations.mjs'
   schedule:
     - cron: '15 15 * * *'
   workflow_dispatch:
