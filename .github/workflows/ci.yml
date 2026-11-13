@@ -1,0 +1,32 @@
+name: AEGIS Continuous Verification
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Unit and contract tests
+        run: npm test
+      - name: Check JS syntax
+        run: |
+          node --check server.mjs
+          node --check model.mjs
+          node --check public/app.js
+          node --check public/locale.js
+          node --check scripts/daily-operations.mjs
+      - name: Check required source assets
+        run: |
+          test -s public/premium.css
+          test -s docs/PRODUCT_SSOT.md
+          test -s docs/COMPANY_OS.md
+          test -s ops/backlog.json

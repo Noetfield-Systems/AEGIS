@@ -1,0 +1,26 @@
+name: AEGIS Company OS — Daily Evidence & Build Queue
+on:
+  schedule:
+    - cron: '15 15 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  operations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      AEGIS_HEALTH_URL: https://aegis-isc-web-production.up.railway.app/api/health
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SINA_OS_DISPATCH_URL: ${{ secrets.SINA_OS_DISPATCH_URL }}
+      SINA_OS_TOKEN: ${{ secrets.SINA_OS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate evidence-scoring invariants
+        run: npm test
+      - name: Select next workpacket, check health, create traceable issue
+        run: node scripts/daily-operations.mjs
