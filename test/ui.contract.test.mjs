@@ -9,7 +9,7 @@ test('premium and bilingual assets are present in the app and served by server',
  assert.match(locale,/aegis_language/);
 });
 test('deployment requirements preserve secret-only auth and persistent data',async()=>{
- const server=await f('server.mjs');assert.match(server,/SESSION_SECRET/);assert.match(server,/ADMIN_PASSWORD/);assert.match(server,/DATA_DIR/);assert.match(server,//api/state/);assert.match(server,/authorized\(req\)/);
+ const server=await f('server.mjs');assert.match(server,/SESSION_SECRET/);assert.match(server,/ADMIN_PASSWORD/);assert.match(server,/DATA_DIR/);assert.ok(server.includes('/api/state'));assert.match(server,/authorized\(req\)/);
 });
 test('agent operating contract never claims scheduled issues are coding receipts',async()=>{
  const file=await f('scripts/daily-operations.mjs');
