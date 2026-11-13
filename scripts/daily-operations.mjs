@@ -24,14 +24,24 @@ if(token){
    const created=await fetch(api+'/issues',{method:'POST',headers:{...headers,'Content-Type':'application/json'},body:JSON.stringify({title:'['+next.id+'] '+next.title,body})});
    if(!created.ok)throw Error('issues.create HTTP '+created.status);
    report.issue=(await created.json()).html_url;
-  }else report.selected='ALL_BACKLOG_ITEMS_HAVE_ISSUES';
+  }else {const pending=sorted.map(item=>({item,issue:issues.find(i=>i.state==='open'&&String(i.title).includes('['+item.id+']'))})).find(x=>x.issue);if(pending){report.selected=pending.item.id;report.issue=pending.issue.html_url}else report.selected='NO_OPEN_BACKLOG_ISSUE';}
  }catch(e){report.issue='ERROR: '+e.message}
 }else report.issue='MISSING_GITHUB_TOKEN';
 const url=process.env.SINA_OS_DISPATCH_URL,secret=process.env.SINA_OS_TOKEN;
-if(url&&secret){
+if(url&&secret&&report.selected&&!report.selected.startsWith('NO_')&&/^https:\/\//.test(report.issue||'')){
  try{
   if(new URL(url).protocol!=='https:')throw Error('HTTPS endpoint required');
-  const resp=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+secret,'Content-Type':'application/json'},body:JSON.stringify({schema:'aegis-workpacket-v1',venture_id:'aegis',objective:report.selected,source_issue_url:report.issue,health:report.health,created_at:report.date})});
+  const resp=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+secret,'Content-Type':'application/json'},body:JSON.stringify({
+    schema:'aegis-workpacket-v1',id:report.selected+'-'+report.date.slice(0,10),venture_id:'aegis',
+    objective:backlog.items.find(x=>x.id===report.selected)?.title||report.selected,
+    source_issue_url:report.issue,owner_role:({Engineering:'ENGINEER',Platform:'ENGINEER',Security:'ENGINEER',Localization:'PRODUCT',Growth:'GTM',Operations:'FINANCE',Assurance:'AI-EVAL',Policy:'POLICY',QA:'QA'})[backlog.items.find(x=>x.id===report.selected)?.team]||'GM',
+    priority:backlog.items.find(x=>x.id===report.selected)?.priority||2,
+    acceptance_criteria:backlog.items.find(x=>x.id===report.selected)?.acceptance||['Record verified changes and next step'],
+    authorized_scope:['repo:Noetfield-Systems/AEGIS','branch:scoped-feature','pull-request-only'],
+    due_at:new Date(Date.now()+86400000).toISOString(),budget_limit_cad:0,
+    evidence_requirements:['source commit','CI run','independent reviewer','deployment receipt'],
+    target_environment:'staging',created_at:report.date
+   })});
   report.sinaOS=resp.ok?'DELIVERED_HTTP_'+resp.status:'REJECTED_HTTP_'+resp.status;
  }catch(e){report.sinaOS='ERROR: '+e.message}
 }

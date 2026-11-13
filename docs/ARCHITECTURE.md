@@ -4,6 +4,9 @@
 Node.js 22+ HTTP service; zero runtime dependencies; /api/auth/login protected by HttpOnly SameSite=Strict HMAC-signed cookie; /api/state and record CRUD; single serial file store under DATA_DIR; atomic tmp rename; evidence-gated scoring; JSON/CSV export; audit history; protected source-backed record definitions. Bilingual UI presentation adapter + dark premium visual skin. 8 existing unit tests for score integrity.
 Railway project noetfield-aegis-isc; existing production service aegis-isc-web; mounted volume /data. Preserve data during repo source switch.
 
+## Experimental native evaluation kernel (implemented, not full ISC E6)
+Authenticated POST /api/assurance/run supports four stateless modes: data, classifier, output, replay. Implements deterministic metrics and conservative replay invalidation but does not evaluate semantic output truth, comprehensive fairness, five complete policy instruments or independently certify AI quality. It never mutates readiness evidence or grants ISC points. Verified by unit and HTTP integration tests. Policy replay is impact-planning, not completed native reassessment.
+
 ## Next architecture (not shipped)
 Clients -> edge auth -> AEGIS API -> transactional PostgreSQL -> evidence object store (encrypted, versioned) -> policy obligation graph -> model/data/output evaluators -> replay scheduler -> independent verifier -> findings/events -> action queue.
 Store entities: Organization, User, Role, AIAsset, PolicyInstrument, PolicyVersion, Control, ModelRun, Assessment, Finding, Evidence, EvidenceReview, ChangeEvent, ReplayRun, Benchmark, Risk, Task, Milestone, Engagement, Contract, Receipt.
