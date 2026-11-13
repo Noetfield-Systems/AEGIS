@@ -1,6 +1,17 @@
-# Noetfield AEGIS — ISC readiness cockpit (Persian)
+# Noetfield AEGIS — Bilingual Evidence Operations + Experimental AI Assurance
 
-Dedicated, private, evidence-gated operational application for **EN578-24ISC4/100**. It is an internal estimate, **not a federal ISC assessment**. Scenario values 43/102/120 are analytical hypotheticals and do not seed real evidence.
+**Official product source: `Noetfield-Systems/AEGIS`**. Live private workspace: https://aegis-isc-web-production.up.railway.app/.
+
+Dedicated FA/EN premium, private, evidence-gated operational application for **EN578-24ISC4/100**, with a separate experimental native AI evaluation lab and venture Company OS operating context. It is an internal estimate, **not a federal ISC assessment**. Scenario values 43/102/120 are analytical hypotheticals and do not seed real evidence.
+
+## Current scope
+
+- **Readiness Studio (deployed):** Evidence review, score/gates, 30-day milestones, team, tasks, interviews and commercialization records, protected login, audit/export.
+- **Native Evaluation Lab (experimental):** authenticated stateless `POST /api/assurance/run`, four modes (`data`, `classifier`, `output`, `replay`) and isolated tests. No ISC evidence score or mandatory gate is granted by experiments.
+- **Company OS (partial):** specialist roles, venture manifest, task/receipt schemas, real GitHub Actions scheduled daily work queue, first successful dispatch; no verified full autonomous coding chain or Sina OS endpoint.
+- **Commercial Enterprise Assurance Engine:** planned, not released or TRL certified.
+
+Canonical docs: [Product](docs/PRODUCT_SSOT.md), [Architecture](docs/ARCHITECTURE.md), [ISC evidence and benchmarks](docs/ISC_EVIDENCE_AND_BENCHMARKS.md), [Company OS](docs/COMPANY_OS.md), [30-day plan](docs/ROADMAP_30_DAY.md), [Design system](docs/UX_DESIGN_SYSTEM.md), [Current status](docs/CURRENT_STATUS.md).
 
 ## Run
 
