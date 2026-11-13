@@ -51,6 +51,16 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.equal((await rating.json()).derived.score,0,'user-rated score without real reviewed evidence must remain zero');
  const gate=await fetch(base+'/api/gate',{method:'POST',headers,body:JSON.stringify({id:'M-TRL',value:'passed'})});
  assert.equal(gate.status,400,'mandatory gate cannot pass without evidence');
+ assert.equal((await fetch(base+'/api/assurance/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'data',input:{records:[],schema:{name:'string'}}})})).status,401);
+ const exp=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'classifier',input:{labels:[1,0,1],predictions:[1,1,1]}})});
+ assert.equal(exp.status,200);
+ const experimental=await exp.json();
+ assert.equal(experimental.status,'EXPERIMENTAL_ONLY');assert.equal(experimental.evidenceCredited,false);
+ assert.equal(experimental.result.metrics.tp,2);
+ const invalid=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'classifier',input:{labels:[1],predictions:[1,0]}})});
+ assert.equal(invalid.status,400);
+ const afterNative=await (await fetch(base+'/api/state',{headers})).json();
+ assert.equal(afterNative.derived.score,0,'experimental AI metrics never change the evidence score');
  const exportRes=await fetch(base+'/api/export?format=json',{headers});
  assert.equal(exportRes.status,200);
  const payload=await exportRes.json();assert.equal(payload.derived.score,0);

@@ -21,11 +21,13 @@ jobs:
         run: |
           node --check server.mjs
           node --check model.mjs
+          node --check assurance/native.mjs
           node --check public/app.js
           node --check public/locale.js
           node --check scripts/daily-operations.mjs
       - name: Check required source assets
         run: |
+          test -s assurance/native.mjs
           test -s public/premium.css
           test -s docs/PRODUCT_SSOT.md
           test -s docs/COMPANY_OS.md

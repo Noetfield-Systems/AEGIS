@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHmac,randomUUID,timingSafeEqual} from 'node:crypto';
 import {seed,evaluate,CRITERIA,GATES,SOURCE,NOTICE,DEADLINE,normalizeEntity,isReviewed} from './model.mjs';
+import {runNative} from './assurance/native.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dataDir=process.env.DATA_DIR||path.join(root,'data');
 const storeFile=path.join(dataDir,'aegis-isc.json');
@@ -49,6 +50,17 @@ const server=http.createServer(async(req,res)=>{
   if(url.pathname.startsWith('/api/')){
    if(!authorized(req))return respond(res,401,{error:'ورود به فضای خصوصی لازم است.'});
    if(req.method!=='GET'&&!originOkay(req))return respond(res,403,{error:'Origin نامعتبر است.'});
+   // Experimental assurance lab: authenticated, stateless, read-only, never credits ISC points.
+   if(url.pathname==='/api/assurance/run'&&req.method==='POST'){
+    try{
+     const request=await body(req);
+     const result=runNative(request);
+     return respond(res,200,{status:'EXPERIMENTAL_ONLY',evidenceCredited:false,result});
+    }catch(error){
+     if(error instanceof TypeError)return respond(res,400,{error:error.message});
+     throw error;
+    }
+   }
    if(url.pathname==='/api/state'&&req.method==='GET')return respond(res,200,{state,derived:evaluate(state),meta:{criteria:CRITERIA,gates:GATES,source:SOURCE,notice:NOTICE,deadline:DEADLINE}});
    if(url.pathname==='/api/export'&&req.method==='GET'){
     const t=url.searchParams.get('format');if(t==='csv'){
