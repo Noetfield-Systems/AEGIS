@@ -1,0 +1,119 @@
+{
+  "version": "1.0",
+  "company": "AEGIS",
+  "owner": "Sina Founder OS",
+  "items": [
+    {
+      "id": "AEGIS-101",
+      "priority": 1,
+      "team": "Engineering",
+      "title": "Validate premium FA/EN UX on mobile and desktop; complete translation audit",
+      "acceptance": [
+        "Evidence records and navigation work in FA and EN",
+        "Keyboard accessibility and contrast verified",
+        "Screenshots linked"
+      ]
+    },
+    {
+      "id": "AEGIS-102",
+      "priority": 1,
+      "team": "Assurance",
+      "title": "Build first-party native data/model/output metric runner",
+      "acceptance": [
+        "Raw fixtures",
+        "Reproducible metrics",
+        "Negative cases with evidence",
+        "Independent QA"
+      ]
+    },
+    {
+      "id": "AEGIS-103",
+      "priority": 1,
+      "team": "Policy",
+      "title": "Version five Canadian AI policy sources and map five-state assessments",
+      "acceptance": [
+        "Exact sources and versions",
+        "Human review",
+        "Five-state provenance"
+      ]
+    },
+    {
+      "id": "AEGIS-104",
+      "priority": 1,
+      "team": "Engineering",
+      "title": "Implement historical policy replay with affected-system diff",
+      "acceptance": [
+        "Prior completed assessment replay",
+        "Before/after diff",
+        "Reproducible run receipt"
+      ]
+    },
+    {
+      "id": "AEGIS-105",
+      "priority": 1,
+      "team": "QA",
+      "title": "Independently benchmark AEGIS against manual process and commercial equivalent",
+      "acceptance": [
+        "Blinded labels",
+        "Precision/recall with intervals",
+        "No invented comparisons"
+      ]
+    },
+    {
+      "id": "AEGIS-106",
+      "priority": 1,
+      "team": "Platform",
+      "title": "Move single-user JSON store to transactional PostgreSQL and add backup restore drills",
+      "acceptance": [
+        "Migrations",
+        "Backup encrypted",
+        "Restore tested",
+        "No data loss"
+      ]
+    },
+    {
+      "id": "AEGIS-107",
+      "priority": 2,
+      "team": "Security",
+      "title": "Implement per-user sign-in, tenant isolation and RBAC negative tests",
+      "acceptance": [
+        "Authorized paths",
+        "Unauthorized cross-tenant 0",
+        "Audit receipt"
+      ]
+    },
+    {
+      "id": "AEGIS-108",
+      "priority": 2,
+      "team": "Growth",
+      "title": "Validate first paying Policy Change Impact Pilot",
+      "acceptance": [
+        "5 buyer interviews evidenced",
+        "Scope and pricing",
+        "Invoice/collection distinguished"
+      ]
+    },
+    {
+      "id": "AEGIS-109",
+      "priority": 2,
+      "team": "Operations",
+      "title": "Wire authenticated WorkPacket/Receipt integration to existing Sina OS Company OS",
+      "acceptance": [
+        "Verified dispatch endpoint",
+        "Independently checked receipt",
+        "No parallel runtime"
+      ]
+    },
+    {
+      "id": "AEGIS-110",
+      "priority": 2,
+      "team": "Localization",
+      "title": "Prepare EN/FR assurance customer edition separate from FA/EN cockpit",
+      "acceptance": [
+        "Complete linguistic review",
+        "Golden E2E reviewer flows",
+        "Accessible PDF reports"
+      ]
+    }
+  ]
+}
