@@ -52,6 +52,7 @@ jobs:
           node --check assurance/advanced-native.mjs
           node --check public/tour.js
           node --check public/workbench.js
+          node --check scripts/browser-quality.mjs
           node --check assurance/integrated-report.mjs
           node --check assurance/impact-experiment.mjs
           node --check fixtures/impact-experiment.mjs
@@ -67,6 +68,16 @@ jobs:
           node --check public/app.js
           node --check public/locale.js
           node --check scripts/daily-operations.mjs
+      - name: Real Chromium EN/FR user and mobile journey
+        run: node scripts/browser-quality.mjs
+      - name: Preserve synthetic-only browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-browser-quality-${{ github.run_id }}
+          path: artifacts/browser-quality/*.png
+          retention-days: 14
+          if-no-files-found: ignore
       - name: Check required source assets
         run: |
           test -s assurance/native.mjs
