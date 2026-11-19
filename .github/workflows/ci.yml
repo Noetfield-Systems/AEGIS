@@ -19,6 +19,8 @@ jobs:
         run: npm install --ignore-scripts --no-audit --no-fund
       - name: Unit and contract tests
         run: npm test
+      - name: Test public-source capture with mocked government responses
+        run: node --test test/source-archive.test.mjs
       - name: Reproduce Golden Assurance Replay twice
         run: |
           node scripts/golden-assurance-demo.mjs > /tmp/aegis-replay-a.json
@@ -60,6 +62,8 @@ jobs:
           node --check assurance/benchmark.mjs
           node --check assurance/aia-scope.mjs
           node --check assurance/source-registry.mjs
+          node --check assurance/source-archive.mjs
+          node --check scripts/capture-policy-source.mjs
           node --check assurance/governed-lifecycle.mjs
           node --check assurance/advanced-native.mjs
           node --check public/tour.js
