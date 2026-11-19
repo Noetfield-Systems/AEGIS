@@ -238,3 +238,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 @media(max-width:370px){.lineage-nodes{grid-template-columns:1fr}.workbench-stats{grid-template-columns:1fr 1fr}.crumb{max-width:130px;white-space:normal}}
 @media(prefers-reduced-motion:reduce){.sidebar.navbar{transition:none}}
+
+/* Screenshot-verified navigation and translated-title corrections */
+@media(min-width:901px){.topbar.navbar .mobile-menu{display:none!important}}
+@media(max-width:900px){.topbar.navbar .mobile-menu{display:inline-flex!important}}
+.heading>div:first-child{min-width:0;max-width:100%}
+.heading h1{white-space:normal;overflow-wrap:break-word;word-break:normal}
+@media(max-width:600px){
+ .heading h1 br{display:initial}
+ .content.page-body,.main.page-wrapper{width:100%;max-width:100%;min-width:0;overflow-wrap:break-word}
+ .pane,.lineage,.ribbon,.scenario-chooser,.metrics,.workbench-stats{min-width:0;max-width:100%}
+ .workbench-stats strong,.hashbox code{overflow-wrap:anywhere}
+}
