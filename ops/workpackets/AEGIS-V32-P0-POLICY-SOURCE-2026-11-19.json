@@ -5,13 +5,11 @@
   "company_os_id": "AEGIS-Company-OS",
   "objective": "Independently capture exact official Canadian policy source versions and obtain a qualified, verifiable clause-to-control applicability review for the existing Policy→Native→Replay Officer Evidence Pack",
   "source_issue_url": "https://github.com/Noetfield-Systems/AEGIS/issues/23",
-  "owner_role": "Federal AI Policy SME + Independent Assurance Verifier",
+  "owner_role": "AEGIS Policy Engineering (public-source capture); Federal AI Policy SME (separate approval)",
   "priority": "P0",
-  "status": "OPEN_EXTERNAL_EVIDENCE_NEEDED",
+  "status": "IN_EXECUTION_AUTONOMOUS",
   "dependencies": [
-    "AEGIS-103 source catalogue",
-    "AEGIS-105 benchmark reference protocol",
-    "existing authorized Company OS execution path"
+    "Existing AEGIS-103 source catalogue and assurance/policy.mjs integration"
   ],
   "acceptance_criteria": [
     "Record publisher, canonical URL, title, instrument, effective/published versions and retrieval timestamp for >=5 applicable government instruments",
@@ -40,12 +38,27 @@
   ],
   "target_environment": "Authenticated AEGIS non-production controlled test and independent reviewer environment",
   "created_at": "2026-11-19",
-  "next_action": "Archive one official Directive on Automated Decision-Making source version and obtain an attributable expert review of one source-to-control mapping, then repeat across selected instruments",
-  "blocker": "Qualified policy expert approval and authoritative source-version capture not independently verified",
+  "next_action": "Run and verify the controlled official-source capture script for DADM using real Canada.ca/TBS source bytes; bind the resulting hash manifest to a candidate clause, then continue native replay tests. Qualified human SME review proceeds independently.",
+  "blocker": null,
   "references": {
     "officerPack": "docs/ISC_OFFICER_EVIDENCE_PACK_V32.md",
     "trlDossier": "docs/TRL_EVIDENCE_DOSSIER_V32.md",
     "activeAuditIssue": 23,
     "existingBacklog": "ops/backlog.json"
-  }
+  },
+  "immediateAutonomousActions": [
+    "Capture official government source bytes using scripts/capture-policy-source.mjs; verify SHA-256 against the exact saved bytes and persist dated source manifest",
+    "Expand to remaining identified federal instruments and compare clause/effective-version sources without inventing authoritative applicability",
+    "Build candidate clause-to-control mappings as PROPOSED, connect to controlled replay and add negative/expired/tampered evidence tests",
+    "Prepare frozen blind-label protocol and execute reproducible internal manual baseline with explicitly internal operator provenance",
+    "Advance E2 interoperability contracts, E3 access/retention and E5 reviewer identity in separate existing AEGIS backlog streams while awaiting policy approval"
+  ],
+  "externalValidationPending": [
+    "Attributable qualified policy expert review of exact source version, clause and applicable control",
+    "Independent blinded labels and validation in representative environment",
+    "Independent signed verifier acceptance before upgrading any essential ISC outcome"
+  ],
+  "executionPolicy": "No external-review requirement blocks public source capture, code development, tests, RFCs or controlled deployment. Paid external engagement needs actual purchasing authorization; existing authorized engineering work proceeds. No unsigned mapping is represented as legally approved.",
+  "implementationArtifact": "assurance/source-archive.mjs; scripts/capture-policy-source.mjs; test/source-archive.test.mjs",
+  "sourceBytesCapturedAtThisCommit": false
 }
