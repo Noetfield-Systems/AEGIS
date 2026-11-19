@@ -8,6 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {spawn} from 'node:child_process';
 import {setTimeout as sleep} from 'node:timers/promises';
 import {randomBytes} from 'node:crypto';
+import {createGoldenFixture} from '../fixtures/golden.mjs';
 
 async function freePort(){
  return await new Promise((resolve,reject)=>{
@@ -57,6 +58,13 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  const experimental=await exp.json();
  assert.equal(experimental.status,'EXPERIMENTAL_ONLY');assert.equal(experimental.evidenceCredited,false);
  assert.equal(experimental.result.metrics.tp,2);
+ const goldenRequest=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'golden-replay',input:createGoldenFixture()})});
+ assert.equal(goldenRequest.status,200,'golden replay accessible only under authenticated experimental lab');
+ const golden=await goldenRequest.json();
+ assert.equal(golden.evidenceCredited,false);
+ assert.equal(golden.result.assessmentsReplayed.length,1);
+ assert.equal(golden.result.assessmentsReplayed[0].controlChanges[0].recomputedAfter.finding,'NOT_MET');
+
  const invalid=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'classifier',input:{labels:[1],predictions:[1,0]}})});
  assert.equal(invalid.status,400);
  const afterNative=await (await fetch(base+'/api/state',{headers})).json();
