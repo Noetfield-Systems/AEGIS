@@ -124,6 +124,13 @@ try{
  const finding=await evaluate('document.querySelector("#m-changed").textContent');
  assert(finding==='2','Native change findings not displayed');
  await screenshot('04-workbench-lineage-desktop.png');
+ // A second, real native scenario must change results; it must not reuse cached fake KPIs.
+ await evaluate('document.querySelector(\'[data-step="context"]\').click();');
+ await evaluate('document.querySelector("#scenario-select").value="model";document.querySelector("#scenario-load").click();');
+ await wait(async()=>await evaluate('document.querySelector("#case-scenario").textContent==="synthetic-model-threshold"'),'Scenario selector did not update the model and source');
+ await evaluate('document.querySelector(\'[data-step="evaluate"]\').click();document.querySelector("#run").click();');
+ await wait(async()=>await evaluate('!document.querySelector("#eval-results").hidden && document.querySelector("#m-changed").textContent==="0"'),'Second model-only native result did not differ from first case');
+ await screenshot('04b-workbench-model-no-false-failure.png');
  await evaluate('document.querySelector("#lineage-nodes [data-go=review]").click()');
  assert(await evaluate('!document.querySelector(\'[data-screen="review"]\').hidden'),'Trace navigation to review is broken');
  // Verify French dynamic stage navigation and no Persian visible.
