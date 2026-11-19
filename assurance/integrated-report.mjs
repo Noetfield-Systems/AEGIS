@@ -16,7 +16,7 @@ const lex={
   changes:'Changed policy clauses',controls:'Changed controls',replayed:'Completed assessments re-executed',technical:'Changed technical findings',
   replay:'Native historical assessment — before and after',ctrl:'Control',assessment:'Assessment',original:'Recorded earlier',recomputed:'Recomputed after change',value:'Native metric result',source:'Evidence input hash',change:'Changed',
   lifecycle:'Lifecycle propagation',stage:'Work stage',action:'Required action',job:'Work item',review:'Human oversight and audit',status:'Regulatory determination',pending:'Pending authorized specialist review',
-  reviewScope:'Internal operator statement only; reviewer identity is not independently authenticated.',decision:'Operator decision',reason:'Decision rationale',reviewedOn:'Recorded at',
+  reviewScope:'Internal operator statement only; reviewer identity is not independently authenticated.',decision:'Operator decision',reviewer:'Unverified display name',reason:'Decision rationale',reviewedOn:'Recorded at',
   methods:'Methods and reproducibility',methodText:'The first-party evaluator re-executes controlled evidence-bound data, classifier and output checks using a versioned policy comparison. Existing historical findings are preserved. In-progress and planned work is queued for review rather than reported as completed.',
   evidence:'Evidence and reproducibility references',receipt:'Deterministic SHA-256 result hash',input:'SHA-256 input hash',policy:'Policy impact hash',native:'Native replay hash',
   sources:'Source references — official links, not verified document snapshots',limitations:'Scientific, legal and implementation limitations',
@@ -37,7 +37,7 @@ const lex={
   changes:'Clauses modifiées',controls:'Contrôles modifiés',replayed:'Évaluations terminées réexécutées',technical:'Résultats techniques modifiés',
   replay:'Réévaluation native — avant et après',ctrl:'Contrôle',assessment:'Évaluation',original:'Constat antérieur',recomputed:'Résultat recalculé',value:'Mesure native',source:'Empreinte des données',change:'Modification',
   lifecycle:'Propagation dans le cycle de vie',stage:'Étape',action:'Action requise',job:'Tâche',review:'Supervision humaine et audit',status:'Constat réglementaire',pending:'En attente de révision par un spécialiste autorisé',
-  reviewScope:'Déclaration interne uniquement; l’identité du réviseur n’est pas authentifiée de façon indépendante.',decision:'Décision interne',reason:'Motif de la décision',reviewedOn:'Consigné le',
+  reviewScope:'Déclaration interne uniquement; l’identité du réviseur n’est pas authentifiée de façon indépendante.',decision:'Décision interne',reviewer:'Nom affiché non vérifié',reason:'Motif de la décision',reviewedOn:'Consigné le',
   methods:'Méthodes et reproductibilité',methodText:'L’évaluateur natif réexécute des contrôles des données, du classificateur et des sorties sur des preuves liées à une comparaison versionnée. Les constats historiques sont conservés. Les travaux en cours et planifiés sont mis en file pour révision, sans être déclarés terminés.',
   evidence:'Références et reproductibilité',receipt:'Empreinte SHA-256 du résultat',input:'Empreinte SHA-256 des données',policy:'Empreinte de l’impact',native:'Empreinte de la réévaluation native',
   sources:'Sources officielles — liens, pas de versions intégralement vérifiées',limitations:'Limites scientifiques, juridiques et techniques',
@@ -70,7 +70,7 @@ export function renderIntegratedReport(result,{lang='en',review=null,generatedAt
  const rows=findings.map(f=>'<tr><td>'+val(f.assessmentId)+'</td><td>'+val(f.controlId)+'</td><td>'+val(f.observedPrevious)+'</td><td>'+val(f.recomputedCurrent)+'</td><td>'+val(f.metricValue)+'</td><td><code>'+val(f.evidenceInputHash)+'</code></td></tr>').join('');
  const tasks=queue.map(w=>'<tr><td>'+val(w.workItemId)+'</td><td>'+val(w.phase)+'</td><td>'+val(w.action)+'</td><td>'+val(w.reviewRequired?t.yes:t.no)+'</td></tr>').join('');
  const reviewBlock=review?
-  '<dl><dt>'+escape(t.decision)+'</dt><dd>'+val(review.decision)+'</dd><dt>'+escape(t.reason)+'</dt><dd>'+val(review.reason)+'</dd><dt>'+escape(t.reviewedOn)+'</dt><dd>'+val(review.recordedAt)+'</dd><dt>Event hash</dt><dd><code>'+val(review.eventHash)+'</code></dd></dl>'+
+  '<dl><dt>'+escape(t.decision)+'</dt><dd>'+val(review.decision)+'</dd><dt>'+escape(t.reviewer)+'</dt><dd>'+val(review.reviewerDisplayName)+'</dd><dt>'+escape(t.reason)+'</dt><dd>'+val(review.reason)+'</dd><dt>'+escape(t.reviewedOn)+'</dt><dd>'+val(review.recordedAt)+'</dd><dt>Event hash</dt><dd><code>'+val(review.eventHash)+'</code></dd></dl>'+
   '<p>'+escape(t.reviewScope)+'</p>':
   '<p>'+escape(t.notReviewed)+'</p>';
  const sources=[
