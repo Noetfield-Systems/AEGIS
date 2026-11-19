@@ -7,9 +7,9 @@ Dedicated EN/FR premium, private, evidence-gated operational application for **E
 ## Current scope
 
 - **Readiness Studio (deployed):** Evidence review, score/gates, 30-day milestones, team, tasks, interviews and commercialization records, protected login, audit/export.
-- **Native Evaluation Lab (experimental):** authenticated stateless `POST /api/assurance/run`, four modes (`data`, `classifier`, `output`, `replay`) and isolated tests. No ISC evidence score or mandatory gate is granted by experiments.
+- **Native Evaluation Lab (experimental):** authenticated stateless `POST /api/assurance/run`, versioned policy impact, historical native replay, AIA scoping, distribution shift, binary calibration and exact-reference output checks. No ISC evidence score or mandatory gate is granted by experiments.
 - **Company OS (partial):** specialist roles, venture manifest, task/receipt schemas, real GitHub Actions scheduled daily work queue, first successful dispatch; no verified full autonomous coding chain or Sina OS endpoint.
-- **Commercial Enterprise Assurance Engine:** planned, not released or TRL certified.
+- **Assurance Workbench (private, experimental):** six guided EN/FR stages from system context and policy diff through native replay, case review, bilingual print-ready technical dossier and E1–E6 acceptance gaps. This is not a validated commercial multi-tenant or TRL-certified product.
 
 Canonical docs: [Product](docs/PRODUCT_SSOT.md), [Architecture](docs/ARCHITECTURE.md), [ISC evidence and benchmarks](docs/ISC_EVIDENCE_AND_BENCHMARKS.md), [Company OS](docs/COMPANY_OS.md), [30-day plan](docs/ROADMAP_30_DAY.md), [Design system](docs/UX_DESIGN_SYSTEM.md), [Current status](docs/CURRENT_STATUS.md).
 
@@ -44,3 +44,21 @@ Website and login use **English (en-CA) as the default** and **French (fr-CA) as
 Open `/tour` to view the same engine's **precomputed synthetic integrated assurance result** without signing in. The independent evaluator can see a fictional policy version change, affected/unaffected systems, measured before/after technical findings, completed/active/planned work states and a deterministic content receipt. The page uses **en-CA / fr-CA only**, with English default, and adopts the approved Obsidian/Champagne system without redesigning the private workspace.
 
 The endpoint `GET /api/public/demo` returns **only** the fixed synthetic result calculated at service start. It does not accept input, expose sources, review journal or evidence, set a cookie, award ISC points or claim government acceptance. All `/api/assurance/*` endpoints and the internal application remain authenticated. See `test/server.integration.test.mjs` and `test/tour.test.mjs` for acceptance tests. This tour is not a TRL 5 demonstration or external scientific review.
+
+## Premium Guided Assurance Workbench — pre-ISC submission update
+
+Access the private guided flow at `/workbench` after logging in via `/`. The page preserves the deployed Obsidian/Champagne institutional style and is fully separate from the public fixed-input demonstration at `/tour`.
+
+### Working paths
+
+- `GET /api/assurance/demo`: pre-existing synthetic scenario with policy versions, system inventory, native inputs and bound evidence.
+- `POST /api/assurance/run`: first-party integrated native replay; no persistence or ISC score changes.
+- `POST /api/assurance/cases`: preserve a computed-case receipt and derived summary in the existing hash-linked internal journal; raw input is not persisted here.
+- `POST /api/assurance/reviews`: record an **internal operator** decision, required rationale and hash-linked audit event; display names are not independently authenticated.
+- `POST /api/assurance/report-detail`: recompute the submitted bounded scenario under private authentication and download a detailed EN/FR HTML dossier with matched internal review event. Printing to PDF is available through the browser; no official endorsement is asserted.
+- `GET /api/assurance/isc-matrix`: view project-owned, explicitly self-assessed E1–E6 proof gaps and next steps.
+
+All report and evidence routes are authenticated and accept no language other than `en` and `fr`. The internal readiness evidence score is untouched. A successful guided demonstration is only technical validation on synthetic fixtures, not a representative TRL 5 study or complete federal compliance approval.
+
+Research references: [Official ISC challenge](https://www.ised-isde.canada.ca/site/innovative-solutions-canada/en/artificial-intelligence-ai-decision-making-process-visibility-traceability-and-compliance-governance), [DADM Scope Guide](https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/guide-scope-directive-automated-decision-making.html), [AIA](https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/algorithmic-impact-assessment.html), and [Canadian AI Safety Institute guidance for evaluation reporting](https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute/what-information-should-ai-evaluators-share).
+
