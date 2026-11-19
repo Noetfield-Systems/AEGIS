@@ -148,7 +148,7 @@ function renderEvaluation(){
  const stageKeys={COMPLETED:'completed',IN_PROGRESS:'inProgress',PLANNED:'planned'};
  for(const item of result.reassessmentQueue){
   const card=elem('article','card');
-  card.append(elem('div','phase',t(stageKeys[item.phase]||item.phase).toUpperCase()),elem('strong','',item.workItemId),elem('p','',item.action));
+  card.append(elem('div','phase',t(stageKeys[item.phase]||item.phase).toUpperCase()),elem('strong','',item.workItemId),elem('p','',language==='fr'?(frActions[item.action]||item.action):item.action));
   queue.append(card);
  }
 }
@@ -178,16 +178,30 @@ function renderReport(){
  setText('report-status',caseEntry?'RECORDED':ready?'CALCULATED':'NOT RUN');
  setText('report-receipt',ready?result.receiptHash:'—');
 }
+const frenchAcceptance={
+ E1:{requirement:'Aligner les systèmes d’IA sur les exigences canadiennes, repérer les changements et déclencher les réévaluations.',owner:'Politique fédérale + ingénierie de l’assurance',gaps:['Versions et clauses officielles complètes à archiver et confirmer','Applicabilité et correspondances vérifiées par un spécialiste','Systèmes représentatifs en environnement validé']},
+ E2:{requirement:'Échanger les informations de gouvernance au moyen d’API et de connecteurs interopérables.',owner:'Ingénierie des intégrations',gaps:['Trois reçus de tests réels avec adaptateurs externes indépendants','Examen indépendant des contrats d’API et de la sécurité']},
+ E3:{requirement:'Gérer les accès, la résidence des données, la conservation, l’exportation, la suppression et la surveillance.',owner:'Sécurité + plateforme',gaps:['Identités individuelles des utilisateurs','Tests négatifs d’isolement interorganisationnel et d’autorisation','Conservation et suppression sous contrôle de l’organisation','Configuration canadienne, privée ou sur site prouvée']},
+ E4:{requirement:'Gérer les contrôles versionnés et les évaluations de cinq états avec traçabilité des changements.',owner:'Spécialiste des politiques + assurance',gaps:['Correspondances réelles approuvées pour cinq instruments','Dates d’entrée en vigueur et versions de référence vérifiées','Exceptions et réévaluations fondées sur des preuves révisées']},
+ E5:{requirement:'Permettre l’approbation, le rejet, la modification et l’annotation par des réviseurs autorisés avec historique d’audit.',owner:'Sécurité du produit + revue humaine',gaps:['Comptes individuels et permissions des réviseurs','Historique des corrections et rejets dans le périmètre organisationnel','Identité et autorité du réviseur indépendant attestées']},
+ E6:{requirement:'Effectuer des évaluations natives des données, des modèles et des sorties d’IA ainsi que leur réévaluation.',owner:'Évaluation des modèles d’IA',gaps:['Jeux de données représentatifs avec étiquettes revues de façon indépendante','Calibration et changement de distribution adaptés au contexte','Ancrage sémantique, équité, robustesse et sécurité au-delà de la correspondance littérale','Comparaison scientifique indépendante et validation du NMT']}
+};
+const frActions={
+ SCHEDULE_HISTORICAL_NATIVE_REPLAY:'Planifier une réévaluation native historique',
+ REBASE_AND_REASSESS_BEFORE_APPROVAL:'Changer de version et réévaluer avant approbation',
+ UPDATE_REQUIREMENTS_BEFORE_START:'Mettre à jour les exigences avant le lancement'
+};
 function renderCoverage(){
  const root=el('coverage-grid');root.replaceChildren();
  for(const item of matrix?.gates??[]){
   const card=elem('article','coverage-card'),top=elem('div','coverage-top');
   top.append(elem('strong','',item.id),elem('span','',item.status));card.append(top);
-  card.append(elem('h3','',item.requirement),elem('small','',t('responsible')+': '+item.ownerRole));
+  const fr=language==='fr'?frenchAcceptance[item.id]:null;
+  card.append(elem('h3','',fr?.requirement||item.requirement),elem('small','',t('responsible')+': '+(fr?.owner||item.ownerRole)));
   const heading=elem('div','subhead',t('implementation')),ul=elem('ul');
   for(const line of (item.implemented||[]).slice(0,2))ul.append(elem('li','',line));
   card.append(heading,ul,elem('div','subhead',t('missing')));
-  const gaps=elem('ul');for(const line of (item.missingEvidence||[]).slice(0,3))gaps.append(elem('li','',line));
+  const gaps=elem('ul');for(const line of (fr?.gaps||item.missingEvidence||[]).slice(0,3))gaps.append(elem('li','',line));
   card.append(gaps);root.append(card);
  }
 }
