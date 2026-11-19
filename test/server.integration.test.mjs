@@ -36,12 +36,12 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
   await sleep(80);
  }
  assert.ok(ready,'server did not start: '+stderr);
- for(const [url,contains] of [['/','/premium.css'],['/premium.css','--amber'],['/locale.js','aegis_language'],['/aegis-emblem.svg','<svg'],['/ottawa-silhouette.svg','<svg'],['/app.js','function overview']]){
+ for(const [url,contains] of [['/','/tour.css'],['/login','/premium.css'],['/premium.css','--amber'],['/locale.js','aegis_language'],['/aegis-emblem.svg','<svg'],['/ottawa-silhouette.svg','<svg'],['/app.js','function overview']]){
   const r=await fetch(base+url);assert.equal(r.status,200,url);assert.ok((await r.text()).includes(contains),url+' did not contain required asset');
  }
 
  // The evaluator-facing tour is accessible anonymously, but no private data can leak.
- for(const [url,required] of [['/tour','/tour.js'],['/tour.html','SYNTHETIC'],['/tour.css','--accent'],['/tour.js','/api/public/demo']]){
+ for(const [url,required] of [['/tour','/tour.js'],['/tour.html','SYNTHETIC'],['/tour.css','--gold'],['/tour.js','/api/public/demo']]){
   const r=await fetch(base+url);assert.equal(r.status,200,'public tour '+url);
   assert.ok((await r.text()).includes(required),'public tour resource missing '+required);
  }
@@ -68,6 +68,12 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  }
  assert.equal((await fetch(base+'/api/assurance/isc-matrix')).status,401);
  assert.equal((await fetch(base+'/api/assurance/report-detail',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:'en',input:integratedFixture()})})).status,401);
+ const index=(await (await fetch(base+'/')).text());
+ assert.match(index,/data-view="overview"/);
+ assert.match(index,/id="findings-donut"/);
+ assert.match(index,/href="\/login" id="private-top-link"/);
+ const privateLogin=(await (await fetch(base+'/login')).text());
+ assert.match(privateLogin,/src="\/app.js"/);
  assert.equal((await fetch(base+'/api/state')).status,401,'private data must require login');
  const bad=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'wrong'})});
  assert.equal(bad.status,401);

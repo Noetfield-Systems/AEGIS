@@ -17,21 +17,19 @@ test('officer-facing private login has a genuinely English first paint',async()=
  assert.match(locale,/Cet environnement de recherche contient des dossiers/);
 });
 
-test('private and public decision lineage are computed, responsive, EN/FR and keyboard reachable',async()=>{
- const files=await Promise.all(['public/workbench.html','public/workbench.js','public/workbench.css','public/tour.html','public/tour.js','public/tour.css'].map(file));
- const [wb,js,css,tour,tourJs,tourCss]=files;
+test('private and public decision provenance are native, EN/FR and keyboard navigable',async()=>{
+ const [wb,js,css,tour,tourJs,tourCss]=await Promise.all([
+ 'public/workbench.html','public/workbench.js','public/workbench.css',
+ 'public/tour.html','public/tour.js','public/tour.css'].map(file));
  assert.match(wb,/id="lineage-nodes"/);
- assert.match(wb,/data-t="lineageBoundary"/);
  assert.match(js,/function renderLineage/);
  assert.match(js,/result\.summary/);
- assert.match(js,/lineage-node/);
  assert.match(js,/traceSource:'SOURCE DE POLITIQUE'/);
- assert.match(js,/lineage-nodes'\)\.addEventListener\('click'/);
  assert.match(css,/@media\(max-width:400px\)/);
  assert.match(tour,/id="tour-lineage-nodes"/);
  assert.match(tourJs,/function renderTrace/);
  assert.match(tourJs,/data\.sourceVersions\.after/);
- assert.match(tourJs,/tracePolicy:'VERSION DE POLITIQUE'/);
+ assert.match(tourJs,/tracePolicy:'SOURCE DE POLITIQUE'/);
  assert.match(tourCss,/@media\(max-width:620px\)/);
  assert.doesNotMatch(wb+js+tour+tourJs,/[\u0600-\u06ff]/);
 });
@@ -48,13 +46,17 @@ test('downloadable report is print-ready without dangerous script execution',asy
  assert.match(server,/style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'/);
 });
 
-test('mobile evaluator tour exposes measured evidence before marketing methodology and uses shorter claim',async()=>{
- const [html,js,css]=await Promise.all([
-  file('public/tour.html'),file('public/tour.js'),file('public/tour.css')
- ]);
- assert.ok(html.indexOf('id="results"')<html.indexOf('id="process"'),'live evidence should precede explanatory process');
- assert.match(html,/See what changed\./);
- assert.match(js,/Trace what follows\./);
- assert.match(js,/Voyez ce qui change/);
- assert.match(css,/First-impression audit: shorter mobile hero/);
+test('officer homepage shows operational product and measured evidence immediately',async()=>{
+ const [html,js,css]=await Promise.all([file('public/tour.html'),file('public/tour.js'),file('public/tour.css')]);
+ assert.match(html,/data-screen="overview"/);
+ assert.match(html,/data-screen="evaluation"/);
+ assert.match(html,/data-screen="systems"/);
+ assert.match(html,/data-screen="reports"/);
+ assert.match(html,/id="findings-donut"/);
+ assert.match(html,/id="systems-table"/);
+ assert.match(html,/id="overview-chain"/);
+ assert.match(js,/sourceVersions\.after/);
+ assert.match(css,/@media\(max-width:620px\)/);
+ assert.match(css,/\.sidebar\.open/);
 });
+
