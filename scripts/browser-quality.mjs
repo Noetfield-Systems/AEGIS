@@ -185,6 +185,9 @@ try{
 
  const loginStatus=await evaluate('(async()=> (await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:'+JSON.stringify(password)+'})})).status)()');
  assert(loginStatus===200,'Local authorized login failed');
+ // Public preview language persists across visits. Normalize the authorized test
+ // persona explicitly, instead of assuming a new private browser profile.
+ await evaluate('localStorage.setItem("aegis_workbench_language","en")');
  await navigate('/workbench');
  await wait(async()=>await evaluate('!!document.querySelector("#app") && !document.querySelector("#app").hidden'),'Private workbench did not load');
  body=await evaluate('document.body.innerText');
