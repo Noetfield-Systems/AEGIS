@@ -53,6 +53,8 @@ export function buildOfficerEvidencePack(matrix){
    sourceCount:sources.sources.length,
    referenceUrls:sources.sources.map(x=>({id:x.id,url:x.url,citationStatus:x.citationStatus,fullDocumentVersionVerified:x.publishedVersion!==null})),
    excerptCount:sources.excerptReferences.length,
+   originalByteCaptureCount:sources.capturedOriginalDocuments.length,
+   originalByteCaptureReceipts:sources.capturedOriginalDocuments,
    fullDocumentsCapturedAndHashed:sources.officialFullDocumentHashesVerified,
    approvedRegulatoryMappings:sources.approvedRegulatoryMappings,
    disclaimer:'Official reference URLs only; excerpts and effective versions have not been independently archived and professionally mapped to the synthetic technical controls.'
