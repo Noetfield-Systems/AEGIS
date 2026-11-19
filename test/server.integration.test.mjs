@@ -110,6 +110,11 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.match(preHtml,/No operator review has been recorded/);
  assert.match(preHtml,/UNABLE TO DETERMINE/);
  assert.match(preHtml,/synthetic/i);
+ assert.doesNotMatch(preHtml,/onclick=/);
+ assert.match(preHtml,/Print command/);
+ assert.match(preCaseReport.headers.get('content-security-policy'),/default-src 'none'/);
+ assert.match(preCaseReport.headers.get('content-security-policy'),/style-src 'unsafe-inline'/);
+
  assert.equal((await fetch(base+'/api/assurance/report-detail',{method:'POST',headers,body:JSON.stringify({lang:'fa',input:integratedFixture()})})).status,400);
  const malformed=integratedFixture();malformed.policy.after.version='fabricated-incorrect-version';
  assert.equal((await fetch(base+'/api/assurance/report-detail',{method:'POST',headers,body:JSON.stringify({lang:'en',input:malformed})})).status,400);
@@ -192,6 +197,26 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  // Authenticated multi-engine demo, internal case hash and reviewer event chain.
  assert.equal((await fetch(base+'/api/assurance/demo')).status,401);
  assert.equal((await fetch(base+'/api/assurance/cases',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:integratedFixture()})})).status,401);
+ assert.equal((await fetch(base+'/api/assurance/scenarios')).status,401);
+ const library=await (await fetch(base+'/api/assurance/scenarios',{headers})).json();
+ assert.equal(library.synthetic,true);
+ assert.equal(library.scenarios.length,3);
+ assert.equal(library.defaultId,'combined');
+ const modelScenario=library.scenarios.find(x=>x.id==='model');
+ const modelResponse=await fetch(base+'/api/assurance/run',{
+  method:'POST',headers,body:JSON.stringify({mode:'integrated',input:modelScenario.fixture})
+ });
+ assert.equal(modelResponse.status,200);
+ const modelOutcome=await modelResponse.json();
+ assert.equal(modelOutcome.evidenceCredited,false);
+ assert.equal(modelOutcome.result.summary.changedTechnicalFindings,0);
+ assert.equal(modelOutcome.result.summary.historicalAssessmentsReexecuted,2);
+ const dataScenario=library.scenarios.find(x=>x.id==='data');
+ const dataResponse=await fetch(base+'/api/assurance/run',{
+  method:'POST',headers,body:JSON.stringify({mode:'integrated',input:dataScenario.fixture})
+ });
+ assert.equal(dataResponse.status,200);
+ assert.equal((await dataResponse.json()).result.summary.changedTechnicalFindings,1);
  const demo=await (await fetch(base+'/api/assurance/demo',{headers})).json();
  assert.equal(demo.synthetic,true);
  assert.equal(demo.fixture.scenarioId,'synthetic-integrated-001');
