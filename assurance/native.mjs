@@ -8,6 +8,7 @@ import {replayCompleted} from './replay.mjs';
 import {compilePolicyImpact} from './policy.mjs';
 import {runIntegratedAssurance} from './integrated.mjs';
 import {benchmarkImpact,evaluateCounterfactual} from './benchmark.mjs';
+import {triageAiaScope} from './aia-scope.mjs';
 const maxRows=500;
 const fail=(msg)=>{throw new TypeError(msg)};
 const obj=(x,label)=>{if(!x||typeof x!=='object'||Array.isArray(x))fail(label+' must be an object');return x};
@@ -101,5 +102,6 @@ export function runNative(input){
  if(mode==='integrated')return runIntegratedAssurance(payload,{data:evaluateData,classifier:evaluateClassifier,output:evaluateOutputs});
  if(mode==='impact-benchmark')return benchmarkImpact(payload);
  if(mode==='decision-what-if')return evaluateCounterfactual(payload);
- fail('mode must be data, classifier, output, replay, golden-replay, policy-impact integrated, impact-benchmark or decision-what-if');
+ if(mode==='aia-scope')return triageAiaScope(payload);
+ fail('mode must be data, classifier, output, replay, golden-replay, policy-impact integrated, impact-benchmark decision-what-if or aia-scope');
 }
