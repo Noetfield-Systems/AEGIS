@@ -5,6 +5,7 @@ const stages=['context','policy','evaluate','review','report','coverage'];
 const languageKey='aegis_workbench_language';
 const copy={
 en:{
+officerPackTitle:'ISC OFFICER EVIDENCE PACK',officerPackCopy:'Native receipts, ten reproducible stages, and remaining E1–E6 gaps. No invented approvals.',officerPackDownload:'Download Officer Evidence Pack (JSON)',
 appearance:'Appearance',dark:'Dark',light:'Light',system:'System',environmentLabel:'ENVIRONMENT',researchEnv:'Controlled research',sourceVersionLabel:'SOURCE VERSION',executionLabel:'NATIVE ENGINE',engineStatus:'Ready for evaluation',receiptLabel:'RESULT RECEIPT',notGenerated:'Not generated',
 skip:'Skip to workbench',private:'PRIVATE RESEARCH WORKSPACE',journey:'ASSURANCE JOURNEY',
 navContext:'System context',navContextSub:'System & policy register',navPolicy:'Policy impact',navPolicySub:'Versioned source change',navEvaluate:'Native evaluation',navEvaluateSub:'Technical before & after',navReview:'Human review',navReviewSub:'Operator decisions & receipt',navReport:'Evidence dossier',navReportSub:'Download in EN / FR',navCoverage:'ISC coverage',navCoverageSub:'E1–E6 acceptance matrix',
@@ -36,6 +37,7 @@ MET:'MET',NOT_MET:'NOT MET',PARTIALLY_MET:'PARTIALLY MET',NOT_APPLICABLE:'NOT AP
 'Previous':'Previous','Current':'Current'
 },
 fr:{
+officerPackTitle:'DOSSIER DE PREUVES ISC POUR ÉVALUATEUR',officerPackCopy:'Reçus techniques, dix étapes reproductibles et lacunes E1–E6. Aucune approbation inventée.',officerPackDownload:'Télécharger le dossier des preuves (JSON)',
 appearance:'Apparence',dark:'Sombre',light:'Clair',system:'Système',environmentLabel:'ENVIRONNEMENT',researchEnv:'Recherche contrôlée',sourceVersionLabel:'VERSION SOURCE',executionLabel:'MOTEUR NATIF',engineStatus:'Prêt pour évaluation',receiptLabel:'EMPREINTE DU RÉSULTAT',notGenerated:'Non générée',
 skip:'Aller au parcours',private:'ESPACE PRIVÉ DE RECHERCHE',journey:'PARCOURS D’ASSURANCE',
 navContext:'Contexte du système',navContextSub:'Registre des systèmes et politiques',navPolicy:'Impact des politiques',navPolicySub:'Modification de source versionnée',navEvaluate:'Évaluation native',navEvaluateSub:'Résultats techniques avant et après',navReview:'Révision humaine',navReviewSub:'Décisions internes et empreinte',navReport:'Dossier de preuves',navReportSub:'Téléchargement EN / FR',navCoverage:'Couverture ISC',navCoverageSub:'Matrice des critères E1 à E6',
@@ -374,6 +376,17 @@ async function downloadReport(locale){
   el('flow-status').textContent=t('reportReady');
  }catch(e){fail(e.message)}
 }
+async function downloadOfficerPack(){
+ clearError();const button=el('officer-pack-download');button.disabled=true;
+ try{
+  const pack=await json('assurance/officer-pack');
+  if(pack.iscEvidenceCredited!==false||pack.trl5Established!==false||pack.essentialOutcomesFullyVerified!==0||pack.essentialOutcomes?.length!==6)throw Error('Officer evidence package failed proof-status contract');
+  const url=URL.createObjectURL(new Blob([JSON.stringify(pack,null,2)+'\n'],{type:'application/json'}));
+  const a=document.createElement('a');a.href=url;a.download='aegis-isc-officer-evidence-experimental.json';
+  a.hidden=true;document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }catch(e){fail(e.message)}finally{button.disabled=false}
+}
 async function start(){
  try{
   const [demo,sources,acceptance,cases,library]=await Promise.all([
@@ -435,6 +448,7 @@ function boot(){
  el('review-form').addEventListener('submit',saveReview);
  el('benchmark-run').addEventListener('click',runBenchmark);
  el('benchmark-download').addEventListener('click',exportBenchmark);
+  el('officer-pack-download').addEventListener('click',downloadOfficerPack);
  qq('[data-report]').forEach(b=>b.addEventListener('click',()=>downloadReport(b.dataset.report)));
  start();
 }
