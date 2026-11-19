@@ -8,6 +8,7 @@ import {runNative} from './assurance/native.mjs';
 import {getSourceRegistry} from './assurance/source-registry.mjs';
 import {governedFixture} from './fixtures/governed.mjs';
 import {integratedFixture} from './fixtures/integrated.mjs';
+import {impactExperimentFixture} from './fixtures/impact-experiment.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 import {renderIntegratedReport} from './assurance/integrated-report.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
@@ -137,6 +138,8 @@ const server=http.createServer(async(req,res)=>{
     return respond(res,200,getSourceRegistry());
    if(url.pathname==='/api/assurance/governed-demo'&&req.method==='GET')
     return respond(res,200,{synthetic:true,fixture:governedFixture()});
+   if(url.pathname==='/api/assurance/impact-experiment-demo'&&req.method==='GET')
+    return respond(res,200,{synthetic:true,referenceLabelsIndependentlyVerified:false,fixture:impactExperimentFixture()});
    if(url.pathname==='/api/assurance/demo'&&req.method==='GET')
     return respond(res,200,{synthetic:true,fixture:integratedFixture()});
    if(url.pathname==='/api/assurance/cases'&&req.method==='GET'){

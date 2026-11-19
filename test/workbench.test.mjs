@@ -82,3 +82,24 @@ test('premium guided workbench contains six actual stages and dual language loca
  assert.match(css,/:focus-visible/);
  assert.doesNotMatch(html+js,/[\u0600-\u06ff]/,'website is EN/FR only');
 });
+
+test('benchmark studio is measured from the first-party policy compiler and remains explicitly synthetic in EN/FR',async()=>{
+ const [html,client,server]=await Promise.all([
+  'public/workbench.html','public/workbench.js','server.mjs'
+ ].map(async p=>readFile(new URL('../'+p,import.meta.url),'utf8')));
+ assert.match(html,/id="benchmark-run"/);
+ assert.match(html,/id="benchmark-download"/);
+ assert.match(html,/id="b-precision"/);
+ assert.match(html,/id="b-recall"/);
+ assert.match(html,/id="b-fp"/);
+ assert.match(html,/id="b-fn"/);
+ assert.match(html,/id="b-precision-ci"/);
+ assert.match(html,/id="b-recall-ci"/);
+ assert.match(client,/assurance\/impact-experiment-demo/);
+ assert.match(client,/mode:'impact-experiment'/);
+ assert.match(client,/referenceLabelsIndependentlyVerified!==false/);
+ assert.match(client,/frenchAcceptance/);
+ assert.match(client,/benchmarkHeading:'LABORATOIRE DE MESURES/);
+ assert.match(server,/impactExperimentFixture/);
+ assert.doesNotMatch(html+client,/[\u0600-\u06ff]/);
+});

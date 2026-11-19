@@ -79,6 +79,27 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
 
  const iscMatrix=await (await fetch(base+'/api/assurance/isc-matrix',{headers})).json();
  assert.equal(iscMatrix.gates.length,6);
+ assert.equal((await fetch(base+'/api/assurance/impact-experiment-demo')).status,401);
+ const impactDemo=await (await fetch(base+'/api/assurance/impact-experiment-demo',{headers})).json();
+ assert.equal(impactDemo.synthetic,true);
+ assert.equal(impactDemo.referenceLabelsIndependentlyVerified,false);
+ assert.equal(impactDemo.fixture.cases.length,8);
+ const benchmarkResponse=await fetch(base+'/api/assurance/run',{
+  method:'POST',headers,body:JSON.stringify({mode:'impact-experiment',input:impactDemo.fixture})
+ });
+ assert.equal(benchmarkResponse.status,200);
+ const benchmarkPayload=await benchmarkResponse.json();
+ assert.equal(benchmarkPayload.evidenceCredited,false);
+ assert.equal(benchmarkPayload.result.kind,'compiled-policy-impact-benchmark');
+ assert.equal(benchmarkPayload.result.referenceLabelsIndependentlyVerified,false);
+ assert.deepEqual([
+  benchmarkPayload.result.metrics.tp,benchmarkPayload.result.metrics.fp,
+  benchmarkPayload.result.metrics.tn,benchmarkPayload.result.metrics.fn
+ ],[3,1,3,1]);
+ assert.equal(benchmarkPayload.result.metrics.precision,0.75);
+ assert.equal(benchmarkPayload.result.metrics.recall,0.75);
+ assert.equal(benchmarkPayload.result.trl5EvidenceEstablished,false);
+
  assert.equal(iscMatrix.selfAssessedOnly,true);
  assert.equal(iscMatrix.trl.claimedLevel,null);
  const preCaseReport=await fetch(base+'/api/assurance/report-detail',{method:'POST',headers,body:JSON.stringify({lang:'en',input:integratedFixture()})});
