@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "sourceId": "DIRECTIVE_ADM",
+  "sourceDocumentUrl": "https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592",
+  "capturedOriginalBytesHash": "sha256:225f990673205a49cee216fb8fc124909e8eb917559e3e258a8dd7fb7c35a0e3",
+  "captureManifest": "ops/policy-snapshots/DIRECTIVE_ADM_2026-11-19.manifest.json",
+  "sourceVersionIndependentlyAttested": false,
+  "policyMappingExpertSigned": false,
+  "legalApplicability": "UNDETERMINED",
+  "evidenceCreditedToISC": false,
+  "mappingStatus": "CANDIDATE_ENGINEERING_ONLY",
+  "reviewRequiredRole": "Qualified federal AI policy reviewer with authority to assess the actual use context",
+  "mappings": [
+    {
+      "section": "5.1",
+      "id": "DADM-5.1",
+      "candidateControlId": "C-SCOPE",
+      "technicalSupport": "assurance/aia-scope.mjs",
+      "testPath": "test/aia-scope.test.mjs",
+      "implementationState": "PARTIAL_SYNTHETIC",
+      "claim": "A federal decision-use-context determination must precede any declaration that the Directive is applicable.",
+      "expertReview": "NOT_COMPLETED"
+    },
+    {
+      "section": "6.2.7",
+      "id": "DADM-6.2.7",
+      "candidateControlId": "C-DECISION-RECORD",
+      "technicalSupport": "assurance/integrated.mjs",
+      "testPath": "test/integrated.test.mjs",
+      "implementationState": "PARTIAL_SYNTHETIC",
+      "claim": "Maintain a version-bound, traceable record of technical decisions, inputs, assessments and resulting evidence receipts.",
+      "expertReview": "NOT_COMPLETED"
+    },
+    {
+      "section": "6.3.1",
+      "id": "DADM-6.3.1",
+      "candidateControlId": "C-TESTING",
+      "technicalSupport": "assurance/advanced-native.mjs",
+      "testPath": "test/advanced-native.test.mjs",
+      "implementationState": "PARTIAL_SYNTHETIC",
+      "claim": "Evaluate model, data and outcome quality before production; current native fixtures are not an independent accuracy or fairness study.",
+      "expertReview": "NOT_COMPLETED"
+    },
+    {
+      "section": "6.3.2",
+      "id": "DADM-6.3.2",
+      "candidateControlId": "C-MONITOR",
+      "technicalSupport": "assurance/governed-lifecycle.mjs",
+      "testPath": "test/governed-lifecycle.test.mjs",
+      "implementationState": "PARTIAL_SYNTHETIC",
+      "claim": "Record change-triggered reassessment and monitoring tasks; live scheduled monitoring of representative systems is not proven.",
+      "expertReview": "NOT_COMPLETED"
+    },
+    {
+      "section": "6.3.7",
+      "id": "DADM-6.3.7",
+      "candidateControlId": "C-PEER-REVIEW",
+      "technicalSupport": "assurance/review-journal.mjs",
+      "testPath": "test/workbench.test.mjs",
+      "implementationState": "INTERNAL_REVIEW_ONLY",
+      "claim": "An internal operator journal cannot substitute for qualified peer review, documentation and publication requirements.",
+      "expertReview": "NOT_COMPLETED"
+    },
+    {
+      "section": "6.3.11",
+      "id": "DADM-6.3.11",
+      "candidateControlId": "C-DATA-MODEL-INTEGRITY",
+      "technicalSupport": "assurance/replay.mjs",
+      "testPath": "test/golden-replay.test.mjs",
+      "implementationState": "PARTIAL_TECHNICAL",
+      "claim": "Content hashes help detect replay-data modifications; they do not establish complete model tamper-resistance or all departmental security obligations.",
+      "expertReview": "NOT_COMPLETED"
+    }
+  ],
+  "reviewerName": null,
+  "reviewerAffiliation": null,
+  "reviewedAt": null,
+  "signedMappingDigest": null,
+  "nextAction": "Have a qualified policy expert review exact captured section text, version/effective date, applicability, control interpretations and negative examples, then store a signed decision."
+}
