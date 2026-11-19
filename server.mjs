@@ -15,6 +15,7 @@ import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderRev
 import {renderIntegratedReport} from './assurance/integrated-report.mjs';
 import {buildOfficerEvidencePack} from './assurance/officer-pack.mjs';
 import {adapterKinds,validateAdapterBatch} from './assurance/interop.mjs';
+import {interoperabilitySamples} from './fixtures/interop.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dataDir=process.env.DATA_DIR||path.join(root,'data');
 const storeFile=path.join(dataDir,'aegis-isc.json');
@@ -170,6 +171,8 @@ const server=http.createServer(async(req,res)=>{
    if(url.pathname==='/api/assurance/adapters'&&req.method==='GET')
     return respond(res,200,{schemaVersion:'1.0',adapters:adapterKinds,liveExternalConnectionsVerified:0,
       independentConformanceAttested:false,contractValidationAvailable:true});
+   if(url.pathname==='/api/assurance/adapters/examples'&&req.method==='GET')
+    return respond(res,200,{synthetic:true,records:interoperabilitySamples});
    if(url.pathname==='/api/assurance/adapters/validate'&&req.method==='POST'){
     try{return respond(res,200,validateAdapterBatch(await body(req)))}
     catch(err){if(err instanceof TypeError||err instanceof RangeError||err instanceof SyntaxError)
