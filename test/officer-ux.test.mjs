@@ -8,13 +8,13 @@ const file=async p=>readFile(new URL('../'+p,import.meta.url),'utf8');
 test('officer-facing private login has a genuinely English first paint',async()=>{
  const app=await file('public/app.js');
  const login=app.slice(app.indexOf('function login('),app.indexOf('el(\'#login-form\').onsubmit',app.indexOf('function login(')));
- assert.match(login,/From assessment scores,/);
- assert.match(login,/Enter the AEGIS workspace/);
+ assert.match(login,/Every decision\./);
+ assert.match(login,/Welcome to AEGIS\./);
  assert.match(login,/Administrator passphrase/);
  assert.doesNotMatch(login,/[\u0600-\u06ff]/);
  const locale=await file('public/locale.js');
- assert.match(locale,/Accéder à l’espace AEGIS/);
- assert.match(locale,/Cet environnement de recherche contient des dossiers/);
+ assert.match(locale,/Bienvenue dans AEGIS/);
+ assert.match(locale,/Connectez-vous à l’espace de recherche privé/);
 });
 
 test('private and public decision provenance are native, EN/FR and keyboard navigable',async()=>{
