@@ -115,20 +115,24 @@
       "requirement": "First-party data, model and AI-generated-output risk/quality assessments and reassessment",
       "implemented": [
         "assurance/native.mjs data duplicates/schema, binary confusion metrics, output phrase rules",
-        "assurance/replay.mjs reruns changed technical metrics"
+        "assurance/replay.mjs reruns changed technical metrics",
+        "assurance/advanced-native.mjs deterministic population stability, Brier calibration, and labelled exact-grounded claim checks"
       ],
       "verifiedExperiment": [
         "test/native.test.mjs",
-        "test/golden-replay.test.mjs"
+        "test/golden-replay.test.mjs",
+        "test/advanced-native.test.mjs",
+        "test/server.integration.test.mjs advanced E6 API"
       ],
-      "status": "PARTIAL_BASIC_METRICS",
+      "status": "PARTIAL_MEASURABLE_NATIVE_METRICS",
       "missingEvidence": [
-        "Representativeness, distribution shift, calibration and model uncertainty",
-        "Grounded output correctness/consistency and meaningful safety evaluation",
-        "Independent dataset and expert-labelled outcomes"
+        "Representative reference-labelled datasets supplied and reviewed by an independent expert",
+        "Calibration and shift in appropriate model-specific contexts with statistically justified thresholds",
+        "Semantic grounding, fairness, robustness and safety scenarios beyond literal fact matching",
+        "Independent scientific baseline and measured TRL validation"
       ],
       "ownerRole": "ML Evaluation",
-      "nextAction": "Add first-party calibration, shift and labelled grounded-output evaluation and blinded reference benchmark"
+      "nextAction": "Integrate blinded expert-labelled data/model/output cases with documented error analysis and independent measurement review"
     }
   ],
   "trl": {
