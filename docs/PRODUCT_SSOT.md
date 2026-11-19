@@ -1,5 +1,5 @@
 # AEGIS Product & Founder Intent — Canonical SSOT v1.0
-Date: 2026-11-13. Owner: Noetfield Systems Inc. Stage: an operational ISC internal cockpit exists; assurance product is not yet a validated production enterprise product.
+Revalidated: 2026-11-19; changes remain evidence-gated. Owner: Noetfield Systems Inc. Stage: an operational ISC internal cockpit exists; assurance product is not yet a validated production enterprise product.
 
 ## One-sentence thesis
 AEGIS transforms policy, AI-model and assurance changes into versioned impact analysis, native data/model/output reevaluation, accountable human review, and independently reconstructable evidence.
@@ -25,3 +25,6 @@ Fixed-fee AI Assurance Readiness followed by paid 3–5-system Policy Change Imp
 
 ## Binding AEGIS website language decision — 2026-11-18
 All AEGIS web routes, including the private ISC cockpit, login, and customer assurance workspace, must use only English (en-CA, default) and French (fr-CA). Do not offer FA, RTL, or Persian site strings. The previous internal FA/EN interface choice is superseded. UI localization does not translate or overwrite user-entered evidence values. Federal EN/FR evidence requires end-to-end workflow and report QA beyond a language selector.
+
+## v3.2 approved sequencing — no redesign
+Safety/operational correctness → Officer Evidence Pack with native execution and synthetic caveats → actual external policy, benchmark and TRL verification → identity, lifecycle and real adapters → three-system paid pilot. Canonical design remains [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md). Live status is recorded in [CURRENT_STATUS.md](CURRENT_STATUS.md); no automatic E1–E6 or Q2 credit is granted by passing tests. The linked [Issue #23](https://github.com/Noetfield-Systems/AEGIS/issues/23) remains the original risk/audit backlog, not a substitute for executed receipts.
