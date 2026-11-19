@@ -115,6 +115,29 @@ try{
  await screenshot('00d-enterprise-evaluation-fr-desktop.png');
  await evaluate('document.querySelector("#locale").click()');
  await wait(async()=>await evaluate('document.documentElement.lang==="en-CA"'),'Public English locale not restored');
+ // Reproduce the actual un-authenticated customer screenshot: Workbench must
+ // display working evidence, never falsely label a public visitor AUTHENTICATED.
+ await command('Emulation.setDeviceMetricsOverride',{width:1300,height:900,deviceScaleFactor:1,mobile:false});
+ await navigate('/workbench');
+ await wait(async()=>await evaluate('!!document.querySelector("#app") && !document.querySelector("#app").hidden'),'Public preview must load without credentials');
+ assert(await evaluate('document.querySelector("#session-label").textContent.includes("PUBLIC SAMPLE")'),'Public visitor falsely marked authenticated');
+ assert(await evaluate('!document.querySelector("#preview-notice").hidden'),'Preview mode explanation missing');
+ assert(await evaluate('document.querySelectorAll("[data-screen]").length')===6,'Public six-stage preview navigation missing');
+ await screenshot('00e-public-workbench-preview-1300px.png');
+ await evaluate('document.querySelector(\'[data-step="evaluate"]\').click();document.querySelector("#run").click()');
+ await wait(async()=>await evaluate('!document.querySelector("#eval-results").hidden && document.querySelector("#m-changed").textContent==="2"'),'Public precomputed native evaluation must work');
+ assert(await evaluate('document.querySelector("#record").disabled'),'Public case mutation must be disabled');
+ await screenshot('00f-public-workbench-measured-native-1300px.png');
+ await evaluate('document.querySelector("#locale").click()');
+ assert(await evaluate('document.documentElement.lang')==='fr-CA','Public workbench French failed');
+ assert(!(await evaluate('document.body.innerText')).match(/[\u0600-\u06FF]/),'Public preview rendered Persian');
+ await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+ await navigate('/workbench');
+ await wait(async()=>await evaluate('!!document.querySelector("#app") && !document.querySelector("#app").hidden'),'Mobile public preview must load');
+ const publicWidth=await evaluate('({view:innerWidth,document:document.documentElement.scrollWidth,menu:!!document.querySelector("#mobile-menu")})');
+ assert(publicWidth.document<=publicWidth.view+3&&publicWidth.menu,'Public mobile Workbench overflows '+JSON.stringify(publicWidth));
+ await screenshot('00g-public-workbench-preview-390px.png');
+ await command('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
  await navigate('/login');
  await wait(async()=>await evaluate('!!document.querySelector("#login-form")'),'Private login did not render');
  let body=await evaluate('document.body.innerText');
