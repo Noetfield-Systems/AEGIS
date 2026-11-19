@@ -49,6 +49,7 @@ jobs:
           node --check assurance/aia-scope.mjs
           node --check assurance/source-registry.mjs
           node --check assurance/governed-lifecycle.mjs
+          node --check assurance/advanced-native.mjs
           node --check fixtures/governed.mjs
           node --check scripts/governed-lifecycle-demo.mjs
           node --check assurance/review-journal.mjs
