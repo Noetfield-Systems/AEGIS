@@ -26,3 +26,17 @@ footer{max-width:1270px;border-top:1px solid #ffffff21;margin:0 auto;padding:28p
 @media(max-width:620px){.tour-lineage{padding:20px}.tour-lineage-top{display:block}.tour-lineage-nodes{grid-template-columns:repeat(2,minmax(0,1fr))}.trace-card:not(:last-child):after{display:none}.trace-card{min-height:115px}.tour-lineage-top h3{font-size:21px}}
 @media(max-width:390px){.tour-lineage-nodes{grid-template-columns:1fr}.trace-card{min-height:80px}}
 @media(prefers-reduced-motion:reduce){.trace-card{transition:none}}
+
+/* First-impression audit: shorter mobile hero, real measurement before explanatory workflow. */
+@media(max-width:520px){
+ .top{min-height:70px;padding-top:10px;padding-bottom:10px}
+ .hero{padding:38px 0 33px}
+ .hero h1{font-size:clamp(33px,8.8vw,41px);line-height:1.075;letter-spacing:-.055em;margin:18px 0 14px}
+ .hero .eyebrow{font-size:9px;line-height:1.4;letter-spacing:.11em}
+ .intro{font-size:14px;line-height:1.6}
+ .hero-actions{gap:9px;margin:20px 0 17px}
+ .hero-actions a{padding:11px 14px}
+ .disclaimer{padding:12px 13px;font-size:10px;line-height:1.55}
+ .demo{padding-top:28px}
+ .process{padding:42px 0 50px}
+}
