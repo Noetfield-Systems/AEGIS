@@ -5,9 +5,12 @@ import {fileURLToPath} from 'node:url';
 import {createHmac,randomUUID,timingSafeEqual} from 'node:crypto';
 import {seed,evaluate,CRITERIA,GATES,SOURCE,NOTICE,DEADLINE,normalizeEntity,isReviewed} from './model.mjs';
 import {runNative} from './assurance/native.mjs';
+import {integratedFixture} from './fixtures/integrated.mjs';
+import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dataDir=process.env.DATA_DIR||path.join(root,'data');
 const storeFile=path.join(dataDir,'aegis-isc.json');
+const reviewFile=path.join(dataDir,'aegis-assurance-reviews.json');
 const admin=process.env.ADMIN_PASSWORD;
 const key=process.env.SESSION_SECRET;
 if(!admin||admin.length<12||!key||key.length<32){console.error('ADMIN_PASSWORD (>=12 chars) and SESSION_SECRET (>=32 chars) required.');process.exit(1)}
@@ -16,6 +19,23 @@ let state;let mutex=Promise.resolve();const attempts=new Map();
 await mkdir(dataDir,{recursive:true,mode:0o700});
 try {state=JSON.parse(await readFile(storeFile,'utf8'));if(!state||state.schema!==1)throw Error('Unknown store schema');}catch(e){if(e.code!=='ENOENT')throw e;state=seed();await safeSave(state)}
 async function safeSave(s){const f=storeFile+'.'+randomUUID()+'.tmp';await writeFile(f,JSON.stringify(s,null,2),{mode:0o600});await rename(f,storeFile)}
+
+let reviewJournal=emptyReviewJournal(),reviewMutex=Promise.resolve();
+try{
+ reviewJournal=JSON.parse(await readFile(reviewFile,'utf8'));
+ verifyReviewJournal(reviewJournal);
+}catch(e){if(e.code!=='ENOENT')throw e;}
+async function persistJournal(next){
+ const tmp=reviewFile+'.'+randomUUID()+'.tmp';
+ await writeFile(tmp,JSON.stringify(next,null,2),{mode:0o600});
+ await rename(tmp,reviewFile);
+ reviewJournal=next;
+}
+function updateJournal(update){
+ const job=reviewMutex.then(async()=>{const x=update(reviewJournal);if(x.journal!==reviewJournal)await persistJournal(x.journal);return x;});
+ reviewMutex=job.then(()=>{},()=>{});return job;
+}
+
 function eq(a,b){const x=Buffer.from(String(a||'')),y=Buffer.from(String(b||''));return x.length===y.length&&timingSafeEqual(x,y)}
 function sign(exp){return createHmac('sha256',key).update(exp).digest('hex')}
 function loginCookie(req){const exp=String(Date.now()+12*3600*1000);return `aegis_session=${exp}.${sign(exp)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=43200${secure(req)?'; Secure':''}`}
@@ -60,6 +80,38 @@ const server=http.createServer(async(req,res)=>{
      if(error instanceof TypeError)return respond(res,400,{error:error.message});
      throw error;
     }
+   }
+
+   // Experimental assurance case registry is distinct from the ISC readiness score/evidence store.
+   // Only a single local administrator identity exists. Reviewer display names are not verified.
+   if(url.pathname==='/api/assurance/demo'&&req.method==='GET')
+    return respond(res,200,{synthetic:true,fixture:integratedFixture()});
+   if(url.pathname==='/api/assurance/cases'&&req.method==='GET'){
+    verifyReviewJournal(reviewJournal);
+    return respond(res,200,{status:'INTERNAL_EXPERIMENTAL_ONLY',cases:reviewJournal.cases,events:reviewJournal.events,identityMode:'SINGLE_LOCAL_ADMIN'});
+   }
+   if(url.pathname==='/api/assurance/cases'&&req.method==='POST'){
+    try{
+     const input=(await body(req)).input;
+     const result=runNative({mode:'integrated',input});
+     const saved=await updateJournal(j=>appendCase(j,result,new Date().toISOString()));
+     return respond(res,200,{status:'EXPERIMENTAL_ONLY',evidenceCredited:false,case:saved.entry,created:saved.created,result});
+    }catch(err){if(err instanceof TypeError)return respond(res,400,{error:err.message});throw err;}
+   }
+   if(url.pathname==='/api/assurance/reviews'&&req.method==='POST'){
+    try{
+     const payload=await body(req);
+     const saved=await updateJournal(j=>appendReview(j,payload,'local-admin',new Date().toISOString()));
+     return respond(res,200,{status:'INTERNAL_OPERATOR_REVIEW_ONLY',independentReviewer:false,event:saved.event});
+    }catch(err){if(err instanceof TypeError)return respond(res,400,{error:err.message});throw err;}
+   }
+   if(url.pathname==='/api/assurance/report'&&req.method==='GET'){
+    try{
+     const locale=url.searchParams.get('lang')||'en';
+     const html=renderReviewReport(reviewJournal,locale);
+     res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Content-Disposition':'attachment; filename="aegis-assurance-internal-'+locale+'.html"'});
+     return res.end(html);
+    }catch(err){if(err instanceof TypeError)return respond(res,400,{error:err.message});throw err;}
    }
    if(url.pathname==='/api/state'&&req.method==='GET')return respond(res,200,{state,derived:evaluate(state),meta:{criteria:CRITERIA,gates:GATES,source:SOURCE,notice:NOTICE,deadline:DEADLINE}});
    if(url.pathname==='/api/export'&&req.method==='GET'){

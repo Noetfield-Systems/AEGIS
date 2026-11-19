@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "company": "AEGIS",
   "owner": "Sina Founder OS",
   "items": [
@@ -7,11 +7,11 @@
       "id": "AEGIS-101",
       "priority": 1,
       "team": "Engineering",
-      "title": "Validate premium FA/EN UX on mobile and desktop; complete translation audit",
+      "title": "Validate premium EN/FR UX on mobile and desktop; complete bilingual accessibility audit",
       "acceptance": [
-        "Evidence records and navigation work in FA and EN",
-        "Keyboard accessibility and contrast verified",
-        "Screenshots linked"
+        "Evidence records and navigation work in EN and FR",
+        "Keyboard accessibility, contrast and real browser tests verified",
+        "Desktop/mobile evidence screenshots linked"
       ]
     },
     {
@@ -108,12 +108,59 @@
       "id": "AEGIS-110",
       "priority": 2,
       "team": "Localization",
-      "title": "Prepare EN/FR assurance customer edition separate from FA/EN cockpit",
+      "title": "Complete EN/FR enterprise assurance reports, full reviewer journey and accessible export QA",
       "acceptance": [
-        "Complete linguistic review",
-        "Golden E2E reviewer flows",
-        "Accessible PDF reports"
+        "Human-review history in EN/FR",
+        "Independent accessibility and linguistic validation",
+        "Bilingual PDF exports validated when available"
       ]
+    }
+  ],
+  "lastStrategyReview": "2026-11-18",
+  "deliveryPolicy": {
+    "publicWebsiteLanguages": [
+      "en-CA",
+      "fr-CA"
+    ],
+    "defaultLanguage": "en-CA",
+    "privateNotesLanguage": "unrestricted",
+    "federalEvidenceCreditedOnlyByReviewedProof": true
+  },
+  "nextVerticalSlice": [
+    {
+      "id": "AEGIS-P0-APPROVED-SOURCE",
+      "linkedIssues": [
+        3,
+        4
+      ],
+      "status": "OPEN",
+      "evidence": "Capturable official policy bytes, independent applicability/mapping review and native replay"
+    },
+    {
+      "id": "AEGIS-P0-IDENTITY",
+      "linkedIssues": [
+        7
+      ],
+      "status": "OPEN",
+      "evidence": "Per-user auth and negative multi-tenant tests"
+    },
+    {
+      "id": "AEGIS-P0-BENCHMARK",
+      "linkedIssues": [
+        5
+      ],
+      "status": "OPEN",
+      "evidence": "Independent blinded labels, manual and commercial baselines, precision/recall CI"
+    },
+    {
+      "id": "AEGIS-P0-TRL",
+      "linkedIssues": [
+        2,
+        4,
+        5
+      ],
+      "status": "OPEN",
+      "evidence": "Representative integrated environment and named independent reviewer receipt"
     }
   ]
 }

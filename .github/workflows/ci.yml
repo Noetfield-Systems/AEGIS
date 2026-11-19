@@ -27,6 +27,11 @@ jobs:
           node scripts/policy-impact-demo.mjs > /tmp/aegis-policy-a.json
           node scripts/policy-impact-demo.mjs > /tmp/aegis-policy-b.json
           cmp /tmp/aegis-policy-a.json /tmp/aegis-policy-b.json
+      - name: Verify integrated assurance reproduction
+        run: |
+          node scripts/integrated-assurance-demo.mjs > /tmp/aegis-integrated-1.json
+          node scripts/integrated-assurance-demo.mjs > /tmp/aegis-integrated-2.json
+          cmp /tmp/aegis-integrated-1.json /tmp/aegis-integrated-2.json
       - name: Check JS syntax
         run: |
           node --check server.mjs
@@ -34,6 +39,11 @@ jobs:
           node --check assurance/native.mjs
           node --check assurance/replay.mjs
           node --check assurance/policy.mjs
+          node --check assurance/integrated.mjs
+          node --check assurance/benchmark.mjs
+          node --check assurance/review-journal.mjs
+          node --check fixtures/integrated.mjs
+          node --check scripts/integrated-assurance-demo.mjs
           node --check fixtures/policy-impact.mjs
           node --check scripts/policy-impact-demo.mjs
           node --check fixtures/golden.mjs
