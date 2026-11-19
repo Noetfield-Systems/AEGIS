@@ -24,7 +24,7 @@ function translate(source) {
   // The source translations always use Latin numerals; legacy FA digits should not leak.
   out=normalizeDigits(out);
   // Legacy Persian time-range labels are localizable without affecting stored dates.
-  out=out.replace(/روز\\s+(\\d+)\\s+تا\\s+(\\d+)\\s+·\\s+موعد/g,(_,a,b)=>lang==='fr'?'Jours '+a+' à '+b+' · Échéance':'Days '+a+' to '+b+' · Due');
+  out=out.replace(/روز\s+(\d+)\s+تا\s+(\d+)\s+·\s+موعد/g,(_,a,b)=>lang==='fr'?'Jours '+a+' à '+b+' · Échéance':'Days '+a+' to '+b+' · Due');
   if(lang==='fr') {
     for(const [en,translated] of Object.entries(fr).sort((a,b)=>b[0].length-a[0].length)) {
       if(en.length<5||!out.includes(en)) continue;
