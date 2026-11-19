@@ -9,6 +9,7 @@ import {spawn} from 'node:child_process';
 import {setTimeout as sleep} from 'node:timers/promises';
 import {randomBytes} from 'node:crypto';
 import {createGoldenFixture} from '../fixtures/golden.mjs';
+import {policyImpactFixture} from '../fixtures/policy-impact.mjs';
 
 async function freePort(){
  return await new Promise((resolve,reject)=>{
@@ -64,6 +65,14 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.equal(golden.evidenceCredited,false);
  assert.equal(golden.result.assessmentsReplayed.length,1);
  assert.equal(golden.result.assessmentsReplayed[0].controlChanges[0].recomputedAfter.finding,'NOT_MET');
+ const policyRun=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'policy-impact',input:policyImpactFixture()})});
+ assert.equal(policyRun.status,200);
+ const policyResult=await policyRun.json();
+ assert.equal(policyResult.evidenceCredited,false);
+ assert.equal(policyResult.result.proposedControls[0].complianceFinding,'UNABLE_TO_DETERMINE');
+ assert.equal(policyResult.result.reassessmentQueue.length,3);
+ assert.ok(policyResult.result.proposedControls.every(c=>c.isActive===false));
+
 
  const invalid=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'classifier',input:{labels:[1],predictions:[1,0]}})});
  assert.equal(invalid.status,400);
