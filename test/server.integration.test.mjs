@@ -151,6 +151,26 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  const headers={Cookie:cookie,'Content-Type':'application/json'};
  assert.equal((await (await fetch(base+'/api/auth/status',{headers})).json()).authenticated,true);
 
+ // E2 three-format interop contracts: bounded, authenticated and read-only.
+ assert.equal((await fetch(base+'/api/assurance/adapters')).status,401,'no public contract validation access to operator API');
+ const adapterCatalogue=await (await fetch(base+'/api/assurance/adapters',{headers})).json();
+ assert.equal(adapterCatalogue.adapters.length,3);
+ assert.equal(adapterCatalogue.liveExternalConnectionsVerified,0);
+ const examples=await (await fetch(base+'/api/assurance/adapters/examples',{headers})).json();
+ assert.equal(examples.synthetic,true);
+ assert.equal(examples.records.length,3);
+ const exchange=await fetch(base+'/api/assurance/adapters/validate',{
+  method:'POST',headers,body:JSON.stringify({records:examples.records})});
+ assert.equal(exchange.status,200);
+ const normalized=await exchange.json();
+ assert.equal(normalized.recordCount,3);
+ assert.equal(normalized.readOnly,true);
+ assert.equal(normalized.independentConnectionVerified,false);
+ assert.equal(normalized.records[2].trace.promptsAndOutputsDiscarded,true);
+ assert.match(normalized.receiptHash,/^sha256:[a-f0-9]{64}$/);
+ assert.equal((await fetch(base+'/api/assurance/adapters/validate',{
+  method:'POST',headers,body:JSON.stringify({records:[{adapter:'otel-agent-span-v1',input:{traceId:'invalid'}}]})})).status,400);
+ assert.equal((await fetch(base+'/api/assurance/adapters/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({records:examples.records})})).status,401);
  const iscMatrix=await (await fetch(base+'/api/assurance/isc-matrix',{headers})).json();
  assert.equal(iscMatrix.gates.length,6);
  assert.equal((await fetch(base+'/api/assurance/impact-experiment-demo')).status,401);
