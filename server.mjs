@@ -59,7 +59,19 @@ async function mutate(op,actor='operator'){
  await safeSave(s);state=s;return {state:s,derived:evaluate(s),...info};});
  mutex=job.then(()=>{},()=>{});return job;
 }
-const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js','/aegis-emblem.svg':'aegis-emblem.svg','/ottawa-silhouette.svg':'ottawa-silhouette.svg'};
+const publicDemonstration=runNative({mode:'integrated',input:integratedFixture()});
+const publicDemoEnvelope=Object.freeze({
+ synthetic:true,evidenceCredited:false,readOnly:true,sourcePolicyOfficiallyVerified:false,
+ disclaimer:'Synthetic, precomputed first-party demonstration; no government compliance or TRL claim',
+ result:{kind:publicDemonstration.kind,scenarioId:publicDemonstration.scenarioId,
+  sourceVersions:publicDemonstration.sourceVersions,
+  affectedSystemIds:publicDemonstration.affectedSystemIds,
+  unaffectedSystemIds:publicDemonstration.unaffectedSystemIds,
+  findingsTrace:publicDemonstration.findingsTrace,
+  reassessmentQueue:publicDemonstration.reassessmentQueue,
+  summary:publicDemonstration.summary,receiptHash:publicDemonstration.receiptHash}
+});
+const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js','/aegis-emblem.svg':'aegis-emblem.svg','/ottawa-silhouette.svg':'ottawa-silhouette.svg','/tour':'tour.html','/tour.html':'tour.html','/tour.css':'tour.css','/tour.js':'tour.js'};
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml'};
 const server=http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');res.setHeader('Cache-Control','no-store');
@@ -68,6 +80,12 @@ const server=http.createServer(async(req,res)=>{
  const url=new URL(req.url,'http://localhost');
  try{
   if(url.pathname==='/api/health'){return respond(res,200,{ok:true,app:'aegis-isc',version:'1.1.0',persistence:'file'})}
+  // Public static showcase serves a fixed, precomputed synthetic scenario only.
+  // Never accept public caller inputs or expose policy/review/evidence records here.
+  if(url.pathname==='/api/public/demo'){
+   if(req.method!=='GET')return respond(res,405,{error:'Method not allowed'},{Allow:'GET'});
+   return respond(res,200,publicDemoEnvelope);
+  }
   if(url.pathname==='/api/auth/login'&&req.method==='POST'){
    if(!originOkay(req))return respond(res,403,{error:'Origin نامعتبر است.'});
    const ip=(req.socket.remoteAddress||'unknown');const a=attempts.get(ip)||{count:0,until:0};if(a.count>=8&&a.until>Date.now())return respond(res,429,{error:'تلاش بیش از حد. بعداً دوباره تلاش کنید.'});
