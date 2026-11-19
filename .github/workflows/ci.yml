@@ -53,6 +53,8 @@ jobs:
           node --check public/tour.js
           node --check public/workbench.js
           node --check assurance/integrated-report.mjs
+          node --check assurance/impact-experiment.mjs
+          node --check fixtures/impact-experiment.mjs
           node --check fixtures/governed.mjs
           node --check scripts/governed-lifecycle-demo.mjs
           node --check assurance/review-journal.mjs
