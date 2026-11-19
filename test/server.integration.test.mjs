@@ -40,6 +40,25 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
   const r=await fetch(base+url);assert.equal(r.status,200,url);assert.ok((await r.text()).includes(contains),url+' did not contain required asset');
  }
 
+ // The pinned upstream Tabler foundation and AEGIS theme are served locally under CSP.
+ for(const [uri,needle] of [
+  ['/vendor/tabler.min.css','--tblr-'],
+  ['/theme.js','aegis_color_mode_v1'],
+  ['/tabler-icons.svg','ti-layout-dashboard'],
+  ['/workbench-system.css','data-aegis-theme'],
+  ['/login-system.css','login-evidence-preview'],
+  ['/tour-system.css','data-aegis-theme']
+ ]){
+  const asset=await fetch(base+uri);
+  assert.equal(asset.status,200,'design asset '+uri);
+  assert.ok((await asset.text()).includes(needle),'design asset missing '+uri);
+ }
+ const wbPage=await (await fetch(base+'/workbench')).text();
+ assert.match(wbPage,/href="\/vendor\/tabler\.min\.css"/);
+ assert.match(wbPage,/id="mobile-menu"/);
+ assert.match(wbPage,/data-theme-choice="dark"/);
+ assert.match(wbPage,/data-theme-choice="light"/);
+ assert.match(wbPage,/data-theme-choice="system"/);
  // The evaluator-facing tour is accessible anonymously, but no private data can leak.
  for(const [url,required] of [['/tour','/tour.js'],['/tour.html','SYNTHETIC'],['/tour.css','--gold'],['/tour.js','/api/public/demo']]){
   const r=await fetch(base+url);assert.equal(r.status,200,'public tour '+url);
