@@ -69,7 +69,40 @@
   </section>
   <section class="stage" data-screen="coverage" hidden>
    <div class="section-title"><div><h2 data-t="coverageTitle">Engineering evidence versus mandatory outcomes.</h2><p data-t="coverageDesc">Six essential ISC outcomes with implemented artifacts, experimental tests and remaining proof gaps. This is an internal acceptance matrix, not a government score.</p></div><span class="num">06</span></div>
-   <div id="coverage-grid" class="coverage-grid"></div><div class="note" data-t="coverageNote">Do not mark TRL 5, full E1–E6 compliance, Canadian data residency or independent reviewer verification without specific original evidence.</div>
+   <div id="coverage-grid" class="coverage-grid"></div>
+   <div class="subhead" data-t="benchmarkHeading">BENCHMARK STUDIO / FIRST-PARTY POLICY IMPACT</div>
+   <div class="two-col benchmark-layout">
+    <article class="pane">
+     <div class="pane-label" data-t="benchmarkMethod">ACTUAL COMPILER PREDICTIONS · SYNTHETIC LABELS</div>
+     <h3 data-t="benchmarkTitle">Measure predictions, not promises.</h3>
+     <p class="muted" data-t="benchmarkCopy">Eight controlled examples, two deliberately discordant reference labels, first-party impact classification and Wilson 95% intervals. The labels are not independently validated.</p>
+     <div class="ribbon benchmark-controls">
+      <div><small data-t="benchmarkInput">DATASET</small><strong>synthetic-benchmark-demo-v1</strong></div>
+      <button type="button" class="btn primary" id="benchmark-run" data-t="benchmarkRun">Run policy benchmark</button>
+     </div>
+     <div class="note" data-t="benchmarkWarning">Illustrative measurements do not establish real-world accuracy, competitor superiority, official policy applicability or TRL 5.</div>
+     <button type="button" class="btn secondary" id="benchmark-download" data-t="benchmarkExport" disabled>Download experiment receipt (JSON)</button>
+    </article>
+    <article class="pane">
+     <div class="pane-label" data-t="benchmarkOutcomes">MEASURED CONFUSION MATRIX & UNCERTAINTY</div>
+     <div id="benchmark-placeholder" class="empty"><strong data-t="benchmarkEmpty">No benchmark has been run.</strong><p data-t="benchmarkEmptyText">Run the experiment to generate genuine compiler predictions on synthetic test cases.</p></div>
+     <div id="benchmark-results" hidden>
+      <div class="metrics metrics-benchmark">
+       <div><small>Precision</small><strong id="b-precision">—</strong></div>
+       <div><small>Recall</small><strong id="b-recall">—</strong></div>
+       <div><small data-t="benchmarkFalsePos">False positives</small><strong id="b-fp">—</strong></div>
+       <div><small data-t="benchmarkFalseNeg">False negatives</small><strong id="b-fn">—</strong></div>
+      </div>
+      <div class="field-list">
+       <div><small data-t="benchmarkPrecision95">Precision 95% Wilson interval</small><code id="b-precision-ci">—</code></div>
+       <div><small data-t="benchmarkRecall95">Recall 95% Wilson interval</small><code id="b-recall-ci">—</code></div>
+       <div><small data-t="benchmarkSample">Sample size</small><code id="b-samples">—</code></div>
+       <div><small data-t="benchmarkAttested">Independent ground truth</small><strong data-t="benchmarkNo">NOT VERIFIED</strong></div>
+      </div>
+      <div class="hashbox"><small data-t="benchmarkReceipt">Experiment SHA-256</small><code id="b-receipt">—</code></div>
+     </div>
+    </article>
+   </div><div class="note" data-t="coverageNote">Do not mark TRL 5, full E1–E6 compliance, Canadian data residency or independent reviewer verification without specific original evidence.</div>
   </section>
   <div class="footer-nav"><button type="button" class="btn quiet" id="prev" data-t="prev">Previous stage</button><span class="footer-center" id="flow-status" aria-live="polite"></span><button type="button" class="btn primary" id="next" data-t="next">Continue to next stage</button></div>
  </div>
