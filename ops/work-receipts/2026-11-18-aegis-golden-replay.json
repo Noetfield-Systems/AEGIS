@@ -1,0 +1,61 @@
+{
+  "workpacket_id": "AEGIS-102+AEGIS-104",
+  "venture_id": "AEGIS",
+  "source_issue_urls": [
+    "https://github.com/Noetfield-Systems/AEGIS/issues/2",
+    "https://github.com/Noetfield-Systems/AEGIS/issues/4"
+  ],
+  "outcome": "PARTIAL_TECHNICAL_MILESTONE",
+  "checked_at": "2026-11-18T18:53:00-07:00",
+  "code": {
+    "source_commit": "92fd54eacb18b3d71ee07171df90a1fb07eabaef",
+    "pull_request": "https://github.com/Noetfield-Systems/AEGIS/pull/9",
+    "base_branch": "main"
+  },
+  "tests": {
+    "command": "npm test; node scripts/golden-assurance-demo.mjs twice; cmp results; node --check",
+    "pr_actions_run": "https://github.com/Noetfield-Systems/AEGIS/actions/runs/44439939014",
+    "post_merge_test_run": "https://github.com/Noetfield-Systems/AEGIS/actions/runs/44440003327",
+    "result": "PASS",
+    "separate_runner": true,
+    "independent_human_reviewer": false
+  },
+  "deployment": {
+    "platform": "Railway",
+    "project": "noetfield-aegis-isc",
+    "service": "aegis-isc-web",
+    "deployment_id": "b76067da-b973-4b96-979e-5edac831cebe",
+    "deployed_source_commit": "92fd54eacb18b3d71ee07171df90a1fb07eabaef",
+    "reported_status": "SUCCESS",
+    "environment_status": "online",
+    "running_replicas": 1,
+    "attached_volume_mount": "/data",
+    "domain": "https://aegis-isc-web-production.up.railway.app/",
+    "authenticated_production_replay_not_yet_exercised": true
+  },
+  "verified_behaviors": [
+    "synthetic historical completed assessments recomputed via first-party metrics",
+    "versioned control changes select affected and unaffected systems",
+    "source assessment retained without mutation",
+    "missing/tampered evidence returns UNABLE_TO_DETERMINE",
+    "hash-bound input mismatch rejected",
+    "all five finding states modeled",
+    "output is repeatable and produces stable content hash"
+  ],
+  "isc_evidence_credit": false,
+  "claim_limits": [
+    "Synthetic fixtures are not official reviewed Canadian policy mappings",
+    "No authenticated production POST smoke; CI integration is local",
+    "No independent human evaluation or TRL determination",
+    "No real buyer revenue or procurement award"
+  ],
+  "known_gaps": [
+    "Federal policy compiler and version applicability",
+    "In-flight and future task reassessment",
+    "Enterprise reviewer audit workspace",
+    "Scientific benchmark and TRL dossier",
+    "Independent evidence verifier and EN/FR enterprise edition"
+  ],
+  "actual_cost_cad": null,
+  "next_action": "Integrate official policy mappings and in-flight/future reassessment; independently validate benchmark, then verify authenticated production replay with authorized test credentials."
+}
