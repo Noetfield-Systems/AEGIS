@@ -8,6 +8,7 @@ import {runNative} from './assurance/native.mjs';
 import {getSourceRegistry} from './assurance/source-registry.mjs';
 import {governedFixture} from './fixtures/governed.mjs';
 import {integratedFixture} from './fixtures/integrated.mjs';
+import {scenarioLibrary} from './fixtures/scenario-library.mjs';
 import {impactExperimentFixture} from './fixtures/impact-experiment.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 import {renderIntegratedReport} from './assurance/integrated-report.mjs';
@@ -130,7 +131,8 @@ const server=http.createServer(async(req,res)=>{
      const html=renderIntegratedReport(result,{lang,review,generatedAt:new Date().toISOString()});
      res.writeHead(200,{'Content-Type':'text/html; charset=utf-8',
       'Content-Disposition':'attachment; filename="aegis-assurance-technical-'+lang+'.html"',
-      'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});
+      'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',
+      'Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"}); 
      return res.end(html);
     }catch(err){if(err instanceof TypeError||err instanceof RangeError)return respond(res,400,{error:err.message});throw err;}
    }
@@ -140,6 +142,8 @@ const server=http.createServer(async(req,res)=>{
     return respond(res,200,{synthetic:true,fixture:governedFixture()});
    if(url.pathname==='/api/assurance/impact-experiment-demo'&&req.method==='GET')
     return respond(res,200,{synthetic:true,referenceLabelsIndependentlyVerified:false,fixture:impactExperimentFixture()});
+   if(url.pathname==='/api/assurance/scenarios'&&req.method==='GET')
+    return respond(res,200,{synthetic:true,defaultId:'combined',scenarios:scenarioLibrary()});
    if(url.pathname==='/api/assurance/demo'&&req.method==='GET')
     return respond(res,200,{synthetic:true,fixture:integratedFixture()});
    if(url.pathname==='/api/assurance/cases'&&req.method==='GET'){

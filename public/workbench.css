@@ -174,3 +174,43 @@ textarea{min-height:98px;resize:vertical}select{cursor:pointer}
 .benchmark-layout .field-list{margin-top:12px}
 .benchmark-layout .hashbox{margin:20px 0 0}
 @media(max-width:580px){.benchmark-layout .metrics-benchmark{grid-template-columns:repeat(2,minmax(0,1fr))}.benchmark-layout .benchmark-controls .btn{width:100%}}
+
+/* Decision Lineage — AEGIS proprietary proof-first visual signature. */
+.lineage{margin:0 0 24px;padding:27px;border:1px solid #927e655b;border-radius:13px;background:radial-gradient(ellipse 60% 80% at 10% 0,#d1af7813,transparent),linear-gradient(135deg,#161f2d,#101621);overflow:hidden}
+.lineage-heading{display:flex;gap:16px;align-items:start;justify-content:space-between;margin-bottom:25px}
+.lineage-heading h3{font-size:22px;font-weight:600;letter-spacing:-.035em;line-height:1.3;margin:7px 0 8px}
+.lineage-heading p{font-size:11px;line-height:1.7;color:#afbbc8;max-width:690px;margin:0}
+.lineage-heading .pane-label{margin:0}
+.lineage-tag{border:1px solid #b99b6e6e;border-radius:20px;white-space:nowrap;padding:6px 9px;font-size:9px;color:var(--gold);letter-spacing:.07em;font-weight:800}
+.lineage-nodes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:15px}
+.lineage-node{text-align:left;position:relative;border:1px solid #55617177;background:linear-gradient(160deg,#1e2938,#111826);border-radius:10px;padding:15px 12px;min-height:139px;color:#e5e9ed;overflow:visible;display:flex;flex-direction:column;align-items:start;gap:7px;transition:transform .16s,border-color .16s}
+.lineage-node:not(:last-child):after{content:"";position:absolute;left:calc(100% + 1px);top:48%;width:14px;border-top:1px solid #d6b988a0}
+.lineage-node:hover{border-color:var(--gold);transform:translateY(-3px)}
+.lineage-index{font:600 10px Inter,system-ui;color:var(--gold)}
+.lineage-label{font-size:9px;letter-spacing:.08em;color:#aab4bf;font-weight:800;line-height:1.35;text-transform:uppercase}
+.lineage-value{font-size:19px;font-weight:650;letter-spacing:-.03em;line-height:1.25;color:#f5f0eb;overflow-wrap:anywhere;word-break:break-word}
+.lineage-node:first-child .lineage-value{font-size:12px;letter-spacing:-.02em}
+.lineage-node:last-child .lineage-value{font-size:14px;color:var(--gold)}
+.lineage-foot{display:flex;gap:9px;align-items:center;margin-top:21px;padding-top:17px;border-top:1px solid #ffffff1a;font-size:10px;color:#b4bbc2;line-height:1.5}
+@media(max-width:1350px){.lineage-nodes{grid-template-columns:repeat(3,minmax(0,1fr))}.lineage-node:nth-child(3):after{display:none}}
+@media(max-width:700px){.lineage{padding:20px}.lineage-heading{flex-direction:column}.lineage-nodes{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.lineage-node{min-height:125px}.lineage-node:not(:last-child):after{display:none}.lineage-value{font-size:20px}}
+@media(max-width:400px){.lineage-nodes{grid-template-columns:1fr}.lineage-node{min-height:82px}.lineage-heading h3{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.lineage-node{transition:none}}
+
+/* Officer-grade evaluator scenario library — not a simulated metrics picker. */
+.scenario-chooser{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,330px);gap:18px 32px;align-items:center;padding:25px 27px;margin-bottom:23px;background:radial-gradient(ellipse 70% 85% at 2% 3%,#d2b58116,transparent),linear-gradient(130deg,#1a2332,#121925);border:1px solid #b39a735c;border-radius:12px}
+.scenario-chooser .pane-label{margin-bottom:7px}
+.scenario-chooser h3{font-size:24px;line-height:1.2;letter-spacing:-.04em;font-weight:600;margin:5px 0 8px;color:#f4eee6}
+.scenario-chooser p{font-size:12px;color:#b6c0cb;line-height:1.7;margin:0}
+.scenario-chooser-controls{display:grid;gap:9px}
+.scenario-chooser-controls label{font-size:11px;color:#dfc69d;font-weight:700}
+.scenario-chooser select{min-height:47px;padding:10px 12px}
+.scenario-chooser-controls button{min-height:45px}
+.scenario-chooser .scenario-note{grid-column:1/-1;padding-top:14px;border-top:1px solid #e2c99f25;color:#b9c4cc;font-size:11px}
+@media(max-width:950px){.scenario-chooser{grid-template-columns:1fr;padding:20px;gap:16px}.scenario-chooser .scenario-note{grid-column:auto}}
+/* Accessible target and high-legibility refinements (WCAG 2.2 design targets). */
+.stage-nav button,.topbar button,.lineage-node{min-height:44px}
+.pane-label,.subhead,.stage-nav small,.lineage-label,.tag-gold{font-size:11px}
+.crumb,.workspace-name,.source-badge span,.lineage-tag{font-size:10px}
+.card p,.note,.section-title p,.history-row small,.warning p{font-size:12px}
+@media(max-width:580px){.scenario-chooser h3{font-size:21px}.scenario-chooser select{font-size:13px}}

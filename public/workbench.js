@@ -8,7 +8,7 @@ en:{
 skip:'Skip to workbench',private:'PRIVATE RESEARCH WORKSPACE',journey:'ASSURANCE JOURNEY',
 navContext:'System context',navContextSub:'System & policy register',navPolicy:'Policy impact',navPolicySub:'Versioned source change',navEvaluate:'Native evaluation',navEvaluateSub:'Technical before & after',navReview:'Human review',navReviewSub:'Operator decisions & receipt',navReport:'Evidence dossier',navReportSub:'Download in EN / FR',navCoverage:'ISC coverage',navCoverageSub:'E1–E6 acceptance matrix',
 sourceBadge:'RESEARCH STANDARD',sourceNote:'Evidence before claims',back:'Back to ISC Readiness Studio',publicTour:'View public demonstration',workbench:'Assurance Workbench',authenticated:'AUTHENTICATED · PRIVATE',
-kicker:'DECISION ASSURANCE / CONTROLLED RESEARCH ENVIRONMENT',title:'Make every AI decision\ndefensible.',intro:'Follow a policy change from source to affected systems, native reevaluation, human judgment and a reproducible evidence dossier.',research:'SYNTHETIC RESEARCH',assurance:'Assurance state',pending:'UNABLE TO DETERMINE',
+kicker:'DECISION ASSURANCE / CONTROLLED RESEARCH ENVIRONMENT',title:'See the decision.\nTrace the evidence.',intro:'Follow a policy change from source to affected systems, native reevaluation, human judgment and a reproducible evidence dossier.',research:'SYNTHETIC RESEARCH',assurance:'Assurance state',pending:'UNABLE TO DETERMINE',
 warning:'This workspace uses a controlled synthetic scenario. The technical engine is real, but the policy text and model evidence are not approved federal findings. Activity here does not grant ISC points or prove TRL 5.',signInTitle:'Private session required',signInCopy:'Sign in to the existing ISC workspace. The workbench uses its authenticated session and does not expose confidential cases publicly.',signIn:'Sign in to AEGIS',loading:'Loading versioned synthetic scenario…',stage:'GUIDED WORKFLOW',fixture:'Dataset: synthetic',
 contextTitle:'Start with the system, not the score.',contextDesc:'Identify what AI system is being evaluated, its original controls and which evidence is within scope. Data shown here is explicitly fictitious.',systemRegistry:'SYSTEM INVENTORY',researchContext:'RESEARCH CONTEXT',scenarioName:'Scenario identifier',sourceInstrument:'Source instrument',baseline:'Baseline policy',proposed:'Candidate policy',contextNote:'Source identifiers refer to official publication families; the clauses and thresholds in this example are synthetic and do not represent approved government requirements.',
 policyTitle:'One policy change. Measurable downstream impact.',policyDesc:'Compare the original and proposed instrument excerpts, then see how the control mapping identifies impacted AI systems.',versionDiff:'VERSION DIFFERENCE · SYNTHETIC',sourceRefs:'FEDERAL SOURCE REFERENCES',notSnapshot:'These are official reference links, not verified snapshots, legal applicability determinations or approved control mappings.',
@@ -23,6 +23,13 @@ benchmarkInput:'DATASET',benchmarkRun:'Run policy benchmark',benchmarkWarning:'I
 benchmarkExport:'Download experiment receipt (JSON)',benchmarkOutcomes:'MEASURED CONFUSION MATRIX & UNCERTAINTY',benchmarkEmpty:'No benchmark has been run.',benchmarkEmptyText:'Run the experiment to generate genuine compiler predictions on synthetic test cases.',
 benchmarkFalsePos:'False positives',benchmarkFalseNeg:'False negatives',benchmarkPrecision95:'Precision 95% Wilson interval',benchmarkRecall95:'Recall 95% Wilson interval',benchmarkSample:'Sample size',benchmarkAttested:'Independent ground truth',benchmarkNo:'NOT VERIFIED',benchmarkReceipt:'Experiment SHA-256',
 benchmarkDone:'Eight-case synthetic benchmark computed. Interpret confidence intervals cautiously.',
+scenarioEyebrow:'EVALUATOR MODE / SELECT A PROOF PATH',scenarioTitle:'One engine. Different outcomes.',scenarioDesc:'Choose one of three synthetic cases. Each invokes the same native replay engine; a policy change does not always mean a failed control.',scenarioLabel:'Controlled assessment scenario',scenarioLoad:'Load scenario',scenarioLoaded:'Synthetic scenario changed. Previous results cleared; run the native evaluation to verify.',
+lineageEyebrow:'AEGIS SIGNATURE / DECISION PROVENANCE',lineageTitle:'Follow the evidence, not just the score.',
+lineageIntro:'Each node is derived from the native policy-to-reassessment result. Select a node to inspect its underlying stage.',
+lineageTag:'DETERMINISTIC · SYNTHETIC',lineageBoundary:'Measured technical trace only — no government compliance approval or independent human decision.',
+traceSource:'POLICY SOURCE',traceControl:'AFFECTED CONTROLS',traceSystems:'AI SYSTEMS',traceReplay:'HISTORICAL REPLAY',traceFindings:'TECHNICAL CHANGES',traceReview:'HUMAN REVIEW',
+tracePending:'Pending',traceSourceTip:'Inspect the synthetic policy version and reference.',traceControlTip:'See changed controls and mappings.',traceSystemsTip:'Review affected systems.',traceReplayTip:'Inspect the native re-execution.',traceFindingsTip:'Examine changed findings.',traceReviewTip:'See case and operator review steps.',
+
 workStatus:'Workflow ready · synthetic only',stageOf:'Stage',controlCount:'Candidate controls',systemStatus:'System classification',onlySynthetic:'Synthetic sample',oldVersion:'Previous controlled version',newVersion:'Proposed synthetic version',changed:'CHANGED',unchanged:'UNCHANGED',sourceType:'Source class',noSources:'No policy sources recorded',officialRef:'Official source reference',noChange:'No section change',emptyHistory:'No internal cases recorded.',runFirst:'Run native evaluation before recording.',caseSaved:'Case recorded under its native receipt.',reviewSaved:'Review appended to the internal audit chain.',reviewUnavailable:'Record a case before submitting a review.',reportReady:'Report created with fresh native computation.',loadError:'Could not load the private workbench data.',requestError:'Request failed.',authError:'Your private session has expired.',noApproval:'UNABLE TO DETERMINE',trialOnly:'SIMULATED / UNVERIFIED',missing:'Missing independently verified evidence',implementation:'Implemented experiments',evidence:'Experimental tests',responsible:'Responsibility',needReview:'Requires further proof',completed:'Completed',inProgress:'In progress',planned:'Planned',yes:'Yes',no:'No',
 MET:'MET',NOT_MET:'NOT MET',PARTIALLY_MET:'PARTIALLY MET',NOT_APPLICABLE:'NOT APPLICABLE',UNABLE_TO_DETERMINE:'UNABLE TO DETERMINE',
 'Previous':'Previous','Current':'Current'
@@ -31,7 +38,7 @@ fr:{
 skip:'Aller au parcours',private:'ESPACE PRIVÉ DE RECHERCHE',journey:'PARCOURS D’ASSURANCE',
 navContext:'Contexte du système',navContextSub:'Registre des systèmes et politiques',navPolicy:'Impact des politiques',navPolicySub:'Modification de source versionnée',navEvaluate:'Évaluation native',navEvaluateSub:'Résultats techniques avant et après',navReview:'Révision humaine',navReviewSub:'Décisions internes et empreinte',navReport:'Dossier de preuves',navReportSub:'Téléchargement EN / FR',navCoverage:'Couverture ISC',navCoverageSub:'Matrice des critères E1 à E6',
 sourceBadge:'NORME DE RECHERCHE',sourceNote:'La preuve avant toute affirmation',back:'Retour à l’espace ISC',publicTour:'Voir la démonstration publique',workbench:'Espace d’assurance',authenticated:'AUTHENTIFIÉ · PRIVÉ',
-kicker:'ASSURANCE DÉCISIONNELLE / ENVIRONNEMENT DE RECHERCHE CONTRÔLÉ',title:'Rendez chaque décision d’IA\ndéfendable.',intro:'Suivez un changement de politique, des systèmes touchés à la réévaluation native, à la décision humaine et au dossier de preuves reproductible.',research:'RECHERCHE SIMULÉE',assurance:'État de l’assurance',pending:'IMPOSSIBLE À DÉTERMINER',
+kicker:'ASSURANCE DÉCISIONNELLE / ENVIRONNEMENT DE RECHERCHE CONTRÔLÉ',title:'Voyez la décision.\nRetracez les preuves.',intro:'Suivez un changement de politique, des systèmes touchés à la réévaluation native, à la décision humaine et au dossier de preuves reproductible.',research:'RECHERCHE SIMULÉE',assurance:'État de l’assurance',pending:'IMPOSSIBLE À DÉTERMINER',
 warning:'Cet espace utilise un scénario fictif contrôlé. Le moteur technique est réel, mais les politiques et preuves du modèle ne sont pas des constats fédéraux approuvés. Aucune étape ne donne de points ISC ni ne démontre un NMT 5.',signInTitle:'Session privée requise',signInCopy:'Connectez-vous à l’espace ISC. Ce parcours utilise la session authentifiée et ne rend pas les dossiers privés accessibles au public.',signIn:'Se connecter à AEGIS',loading:'Chargement du scénario fictif versionné…',stage:'PARCOURS GUIDÉ',fixture:'Données : fictives',
 contextTitle:'Commencez par le système, pas par le score.',contextDesc:'Identifiez le système d’IA, ses contrôles initiaux et la portée des preuves. Ces données sont entièrement fictives.',systemRegistry:'INVENTAIRE DES SYSTÈMES',researchContext:'CONTEXTE DE RECHERCHE',scenarioName:'Identifiant du scénario',sourceInstrument:'Instrument de référence',baseline:'Politique initiale',proposed:'Politique proposée',contextNote:'Les identifiants renvoient à des familles de publications officielles. Les clauses et les seuils sont fictifs et ne représentent pas des exigences approuvées.',
 policyTitle:'Un changement de politique. Un impact mesurable.',policyDesc:'Comparez les extraits initiaux et proposés, puis identifiez les systèmes d’IA touchés par la correspondance des contrôles.',versionDiff:'DIFFÉRENCE ENTRE VERSIONS · SIMULATION',sourceRefs:'RÉFÉRENCES FÉDÉRALES',notSnapshot:'Ces liens officiels ne sont pas des versions archivées vérifiées, ni des conclusions juridiques ou des contrôles approuvés.',
@@ -46,12 +53,19 @@ benchmarkInput:'JEU DE DONNÉES',benchmarkRun:'Exécuter le benchmark',benchmark
 benchmarkExport:'Télécharger le reçu de l’expérience (JSON)',benchmarkOutcomes:'MATRICE DE CONFUSION ET INCERTITUDE',benchmarkEmpty:'Aucun benchmark exécuté.',benchmarkEmptyText:'Lancez l’expérience pour mesurer les prédictions natives sur des données fictives.',
 benchmarkFalsePos:'Faux positifs',benchmarkFalseNeg:'Faux négatifs',benchmarkPrecision95:'Intervalle Wilson à 95 % de la précision',benchmarkRecall95:'Intervalle Wilson à 95 % du rappel',benchmarkSample:'Taille de l’échantillon',benchmarkAttested:'Vérité terrain indépendante',benchmarkNo:'NON VÉRIFIÉE',benchmarkReceipt:'Empreinte SHA-256 de l’expérience',
 benchmarkDone:'Expérience fictive de huit cas calculée. Interprétez les intervalles avec prudence.',
+scenarioEyebrow:'PARCOURS D’ÉVALUATION / CHOISIR UN SCÉNARIO',scenarioTitle:'Un moteur. Plusieurs résultats.',scenarioDesc:'Choisissez parmi trois scénarios fictifs. Chacun utilise le même moteur natif; un changement de politique ne signifie pas toujours un contrôle non satisfait.',scenarioLabel:'Scénario d’évaluation contrôlé',scenarioLoad:'Charger le scénario',scenarioLoaded:'Nouveau scénario fictif chargé. Les résultats précédents ont été effacés; réexécutez l’évaluation native.',
+lineageEyebrow:'SIGNATURE AEGIS / PROVENANCE DES DÉCISIONS',lineageTitle:'Suivez les preuves, pas seulement le score.',
+lineageIntro:'Chaque nœud provient du résultat natif. Sélectionnez-le pour consulter l’étape correspondante.',
+lineageTag:'DÉTERMINISTE · SIMULATION',lineageBoundary:'Traçabilité technique seulement — aucune approbation gouvernementale ni décision humaine indépendante.',
+traceSource:'SOURCE DE POLITIQUE',traceControl:'CONTRÔLES TOUCHÉS',traceSystems:'SYSTÈMES D’IA',traceReplay:'RÉÉVALUATION HISTORIQUE',traceFindings:'CONSTATS MODIFIÉS',traceReview:'RÉVISION HUMAINE',
+tracePending:'En attente',traceSourceTip:'Voir la version de politique fictive et sa référence.',traceControlTip:'Voir les contrôles modifiés.',traceSystemsTip:'Examiner les systèmes touchés.',traceReplayTip:'Consulter la réexécution native.',traceFindingsTip:'Examiner les constats modifiés.',traceReviewTip:'Consulter le dossier et la révision interne.',
+
 workStatus:'Parcours prêt · simulation uniquement',stageOf:'Étape',controlCount:'Contrôles proposés',systemStatus:'Classification du système',onlySynthetic:'Exemple fictif',oldVersion:'Version précédente',newVersion:'Version fictive proposée',changed:'MODIFIÉ',unchanged:'INCHANGÉ',sourceType:'Type de source',noSources:'Aucune source enregistrée',officialRef:'Référence officielle',noChange:'Aucun changement de section',emptyHistory:'Aucun dossier interne enregistré.',runFirst:'Exécutez d’abord l’évaluation native.',caseSaved:'Dossier consigné avec son empreinte native.',reviewSaved:'Révision ajoutée au journal des événements.',reviewUnavailable:'Enregistrez le dossier avant la révision.',reportReady:'Rapport produit à partir d’un nouveau calcul natif.',loadError:'Impossible de charger les données privées.',requestError:'La requête a échoué.',authError:'Votre session privée a expiré.',noApproval:'IMPOSSIBLE À DÉTERMINER',trialOnly:'SIMULATION / NON VÉRIFIÉ',missing:'Preuves indépendantes manquantes',implementation:'Expériences mises en œuvre',evidence:'Tests expérimentaux',responsible:'Responsabilité',needReview:'Preuve complémentaire requise',completed:'Terminé',inProgress:'En cours',planned:'Planifié',yes:'Oui',no:'Non',
 MET:'SATISFAIT',NOT_MET:'NON SATISFAIT',PARTIALLY_MET:'PARTIELLEMENT SATISFAIT',NOT_APPLICABLE:'NON APPLICABLE',UNABLE_TO_DETERMINE:'IMPOSSIBLE À DÉTERMINER',
 Previous:'Précédent',Current:'Actuel'
 }
 };
-let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null,benchmark=null;
+let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null,benchmark=null,scenarios=[],activeScenarioId='combined';
 const el=id=>document.getElementById(id),q=sel=>document.querySelector(sel),qq=sel=>document.querySelectorAll(sel);
 const t=k=>copy[language][k]??k;
 const value=v=>v==null?'—':String(v);
@@ -98,7 +112,25 @@ function setStage(index){
  if(stageIndex===3)refreshCases().catch(()=>{});
  document.getElementById('workspace').scrollIntoView({behavior:'auto'});
 }
+function renderScenarioSelector(){
+ const select=el('scenario-select');select.replaceChildren();
+ for(const scenario of scenarios){
+  const option=document.createElement('option');
+  option.value=scenario.id;option.textContent=language==='fr'?scenario.nameFr:scenario.name;
+  select.append(option);
+ }
+ select.value=activeScenarioId;
+ const selected=scenarios.find(s=>s.id===activeScenarioId);
+ el('scenario-description').textContent=selected?(language==='fr'?selected.descriptionFr:selected.description):'';
+}
+function changeScenario(){
+ const selected=scenarios.find(s=>s.id===el('scenario-select').value);
+ if(!selected||selected.synthetic!==true||!selected.fixture?.policy||!selected.fixture?.replay){fail('Invalid synthetic scenario');return}
+ activeScenarioId=selected.id;fixture=structuredClone(selected.fixture);
+ result=null;caseEntry=null;renderAll();setStage(0);el('flow-status').textContent=t('scenarioLoaded');
+}
 function renderContext(){
+ renderScenarioSelector();
  const systems=el('system-list');systems.replaceChildren();
  for(const s of fixture.replay.systems){
   const card=elem('article','card');
@@ -140,10 +172,35 @@ function renderPolicy(){
  }
  if(!sources.length)refs.append(elem('p','muted',t('noSources')));
 }
+
+function renderLineage(){
+ const container=el('lineage-nodes');if(!container)return;
+ container.replaceChildren();
+ if(!result)return;
+ const summary=result.summary||{};
+ const pairs=[
+  {label:'traceSource',value:result.sourceVersions?.after||'—',step:'policy',hint:'traceSourceTip'},
+  {label:'traceControl',value:summary.changedControls??0,step:'policy',hint:'traceControlTip'},
+  {label:'traceSystems',value:summary.affectedSystems??0,step:'context',hint:'traceSystemsTip'},
+  {label:'traceReplay',value:summary.historicalAssessmentsReexecuted??0,step:'evaluate',hint:'traceReplayTip'},
+  {label:'traceFindings',value:summary.changedTechnicalFindings??0,step:'evaluate',hint:'traceFindingsTip'},
+  {label:'traceReview',value:t('tracePending'),step:'review',hint:'traceReviewTip'}
+ ];
+ for(const [index,item] of pairs.entries()){
+  const button=elem('button','lineage-node');
+  button.type='button';button.dataset.go=item.step;
+  button.setAttribute('aria-label',t(item.label)+': '+item.value+'. '+t(item.hint));
+  button.append(elem('span','lineage-index',String(index+1).padStart(2,'0')),
+   elem('small','lineage-label',t(item.label)),
+   elem('strong','lineage-value',item.value));
+  container.appendChild(button);
+ }
+}
 function renderEvaluation(){
  const loaded=Boolean(result);
  el('eval-placeholder').hidden=loaded;el('eval-results').hidden=!loaded;
  if(!loaded)return;
+ renderLineage();
  const s=result.summary;
  setText('m-changed',s.changedTechnicalFindings);
  setText('m-replayed',s.historicalAssessmentsReexecuted);
@@ -308,11 +365,15 @@ async function downloadReport(locale){
 }
 async function start(){
  try{
-  const [demo,sources,acceptance,cases]=await Promise.all([
-   json('assurance/demo'),json('assurance/sources'),json('assurance/isc-matrix'),json('assurance/cases')
+  const [demo,sources,acceptance,cases,library]=await Promise.all([
+   json('assurance/demo'),json('assurance/sources'),json('assurance/isc-matrix'),json('assurance/cases'),
+   json('assurance/scenarios')
   ]);
   if(demo.synthetic!==true||!demo.fixture?.replay||!demo.fixture?.policy)throw Error('Expected a synthetic private scenario');
-  fixture=demo.fixture;catalogue=sources;matrix=acceptance;history=cases;
+  if(library.synthetic!==true||!Array.isArray(library.scenarios)||library.scenarios.length<3)throw Error('Scenario library unavailable');
+  scenarios=library.scenarios;activeScenarioId=library.defaultId||'combined';
+  fixture=structuredClone(scenarios.find(s=>s.id===activeScenarioId)?.fixture||demo.fixture);
+  catalogue=sources;matrix=acceptance;history=cases;
   el('busy').hidden=true;el('signin').hidden=true;el('app').hidden=false;renderAll();
  }catch(e){
   el('busy').hidden=true;if(!el('signin').hidden)return;
@@ -330,7 +391,16 @@ function boot(){
  qq('[data-step]').forEach(b=>b.addEventListener('click',()=>setStage(stages.indexOf(b.dataset.step))));
  el('prev').addEventListener('click',()=>setStage(stageIndex-1));
  el('next').addEventListener('click',()=>setStage(stageIndex+1));
+ el('scenario-load').addEventListener('click',changeScenario);
+ el('scenario-select').addEventListener('change',()=>{const selected=scenarios.find(s=>s.id===el('scenario-select').value);el('scenario-description').textContent=selected?(language==='fr'?selected.descriptionFr:selected.description):''});
  el('run').addEventListener('click',runAssessment);
+ el('lineage-nodes').addEventListener('click',event=>{
+  const target=event.target.closest('[data-go]');
+  if(target&&el('lineage-nodes').contains(target)){
+   const index=stages.indexOf(target.dataset.go);
+   if(index>=0)setStage(index);
+  }
+ });
  el('record').addEventListener('click',recordCase);
  el('review-form').addEventListener('submit',saveReview);
  el('benchmark-run').addEventListener('click',runBenchmark);
