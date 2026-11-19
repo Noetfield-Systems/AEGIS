@@ -2,7 +2,7 @@ const root=document.getElementById('app'),toastBox=document.getElementById('toas
 let state=null,d=null,meta=null,view='overview',modal=null,filter='';
 const nav=[['overview','نمای کلی','◈'],['criteria','معیارهای Q','▦'],['gaps','شکاف‌ها و اقدام بعدی','⌁'],['evidence','رجیستری شواهد','◉'],['pilot','پایلوت ۳۰روزه','▤'],['tasks','کارها و مسئولان','✓'],['activities','مصاحبه و پیگیری','⌕'],['people','تیم و ظرفیت','♙'],['commercial','تجاری‌سازی','↗'],['risks','ریسک و مهار','△'],['lab','آزمایشگاه AEGIS','⚗'],['company','Company OS','✦'],['audit','تاریخچه و خروجی','≡']];
 const et=(x='')=>String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
-const fmt=x=>Number(x||0).toLocaleString('fa-IR');
+const fmt=x=>Number(x||0).toLocaleString(window.aegisLocale?.language()==='fr'?'fr-CA':'en-CA');
 const date=x=>x?et(String(x).slice(0,10)):'—';
 const badge=(name,tone='')=>`<span class="badge ${tone}">${et(name)}</span>`;
 const scoreLabel=x=>x>=65?'در بازه عددی عبور':'زیر حد نصاب';
@@ -12,8 +12,8 @@ const link=(url,label='گشودن مرجع')=>/^https:\/\//i.test(url||'')?`<a c
 const sum=(arr,fn)=>arr.reduce((n,x)=>n+fn(x),0);
 const today=()=>new Date().toISOString().slice(0,10);
 const el=(selector)=>document.querySelector(selector);
-async function api(path,opt){const r=await fetch('/api/'+path,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...opt});const j=await r.json();if(!r.ok)throw new Error(j.error||`خطا ${r.status}`);return j;}
-function alertToast(message,error=false){const n=document.createElement('div');n.className='toast'+(error?' error':'');n.textContent=message;toastBox.appendChild(n);setTimeout(()=>n.remove(),3800)}
+async function api(path,opt){const r=await fetch('/api/'+path,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...opt});const j=await r.json();if(!r.ok)throw new Error(window.aegisLocale?.translate(j.error||`Error ${r.status}`)||`Error ${r.status}`);return j;}
+function alertToast(message,error=false){const n=document.createElement('div');n.className='toast'+(error?' error':'');n.textContent=window.aegisLocale?.translate(message)||message;toastBox.appendChild(n);setTimeout(()=>n.remove(),3800)}
 function setData(x){state=x.state;d=x.derived;if(x.meta)meta=x.meta;render()}
 function currentTitle(){return nav.find(x=>x[0]===view)?.[1]||'اتاق عملیات'}
 function logout(){api('auth/logout',{method:'POST'}).catch(()=>{}).finally(()=>{state=null;d=null;login()})}
@@ -58,7 +58,7 @@ function lab(){
  '<p class="fineprint" style="margin-top:12px">نمونه‌های بالا فقط برای یادگیری قرارداد ورودی هستند، نه داده واقعی یا نتیجه بنچمارک.</p></div>';
 }
 
-function company(){const roles=[["GM","Venture Manager","Priority, evidence & revenue"],["PRODUCT","Product Design","FA/EN UX and usability"],["ENGINEER","Platform Engineering","API, data and release"],["AI-EVAL","Evaluation Lab","Native AI tests and metrics"],["POLICY","Policy Intelligence","Canadian source mapping"],["GTM","Growth & Partnerships","Paying pilots and buyer proof"],["QA","Independent Verifier","Reproduction and release QA"],["FINANCE","Operations & Finance","Actual cash and resource tracking"]];
+function company(){const roles=[["GM","Venture Manager","Priority, evidence & revenue"],["PRODUCT","Product Design","EN/FR UX and usability"],["ENGINEER","Platform Engineering","API, data and release"],["AI-EVAL","Evaluation Lab","Native AI tests and metrics"],["POLICY","Policy Intelligence","Canadian source mapping"],["GTM","Growth & Partnerships","Paying pilots and buyer proof"],["QA","Independent Verifier","Reproduction and release QA"],["FINANCE","Operations & Finance","Actual cash and resource tracking"]];
 return sectionIntro('AEGIS Company OS','واحد عملیاتی اختصاصی زیر نظر Sina Founder OS؛ اینجا وضعیت واقعی هماهنگی تیم‌ها و مأموریت‌ها نمایش داده می‌شود.')+
 '<div class="source-note" style="margin-bottom:20px">وضعیت اتصال به Runtime مرکزی: <strong>هنوز تأیید نشده</strong> · Daily GitHub WorkPacket: پیکربندی‌شده، اجرای زمان‌بندی‌شده هنوز اثبات نشده · Railway Automations: غیرفعال برای حساب · هیچ Agent یا رسید اجرای خودکار ساختگی نمایش داده نمی‌شود.</div>'+
 '<div class="company-headline"><h2>Specialist Workforce / تیم تخصصی</h2><span class="eyebrow">PROPOSED ROLES • NOT STAFFING CLAIMS</span></div>'+
