@@ -5,7 +5,7 @@
 AEGIS Company OS is a **tenant/context** of the existing multi-venture operating system, not another runtime implementation and not a legally separate company. Its scoped repository is Noetfield-Systems/AEGIS. No unauthorized access to secrets, contracts or other company tenants.
 
 ## Team registry — roles, not staffed human commitments
-General Manager: choose next revenue/technical bottleneck daily; maintain priorities. Product/Design Lead: FA/EN UX and usability; Engineering Lead: code, API, tests, source packaging; AI Assurance Scientist: native metrics and experimental design; Policy SME: source mapping and amendments; GTM Lead: buyer interviews and paid pilot proposals; QA/Independent Verifier: acceptance/negative tests and receipts; Operations/Finance: runway and collected revenue only from reconciled evidence.
+General Manager: choose next revenue/technical bottleneck daily; maintain priorities. Product/Design Lead: EN/FR UX and usability; Engineering Lead: code, API, tests, source packaging; AI Assurance Scientist: native metrics and experimental design; Policy SME: source mapping and amendments; GTM Lead: buyer interviews and paid pilot proposals; QA/Independent Verifier: acceptance/negative tests and receipts; Operations/Finance: runway and collected revenue only from reconciled evidence.
 
 ## WorkPacket schema
 id, venture_id='aegis', company_os_id, objective, source_issue_url, owner_role, priority, dependencies, acceptance_criteria[], work_scope[], due_at, budget_limit, auth_scope, evidence_requirements[], target_environment, created_at.
@@ -21,3 +21,6 @@ WorkReceipt schema: workpacket_id, source_commit, pr_url, ci_run_url, test_resul
 
 ## Current integration status
 Automated context + task specification can be stored here. On 2026-11-13 Railway Automations is unavailable on this connected account. Existing Sina OS dispatch endpoint/auth was not furnished or verified. Thus **autonomous multi-agent coding is not yet wired or proven**. Repository CI/daily operations provide deterministic tracking; they are not equivalent to an AI coding loop.
+
+## AEGIS v3.2 work and evidence continuity (19 Nov 2026)
+The single-source design contract is [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md). AEGIS public and private website surfaces are EN/FR only; internal Founder communications and planning notes can remain Persian without introducing Persian website routes. The execution of security remediation and officer evidence conversion is tracked in [PR #24](https://github.com/Noetfield-Systems/AEGIS/pull/24) and [Issue #23](https://github.com/Noetfield-Systems/AEGIS/issues/23). Generated Officer Evidence Packs contain actual bounded synthetic computations but **no** independent reviewer, federal applicability approval, TRL5 evidence or commercial receipts. Worker scheduling is not proof of autonomous coding; actual work requires its own GitHub+CI+production receipt.
