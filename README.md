@@ -68,3 +68,26 @@ Research references: [Official ISC challenge](https://www.ised-isde.canada.ca/si
 The private Workbench's **ISC coverage** stage now includes Benchmark Studio. The authenticated `GET /api/assurance/impact-experiment-demo` returns eight synthetic policy-change cases, including two intentionally conflicting synthetic reference labels. The `POST /api/assurance/run` native `impact-experiment` mode invokes the **actual** Policy Impact Compiler for each case, compares the compiler-derived prediction to its caller-supplied reference label, and reports TP/FP/TN/FN, precision, recall, specificity, Wilson 95% intervals and reproducible hashes. Downloadable JSON includes each comparison. Results are explicitly **not independently verified** and make no TRL 5 or competitive performance claim.
 
 [Method, test protocol and limitations](docs/IMPACT_BENCHMARK_METHOD.md).
+
+## Enterprise command-center experience (19 November 2026)
+
+The public homepage **`/`** (also `/tour`) is now a genuine, EN/FR-only, interactive, dark enterprise assurance console — not a text-heavy landing or an image of a dashboard. The legacy authenticated ISC workspace is retained at **`/login`**, and the six-stage authenticated advanced assurance workbench remains at **`/workbench`**. The protected API and case/evidence storage are unchanged.
+
+### Visible, interactive public functions
+
+- Left-rail navigation across seven real views: Command center, AI Systems, Policy Intelligence, Evaluation Lab, Evidence Ledger, Reports & Exports, and Methodology.
+- A four-metric overview derived **only** from `GET /api/public/demo` — source-policy changes, affected AI systems, completed historical native replays, and changed technical findings.
+- CSS-generated control-outcome doughnut calculated from genuine native `findingsTrace` statuses, with an explicit metric legend.
+- Search and scope filtering for the exact affected/unaffected synthetic AI system identifiers in the returned result. The UI never invents owner/vendor/risk values.
+- Changed control evaluation table with before/after statuses and actual native metric values.
+- Six-stage clickable policy → changed controls → impacted systems → replay → findings → receipt evidence graph with detailed explanations.
+- Downloadable, **public synthetic-only** JSON receipt containing the server-calculated result and factual limitations; private records are never included.
+- English Canadian default, French Canadian alternate; responsive mobile drawer and compact 390px layouts, keyboard labels and focus states, explicit research-only disclosure and revised headline hierarchy.
+
+Benchmark directions: ModelOp Center (inventory and risk portfolios), Credo AI (system policy/control inventory), Rhindon RAIC (executive operational density), IBM watsonx.governance (evaluation and risk monitoring), Arize Phoenix and LangSmith (trace/metric drill-down), Vanta/Drata (trust and action workflows). These are design and product references, not capability parity or official endorsement.
+
+**Boundary:** The public site reads only a frozen precomputed synthetic fixture from its existing safe endpoint. The exposed result makes no independent scientific claim, government compliance assertion, multi-tenant claim, TRL 5 certification or real customer statement.
+
+### Manual acceptance and go-live
+
+`npm test` and the automated Chromium browser-quality job validate the seven-view public console, real backend values, impacted-only filter, linked evaluation table, private login and workbench isolation, EN/FR and responsive 390px mobile. Review the captured screenshots before assigning visual quality signoff. No paid customer or real external policy change is implied by the acceptance evidence.
