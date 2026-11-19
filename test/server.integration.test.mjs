@@ -72,6 +72,18 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.equal(policyResult.evidenceCredited,false);
  assert.equal(policyResult.result.proposedControls[0].complianceFinding,'UNABLE_TO_DETERMINE');
  assert.equal(policyResult.result.reassessmentQueue.length,3);
+ const scopeRequest=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'aia-scope',input:{
+  systemId:'synthetic-decision-assistant-01',jurisdiction:'FEDERAL_CANADA',
+  stage:'PRE_PRODUCTION',decisionImpact:'ADMINISTRATIVE_RIGHTS_OR_INTERESTS',
+  aiDecisionRole:'SUPPORTS',changedAspects:['FUNCTIONALITY'],lastAiaReviewAt:'2026-10-31'
+ }})});
+ assert.equal(scopeRequest.status,200);
+ const scope=await scopeRequest.json();
+ assert.equal(scope.evidenceCredited,false);
+ assert.equal(scope.result.inferredTriage,'POTENTIALLY_IN_SCOPE_REQUIRES_REVIEW');
+ assert.equal(scope.result.aiaReviewFlag,'SCHEDULE_AUTHORIZED_AIA_REVIEW');
+ assert.equal(scope.result.legalApplicabilityConfirmed,false);
+
  assert.ok(policyResult.result.proposedControls.every(c=>c.isActive===false));
  // Authenticated multi-engine demo, internal case hash and reviewer event chain.
  assert.equal((await fetch(base+'/api/assurance/demo')).status,401);
