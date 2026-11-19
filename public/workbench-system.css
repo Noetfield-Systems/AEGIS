@@ -250,3 +250,31 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .pane,.lineage,.ribbon,.scenario-chooser,.metrics,.workbench-stats{min-width:0;max-width:100%}
  .workbench-stats strong,.hashbox code{overflow-wrap:anywhere}
 }
+
+/* Workbench public preview: operating-grade, accessible and genuinely responsive.
+   These are layout and access-state corrections, NOT a new AEGIS design system. */
+.preview-notice{display:flex;align-items:center;gap:14px;border:1px solid rgba(var(--a-brand-rgb),.38);
+ background:var(--a-panel);color:var(--a-text);border-radius:10px;padding:14px 17px;margin:0 0 20px;
+ box-shadow:var(--a-shadow)}
+.preview-notice[hidden]{display:none!important}
+.preview-notice-copy{flex:1;min-width:0}
+.preview-notice-copy strong{display:block;color:var(--a-text);font-size:13px;font-weight:750;line-height:1.5}
+.preview-notice-copy p{color:var(--a-muted);font-size:12px;margin:4px 0 0;line-height:1.65}
+.preview-mark{width:34px;height:34px;background:var(--goldsoft);border-radius:8px;display:grid;place-items:center;color:var(--a-brand);flex:none}
+.preview-signin{flex:none;max-width:100%;text-align:center}
+.signin{background:var(--a-panel)!important;color:var(--a-text)!important;border-color:var(--a-strongline)!important}
+.signin h2{color:var(--a-text)!important}
+.signin p{color:var(--a-muted)!important}
+html[data-aegis-theme="light"] .signin,html[data-aegis-theme="light"] .preview-notice{box-shadow:0 10px 25px #00000009}
+@media(max-width:1100px){
+ .preview-notice{flex-wrap:wrap}
+ .preview-signin{margin-left:48px}
+}
+@media(max-width:600px){
+ .preview-notice{gap:10px;padding:13px;align-items:flex-start}
+ .preview-notice-copy{min-width:calc(100% - 45px)}
+ .preview-signin{width:100%;margin:2px 0 0}
+ .preview-notice-copy p{font-size:11px}
+ .signin{padding:20px}
+ .signin h2{font-size:21px}
+}
