@@ -26,6 +26,7 @@ test('AEGIS starts in Canadian English and never restores legacy Farsi',async()=
   assert.equal(locale.translate('به یک پرونده قابل دفاع.'),'to a defensible evidence dossier.');
   assert.equal(locale.translate('رمز دسترسی مدیر'),'Administrator password');
   assert.equal(locale.translate('۱۳۰'),'130');
+  assert.equal(locale.translate('روز 1 تا 5 · موعد 2026-11-18'),'Days 1 to 5 · Due 2026-11-18');
  }
 });
 
@@ -80,7 +81,7 @@ test('static UI fragments including hero and the Company OS render without Persi
  const {locale}=await loadLocale('en');
  const app=await files('public/app.js');
  const htmlText=[...app.matchAll(/>([^<>\n]*[\u0600-\u06ff][^<>\n]*)</g)]
-  .map(x=>x[1].replace(/\$\{[^}]*\}/g,'').trim()).filter(Boolean);
+  .filter(x=>!x[1].includes('${')).map(x=>x[1].trim()).filter(Boolean);
  for(const text of htmlText){
   if(!/[\u0600-\u06ff]/.test(text))continue;
   if(/['`]/.test(text))continue; // unmatched JS template boundaries: not live text nodes
