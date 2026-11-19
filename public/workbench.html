@@ -42,6 +42,17 @@
   <div class="step-header"><div class="step-pill"><span id="step-counter">01 / 06</span><span data-t="stage">GUIDED WORKFLOW</span></div><div class="context-meta"><span data-t="fixture">Dataset: synthetic</span><span id="scenario-id">—</span></div></div>
   <section class="stage" data-screen="context">
    <div class="section-title"><div><h2 data-t="contextTitle">Start with the system, not the score.</h2><p data-t="contextDesc">Identify what AI system is being evaluated, its original controls and which evidence is within scope. Data shown here is explicitly fictitious.</p></div><span class="num">01</span></div>
+   <div class="scenario-chooser" aria-labelledby="scenario-label">
+     <div><div class="pane-label" data-t="scenarioEyebrow">EVALUATOR MODE / SELECT A PROOF PATH</div>
+      <h3 id="scenario-label" data-t="scenarioTitle">One engine. Different outcomes.</h3>
+      <p data-t="scenarioDesc">Choose one of three synthetic cases. Each invokes the same native replay engine; a policy change does not always mean a failed control.</p>
+     </div>
+     <div class="scenario-chooser-controls"><label for="scenario-select" data-t="scenarioLabel">Controlled assessment scenario</label>
+      <select id="scenario-select"></select>
+      <button type="button" id="scenario-load" class="btn primary" data-t="scenarioLoad">Load scenario</button>
+     </div>
+     <p id="scenario-description" class="scenario-note" aria-live="polite"></p>
+   </div>
    <div class="two-col">
     <article class="pane"><div class="pane-label" data-t="systemRegistry">SYSTEM INVENTORY</div><div id="system-list" class="cards"></div></article>
     <article class="pane"><div class="pane-label" data-t="researchContext">RESEARCH CONTEXT</div><div class="field-list"><div><small data-t="scenarioName">Scenario identifier</small><code id="case-scenario">—</code></div><div><small data-t="sourceInstrument">Source instrument</small><strong id="case-source">—</strong></div><div><small data-t="baseline">Baseline policy</small><code id="case-baseline">—</code></div><div><small data-t="proposed">Candidate policy</small><code id="case-proposed">—</code></div></div><div class="note" data-t="contextNote">Source identifiers refer to official publication families; the clauses and thresholds in this example are synthetic and do not represent approved government requirements.</div></article>
