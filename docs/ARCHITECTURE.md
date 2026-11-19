@@ -1,7 +1,7 @@
 # Architecture & Engineering Blueprint v1.0
 
 ## Today (implemented)
-Node.js 22+ HTTP service; zero runtime dependencies; /api/auth/login protected by HttpOnly SameSite=Strict HMAC-signed cookie; /api/state and record CRUD; single serial file store under DATA_DIR; atomic tmp rename; evidence-gated scoring; JSON/CSV export; audit history; protected source-backed record definitions. Bilingual UI presentation adapter + dark premium visual skin. 8 existing unit tests for score integrity.
+Node.js 22+ HTTP service; pinned @tabler/core@1.5.1 design dependency (self-hosted stylesheet); /api/auth/login protected by HttpOnly SameSite=Strict HMAC-signed cookie; /api/state and record CRUD; single serial file store under DATA_DIR; atomic tmp rename; evidence-gated scoring; JSON/CSV export; audit history; protected source-backed record definitions. Bilingual UI presentation adapter + dark premium visual skin. 8 existing unit tests for score integrity.
 Railway project noetfield-aegis-isc; existing production service aegis-isc-web; mounted volume /data. Preserve data during repo source switch.
 
 ## Experimental native evaluation kernel (implemented, not full ISC E6)
@@ -24,3 +24,8 @@ Policy replay must affect completed, in-progress and new assessments, and preser
 
 ## Security, continuity & release criteria
 Current mode single-operator only; must not be marketed as customer multitenant. Add accounts/OIDC, CSRF defences, rate limiting durable across replicas, encrypted backups and restore drills, environment/tenant isolation, signed receipts and measured latency before external SaaS release. Protect personally identifying data and user-uploaded evidence. Use HTTPS-only domains, strict CSP, deploy/health checks, automatic rollback if failed. Data migration must be additive, versioned and reversible.
+
+## v3.2 security boundary
+`security/auth.mjs` uses signed anonymous client identifiers for per-client login attempt windows, and a separately persisted `DATA_DIR/aegis-auth-sessions.json` active-session registry. Logouts remove the stored session before acknowledging; credential/secret changes reset session generations on restart; the prior stateless session cookie is no longer accepted. This persists on the existing volume, without editing `aegis-isc.json` or `aegis-assurance-reviews.json`. Throttling is in-memory and **single-replica only**, not distributed identity protection. The CSV export neutralizes formula prefixes but preserves original values in JSON. Product is still single-admin, not multi-tenant.
+
+`assurance/officer-pack.mjs` can recompute a reviewer-oriented synthetic dossier via authenticated `GET /api/assurance/officer-pack`; it never credits independent E1–E6 acceptance or ISC TRL. See [Officer Pack](ISC_OFFICER_EVIDENCE_PACK_V32.md) and [TRL dossier](TRL_EVIDENCE_DOSSIER_V32.md).
