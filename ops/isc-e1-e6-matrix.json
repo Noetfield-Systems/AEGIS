@@ -14,18 +14,21 @@
         "assurance/policy.mjs",
         "assurance/integrated.mjs",
         "assurance/governed-lifecycle.mjs",
-        "assurance/aia-scope.mjs"
+        "assurance/aia-scope.mjs",
+        "assurance/impact-experiment.mjs — compiler-derived impact experiment with per-case source receipt"
       ],
       "verifiedExperiment": [
         "test/policy-impact.test.mjs",
         "test/integrated.test.mjs",
-        "test/governed-lifecycle.test.mjs"
+        "test/governed-lifecycle.test.mjs",
+        "test/impact-experiment.test.mjs — synthetic labels, FP/FN and Wilson interval coverage"
       ],
       "status": "PARTIAL_SYNTHETIC",
       "missingEvidence": [
         "Independently captured exact official source versions and clauses",
         "Expert-reviewed applicability and policy mappings",
-        "Representative customer systems in validated environment"
+        "Representative customer systems in validated environment",
+        "Independently labelled blinded impact benchmark with representative actual official changes"
       ],
       "ownerRole": "Federal AI Policy + Assurance Engineering",
       "nextAction": "Capture authoritative source snapshots and obtain signed applicable mapping review"
@@ -95,17 +98,20 @@
       "requirement": "Authorized reviewer validation/rejection/modification/annotation with auditable decision history",
       "implemented": [
         "assurance/review-journal.mjs internal single-account comment chain",
-        "assurance/governed-lifecycle.mjs technical mapping signature verification"
+        "assurance/governed-lifecycle.mjs technical mapping signature verification",
+        "assurance/integrated-report.mjs — escaped, bilingual technical evidence export with exact case-review receipt"
       ],
       "verifiedExperiment": [
         "test/integrated.test.mjs",
-        "test/governed-lifecycle.test.mjs"
+        "test/governed-lifecycle.test.mjs",
+        "test/workbench.test.mjs — EN/FR report, injection safeguards and private six-stage UI contract"
       ],
       "status": "PARTIAL_OPERATOR_ONLY",
       "missingEvidence": [
         "Independently identified user accounts and reviewer permissions",
         "Immutable auditable version of edits/rejections in tenant scope",
-        "Authenticated external reviewer verification"
+        "Authenticated external reviewer verification",
+        "Named per-user verified reviewers and complete browser accessibility validation"
       ],
       "ownerRole": "Product Security + Human Review",
       "nextAction": "Integrate per-reviewer identity and permissioned signed workflow"
@@ -116,13 +122,15 @@
       "implemented": [
         "assurance/native.mjs data duplicates/schema, binary confusion metrics, output phrase rules",
         "assurance/replay.mjs reruns changed technical metrics",
-        "assurance/advanced-native.mjs deterministic population stability, Brier calibration, and labelled exact-grounded claim checks"
+        "assurance/advanced-native.mjs deterministic population stability, Brier calibration, and labelled exact-grounded claim checks",
+        "public/workbench.js — guided native metrics and research limitation display"
       ],
       "verifiedExperiment": [
         "test/native.test.mjs",
         "test/golden-replay.test.mjs",
         "test/advanced-native.test.mjs",
-        "test/server.integration.test.mjs advanced E6 API"
+        "test/server.integration.test.mjs advanced E6 API",
+        "test/server.integration.test.mjs — authenticated report recomputation and E6 pipeline"
       ],
       "status": "PARTIAL_MEASURABLE_NATIVE_METRICS",
       "missingEvidence": [
@@ -158,7 +166,9 @@
       "IBM watsonx.governance",
       "Microsoft Purview/Foundry"
     ],
-    "nextAction": "Blinded matched-task performance/accuracy test; no competitor claims without comparable results"
+    "nextAction": "Blind independent expert labels and matched manual/competitor trial with original federal policy versions, appropriate confidence intervals and a named scientific evaluator",
+    "syntheticBenchmarkImplemented": true,
+    "syntheticBenchmarkExternalEvidence": false
   },
   "companyEligibility": {
     "confirmedFromCurrentRepository": false,
@@ -176,5 +186,39 @@
     "paidPilotsVerified": 0,
     "revenueCollectedVerified": false,
     "nextAction": "5–8 actual buyer conversations and pilot SOW for AEGIS only; do not transfer MCP Foundry leads"
+  },
+  "sitePreSubmission": {
+    "stage": "PHASED_PRODUCT_DELIVERY_NOT_GOVERNMENT_ACCEPTANCE",
+    "languages": [
+      "en-CA",
+      "fr-CA"
+    ],
+    "defaultLanguage": "en-CA",
+    "publicDemo": "/tour",
+    "privateWorkbench": "/workbench",
+    "workbenchStages": [
+      "SYSTEM_CONTEXT",
+      "POLICY_VERSION_DIFF",
+      "FIRST_PARTY_NATIVE_REPLAY",
+      "INTERNAL_OPERATOR_REVIEW",
+      "BILINGUAL_TECHNICAL_REPORT",
+      "ISC_E1_E6_GAPS"
+    ],
+    "nativeBenchmark": "actual compilePolicyImpact() predictions on caller-labelled synthetic cases",
+    "benchmarkResultsAreIndependent": false,
+    "reportFormats": [
+      "EN_HTML_PRINT_READY",
+      "FR_HTML_PRINT_READY",
+      "BENCHMARK_JSON"
+    ],
+    "visualBrowserQaIndependentlyCompleted": false,
+    "productionAuthenticatedPOSTIndependentlyVerified": false,
+    "canadianResidencyProven": false,
+    "operatorOnlyReview": true,
+    "referenceSources": [
+      "https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592",
+      "https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/algorithmic-impact-assessment.html",
+      "https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute/what-information-should-ai-evaluators-share"
+    ]
   }
 }
