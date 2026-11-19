@@ -46,7 +46,8 @@ function injectToggle(root){
     button.id='lang-toggle';button.type='button';button.className='lang-toggle';
     target.prepend(button);
   }
-  button.textContent=lang==='en'?'EN / FR':'FR / EN';
+  const caption=lang==='en'?'EN / FR':'FR / EN';
+  if(button.textContent!==caption)button.textContent=caption;
   button.setAttribute('aria-label',lang==='en'?'Switch to French':'Passer en anglais');
   button.setAttribute('title',lang==='en'?'Français':'English');
   button.onclick=()=>chooseLocale(lang==='en'?'fr':'en');
