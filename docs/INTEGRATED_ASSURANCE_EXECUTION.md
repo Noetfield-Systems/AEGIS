@@ -64,3 +64,16 @@ No existing readiness evidence is migrated, overwritten, translated, or credited
 3. Benchmark 50+ blinded policy change cases, varying true changes and nonchanges, with reference labels signed by an independent evaluator; calibrate Precision/Recall CI.
 4. Three real integration adapters and on-prem/private/Canadian-hosted staging proof; EN/FR full workflow browser evidence and accessible exports.
 5. Prepare TRL Dossier, labor/cost budget, named qualified specialists and ISC application answer-to-evidence crosswalk before the December 22 deadline.
+## AIA applicability and change-triggered reassessment triage
+
+New `aia-scope` native mode accepts explicit caller-asserted federal jurisdiction, deployment stage, nature of the administrative decision, AI's role in decision-making, prior AIA review date and changed functionality/scope/model/data/automation/context.
+
+Outputs are strictly provisional: `POTENTIALLY_IN_SCOPE_REQUIRES_REVIEW`, `LIKELY_OUT_OF_SCOPE_REQUIRES_DEPARTMENTAL_CONFIRMATION` or `UNABLE_TO_DETERMINE`. Every case's compliance `finding` remains `UNABLE_TO_DETERMINE` until a qualified departmental authority checks the record. An in-scope material change flags `SCHEDULE_AUTHORIZED_AIA_REVIEW` without creating or modifying an actual AIA questionnaire.
+
+The system must never infer that human-in-the-loop automatically excludes the Directive: assisting an administrative decision can still be within scope. Conversely, research-only and non-administrative systems should not be automatically placed under every federal requirement.
+
+Official references:
+- [Guide on the Scope of the Directive on Automated Decision-Making](https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/guide-scope-directive-automated-decision-making.html)
+- [Algorithmic Impact Assessment](https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/algorithmic-impact-assessment.html)
+
+This is **not** the mandatory 65-risk-question AIA questionnaire, not a federal policy interpretation certification, and not an automated legal opinion.
