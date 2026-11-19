@@ -23,6 +23,12 @@ benchmarkInput:'DATASET',benchmarkRun:'Run policy benchmark',benchmarkWarning:'I
 benchmarkExport:'Download experiment receipt (JSON)',benchmarkOutcomes:'MEASURED CONFUSION MATRIX & UNCERTAINTY',benchmarkEmpty:'No benchmark has been run.',benchmarkEmptyText:'Run the experiment to generate genuine compiler predictions on synthetic test cases.',
 benchmarkFalsePos:'False positives',benchmarkFalseNeg:'False negatives',benchmarkPrecision95:'Precision 95% Wilson interval',benchmarkRecall95:'Recall 95% Wilson interval',benchmarkSample:'Sample size',benchmarkAttested:'Independent ground truth',benchmarkNo:'NOT VERIFIED',benchmarkReceipt:'Experiment SHA-256',
 benchmarkDone:'Eight-case synthetic benchmark computed. Interpret confidence intervals cautiously.',
+lineageEyebrow:'AEGIS SIGNATURE / DECISION PROVENANCE',lineageTitle:'Follow the evidence, not just the score.',
+lineageIntro:'Each node is derived from the native policy-to-reassessment result. Select a node to inspect its underlying stage.',
+lineageTag:'DETERMINISTIC · SYNTHETIC',lineageBoundary:'Measured technical trace only — no government compliance approval or independent human decision.',
+traceSource:'POLICY SOURCE',traceControl:'AFFECTED CONTROLS',traceSystems:'AI SYSTEMS',traceReplay:'HISTORICAL REPLAY',traceFindings:'TECHNICAL CHANGES',traceReview:'HUMAN REVIEW',
+tracePending:'Pending',traceSourceTip:'Inspect the synthetic policy version and reference.',traceControlTip:'See changed controls and mappings.',traceSystemsTip:'Review affected systems.',traceReplayTip:'Inspect the native re-execution.',traceFindingsTip:'Examine changed findings.',traceReviewTip:'See case and operator review steps.',
+
 workStatus:'Workflow ready · synthetic only',stageOf:'Stage',controlCount:'Candidate controls',systemStatus:'System classification',onlySynthetic:'Synthetic sample',oldVersion:'Previous controlled version',newVersion:'Proposed synthetic version',changed:'CHANGED',unchanged:'UNCHANGED',sourceType:'Source class',noSources:'No policy sources recorded',officialRef:'Official source reference',noChange:'No section change',emptyHistory:'No internal cases recorded.',runFirst:'Run native evaluation before recording.',caseSaved:'Case recorded under its native receipt.',reviewSaved:'Review appended to the internal audit chain.',reviewUnavailable:'Record a case before submitting a review.',reportReady:'Report created with fresh native computation.',loadError:'Could not load the private workbench data.',requestError:'Request failed.',authError:'Your private session has expired.',noApproval:'UNABLE TO DETERMINE',trialOnly:'SIMULATED / UNVERIFIED',missing:'Missing independently verified evidence',implementation:'Implemented experiments',evidence:'Experimental tests',responsible:'Responsibility',needReview:'Requires further proof',completed:'Completed',inProgress:'In progress',planned:'Planned',yes:'Yes',no:'No',
 MET:'MET',NOT_MET:'NOT MET',PARTIALLY_MET:'PARTIALLY MET',NOT_APPLICABLE:'NOT APPLICABLE',UNABLE_TO_DETERMINE:'UNABLE TO DETERMINE',
 'Previous':'Previous','Current':'Current'
@@ -46,6 +52,12 @@ benchmarkInput:'JEU DE DONNÉES',benchmarkRun:'Exécuter le benchmark',benchmark
 benchmarkExport:'Télécharger le reçu de l’expérience (JSON)',benchmarkOutcomes:'MATRICE DE CONFUSION ET INCERTITUDE',benchmarkEmpty:'Aucun benchmark exécuté.',benchmarkEmptyText:'Lancez l’expérience pour mesurer les prédictions natives sur des données fictives.',
 benchmarkFalsePos:'Faux positifs',benchmarkFalseNeg:'Faux négatifs',benchmarkPrecision95:'Intervalle Wilson à 95 % de la précision',benchmarkRecall95:'Intervalle Wilson à 95 % du rappel',benchmarkSample:'Taille de l’échantillon',benchmarkAttested:'Vérité terrain indépendante',benchmarkNo:'NON VÉRIFIÉE',benchmarkReceipt:'Empreinte SHA-256 de l’expérience',
 benchmarkDone:'Expérience fictive de huit cas calculée. Interprétez les intervalles avec prudence.',
+lineageEyebrow:'SIGNATURE AEGIS / PROVENANCE DES DÉCISIONS',lineageTitle:'Suivez les preuves, pas seulement le score.',
+lineageIntro:'Chaque nœud provient du résultat natif. Sélectionnez-le pour consulter l’étape correspondante.',
+lineageTag:'DÉTERMINISTE · SIMULATION',lineageBoundary:'Traçabilité technique seulement — aucune approbation gouvernementale ni décision humaine indépendante.',
+traceSource:'SOURCE DE POLITIQUE',traceControl:'CONTRÔLES TOUCHÉS',traceSystems:'SYSTÈMES D’IA',traceReplay:'RÉÉVALUATION HISTORIQUE',traceFindings:'CONSTATS MODIFIÉS',traceReview:'RÉVISION HUMAINE',
+tracePending:'En attente',traceSourceTip:'Voir la version de politique fictive et sa référence.',traceControlTip:'Voir les contrôles modifiés.',traceSystemsTip:'Examiner les systèmes touchés.',traceReplayTip:'Consulter la réexécution native.',traceFindingsTip:'Examiner les constats modifiés.',traceReviewTip:'Consulter le dossier et la révision interne.',
+
 workStatus:'Parcours prêt · simulation uniquement',stageOf:'Étape',controlCount:'Contrôles proposés',systemStatus:'Classification du système',onlySynthetic:'Exemple fictif',oldVersion:'Version précédente',newVersion:'Version fictive proposée',changed:'MODIFIÉ',unchanged:'INCHANGÉ',sourceType:'Type de source',noSources:'Aucune source enregistrée',officialRef:'Référence officielle',noChange:'Aucun changement de section',emptyHistory:'Aucun dossier interne enregistré.',runFirst:'Exécutez d’abord l’évaluation native.',caseSaved:'Dossier consigné avec son empreinte native.',reviewSaved:'Révision ajoutée au journal des événements.',reviewUnavailable:'Enregistrez le dossier avant la révision.',reportReady:'Rapport produit à partir d’un nouveau calcul natif.',loadError:'Impossible de charger les données privées.',requestError:'La requête a échoué.',authError:'Votre session privée a expiré.',noApproval:'IMPOSSIBLE À DÉTERMINER',trialOnly:'SIMULATION / NON VÉRIFIÉ',missing:'Preuves indépendantes manquantes',implementation:'Expériences mises en œuvre',evidence:'Tests expérimentaux',responsible:'Responsabilité',needReview:'Preuve complémentaire requise',completed:'Terminé',inProgress:'En cours',planned:'Planifié',yes:'Oui',no:'Non',
 MET:'SATISFAIT',NOT_MET:'NON SATISFAIT',PARTIALLY_MET:'PARTIELLEMENT SATISFAIT',NOT_APPLICABLE:'NON APPLICABLE',UNABLE_TO_DETERMINE:'IMPOSSIBLE À DÉTERMINER',
 Previous:'Précédent',Current:'Actuel'
@@ -140,10 +152,35 @@ function renderPolicy(){
  }
  if(!sources.length)refs.append(elem('p','muted',t('noSources')));
 }
+
+function renderLineage(){
+ const container=el('lineage-nodes');if(!container)return;
+ container.replaceChildren();
+ if(!result)return;
+ const summary=result.summary||{};
+ const pairs=[
+  {label:'traceSource',value:result.sourceVersions?.after||'—',step:'policy',hint:'traceSourceTip'},
+  {label:'traceControl',value:summary.changedControls??0,step:'policy',hint:'traceControlTip'},
+  {label:'traceSystems',value:summary.affectedSystems??0,step:'context',hint:'traceSystemsTip'},
+  {label:'traceReplay',value:summary.historicalAssessmentsReexecuted??0,step:'evaluate',hint:'traceReplayTip'},
+  {label:'traceFindings',value:summary.changedTechnicalFindings??0,step:'evaluate',hint:'traceFindingsTip'},
+  {label:'traceReview',value:t('tracePending'),step:'review',hint:'traceReviewTip'}
+ ];
+ for(const [index,item] of pairs.entries()){
+  const button=elem('button','lineage-node');
+  button.type='button';button.dataset.go=item.step;
+  button.setAttribute('aria-label',t(item.label)+': '+item.value+'. '+t(item.hint));
+  button.append(elem('span','lineage-index',String(index+1).padStart(2,'0')),
+   elem('small','lineage-label',t(item.label)),
+   elem('strong','lineage-value',item.value));
+  container.appendChild(button);
+ }
+}
 function renderEvaluation(){
  const loaded=Boolean(result);
  el('eval-placeholder').hidden=loaded;el('eval-results').hidden=!loaded;
  if(!loaded)return;
+ renderLineage();
  const s=result.summary;
  setText('m-changed',s.changedTechnicalFindings);
  setText('m-replayed',s.historicalAssessmentsReexecuted);
@@ -331,6 +368,13 @@ function boot(){
  el('prev').addEventListener('click',()=>setStage(stageIndex-1));
  el('next').addEventListener('click',()=>setStage(stageIndex+1));
  el('run').addEventListener('click',runAssessment);
+ el('lineage-nodes').addEventListener('click',event=>{
+  const target=event.target.closest('[data-go]');
+  if(target&&el('lineage-nodes').contains(target)){
+   const index=stages.indexOf(target.dataset.go);
+   if(index>=0)setStage(index);
+  }
+ });
  el('record').addEventListener('click',recordCase);
  el('review-form').addEventListener('submit',saveReview);
  el('benchmark-run').addEventListener('click',runBenchmark);
