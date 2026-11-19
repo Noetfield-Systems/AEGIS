@@ -57,7 +57,7 @@ test('explicitly trusted Ed25519 key signs two synthetic control mappings; plann
  const input=governedFixture(),anchor=signFixture(input);
  const out=execute(input,[anchor]);
  assert.deepEqual(out.technicalApprovalChecks.map(x=>x.status),[
-  'TECHNICAL_MAPPING_SIGNATURE_VALID','TECHNICAL_MAPPING_SIGNATURE_VALID','PENDING_SIGNATURE'
+  'TECHNICAL_MAPPING_SIGNATURE_VALID','PENDING_SIGNATURE','TECHNICAL_MAPPING_SIGNATURE_VALID'
  ]);
  const active=out.lifecyclePlans.find(x=>x.phase==='IN_PROGRESS').decision;
  const future=out.lifecyclePlans.find(x=>x.phase==='PLANNED').decision;
