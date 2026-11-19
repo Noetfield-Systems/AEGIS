@@ -5,6 +5,8 @@ import {fileURLToPath} from 'node:url';
 import {createHmac,randomUUID,timingSafeEqual} from 'node:crypto';
 import {seed,evaluate,CRITERIA,GATES,SOURCE,NOTICE,DEADLINE,normalizeEntity,isReviewed} from './model.mjs';
 import {runNative} from './assurance/native.mjs';
+import {getSourceRegistry} from './assurance/source-registry.mjs';
+import {governedFixture} from './fixtures/governed.mjs';
 import {integratedFixture} from './fixtures/integrated.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
@@ -15,6 +17,12 @@ const admin=process.env.ADMIN_PASSWORD;
 const key=process.env.SESSION_SECRET;
 if(!admin||admin.length<12||!key||key.length<32){console.error('ADMIN_PASSWORD (>=12 chars) and SESSION_SECRET (>=32 chars) required.');process.exit(1)}
 const port=Number(process.env.PORT||3000);
+// Only server operators may configure reviewer trust anchors. Caller JSON is not trusted.
+let trustedReviewerKeys=[];
+if(process.env.AEGIS_TRUSTED_REVIEW_KEYS_JSON){
+ try{trustedReviewerKeys=JSON.parse(process.env.AEGIS_TRUSTED_REVIEW_KEYS_JSON);if(!Array.isArray(trustedReviewerKeys)||trustedReviewerKeys.length>30)throw Error('invalid trusted keys');}
+ catch{console.error('AEGIS_TRUSTED_REVIEW_KEYS_JSON must be a valid, bounded array');process.exit(1)}
+}
 let state;let mutex=Promise.resolve();const attempts=new Map();
 await mkdir(dataDir,{recursive:true,mode:0o700});
 try {state=JSON.parse(await readFile(storeFile,'utf8'));if(!state||state.schema!==1)throw Error('Unknown store schema');}catch(e){if(e.code!=='ENOENT')throw e;state=seed();await safeSave(state)}
@@ -74,7 +82,7 @@ const server=http.createServer(async(req,res)=>{
    if(url.pathname==='/api/assurance/run'&&req.method==='POST'){
     try{
      const request=await body(req);
-     const result=runNative(request);
+     const result=runNative(request,{trustedReviewerKeys});
      return respond(res,200,{status:'EXPERIMENTAL_ONLY',evidenceCredited:false,result});
     }catch(error){
      if(error instanceof TypeError)return respond(res,400,{error:error.message});
@@ -84,6 +92,10 @@ const server=http.createServer(async(req,res)=>{
 
    // Experimental assurance case registry is distinct from the ISC readiness score/evidence store.
    // Only a single local administrator identity exists. Reviewer display names are not verified.
+   if(url.pathname==='/api/assurance/sources'&&req.method==='GET')
+    return respond(res,200,getSourceRegistry());
+   if(url.pathname==='/api/assurance/governed-demo'&&req.method==='GET')
+    return respond(res,200,{synthetic:true,fixture:governedFixture()});
    if(url.pathname==='/api/assurance/demo'&&req.method==='GET')
     return respond(res,200,{synthetic:true,fixture:integratedFixture()});
    if(url.pathname==='/api/assurance/cases'&&req.method==='GET'){

@@ -44,7 +44,8 @@ function lab(){
  return sectionIntro('آزمایشگاه AEGIS','ارزیابی‌های بومی قابل‌تکرار روی داده، مدل و خروجی؛ و بررسی تغییر سیاست بدون دست‌کاری شواهد ثبت‌شده.')+
  '<div class="source-note" style="margin-bottom:20px"><strong>EXPERIMENTAL ONLY</strong> — نتایج فقط برای آزمایش داخلی هستند؛ در امتیاز ISC، وضعیت TRL، گیت‌ها یا رجیستری مدارک ثبت نمی‌شوند. این نسخه هنوز آزمون کامل ریسک، انصاف و ایمنی AI نیست.</div>'+
  '<div class="main-grid"><section class="panel"><div class="panel-head"><h3>اجرای آزمون بومی / Native Evaluation</h3><span class="badge amber">NO AUTO-CREDIT</span></div>'+
- '<div class="form-field"><label for="lab-mode">نوع ارزیابی / Test type</label><select id="lab-mode"><option value="data">Data quality — Schema, missingness, duplicates</option><option value="classifier">Model — Binary classification metrics</option><option value="output">Output — Deterministic phrase rules</option><option value="replay">Policy replay — Historical impact</option><option value="golden-replay">Golden native replay</option><option value="policy-impact">Policy impact</option><option value="integrated">Integrated Assurance</option><option value="impact-benchmark">Impact benchmark</option><option value="decision-what-if">Decision what-if</option><option value="aia-scope">AIA applicability and review triage</option></select></div>'+
+ '<div class="form-field"><label for="lab-mode">نوع ارزیابی / Test type</label><select id="lab-mode"><option value="data">Data quality — Schema, missingness, duplicates</option><option value="classifier">Model — Binary classification metrics</option><option value="output">Output — Deterministic phrase rules</option><option value="replay">Policy replay — Historical impact</option><option value="golden-replay">Golden native replay</option><option value="policy-impact">Policy impact</option><option value="integrated">Integrated Assurance</option><option value="impact-benchmark">Impact benchmark</option><option value="decision-what-if">Decision what-if</option><option value="aia-scope">AIA applicability and review triage</option><option value="governed-lifecycle">Governed Policy Lifecycle (synthetic)</option></select></div>'+
+ '<div class="actions" style="margin:12px 0;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" data-governed-demo>Load policy lifecycle demo</button><a class="btn" href="/api/assurance/sources">Source reference catalogue</a></div>'+
  '<div class="form-field" style="margin-top:14px"><label for="lab-input">ورودی JSON — داده واقعی یا fixture صریحاً آزمایشی</label><textarea id="lab-input" spellcheck="false" class="lab-input" placeholder="JSON input payload: { &quot;records&quot;:[], &quot;schema&quot;:{ &quot;age&quot;:&quot;number&quot; } }"></textarea></div>'+
  '<div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap"><button class="btn primary" type="button" data-lab-run>اجرای ارزیابی / Run evaluation</button><span class="muted">بدون تغییر امتیاز و بدون ذخیره ورودی</span></div>'+
  '<div id="lab-error" role="alert" style="color:#f9a1ac;margin-top:11px"></div></section>'+
@@ -128,6 +129,13 @@ root.addEventListener('click',async e=>{
    })});
    out.textContent=JSON.stringify(response,null,2);
   }catch(ex){out.textContent=ex.message}
+  return;
+ }
+ if(n.dataset.governedDemo!==undefined){
+  const mode=root.querySelector('#lab-mode'),input=root.querySelector('#lab-input'),out=root.querySelector('#lab-result');
+  if(!mode||!input||!out)return;
+  try{const demo=await api('assurance/governed-demo');mode.value='governed-lifecycle';input.value=JSON.stringify(demo.fixture,null,2);out.textContent='Synthetic lifecycle loaded. Run to see completed replay, active reassessment, and future policy selection.';}
+  catch(ex){out.textContent=ex.message;}
   return;
  }
  if(n.dataset.labRun!==undefined){

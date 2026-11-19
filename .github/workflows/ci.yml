@@ -32,6 +32,11 @@ jobs:
           node scripts/integrated-assurance-demo.mjs > /tmp/aegis-integrated-1.json
           node scripts/integrated-assurance-demo.mjs > /tmp/aegis-integrated-2.json
           cmp /tmp/aegis-integrated-1.json /tmp/aegis-integrated-2.json
+      - name: Verify governed lifecycle reproduction twice
+        run: |
+          node scripts/governed-lifecycle-demo.mjs > /tmp/aegis-governed-a.json
+          node scripts/governed-lifecycle-demo.mjs > /tmp/aegis-governed-b.json
+          cmp /tmp/aegis-governed-a.json /tmp/aegis-governed-b.json
       - name: Check JS syntax
         run: |
           node --check server.mjs
@@ -42,6 +47,10 @@ jobs:
           node --check assurance/integrated.mjs
           node --check assurance/benchmark.mjs
           node --check assurance/aia-scope.mjs
+          node --check assurance/source-registry.mjs
+          node --check assurance/governed-lifecycle.mjs
+          node --check fixtures/governed.mjs
+          node --check scripts/governed-lifecycle-demo.mjs
           node --check assurance/review-journal.mjs
           node --check fixtures/integrated.mjs
           node --check scripts/integrated-assurance-demo.mjs
