@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0",
+  "updatedOn": "2026-11-18",
+  "challenge": "EN578-24ISC4/100",
+  "source": "https://www.ised-isde.canada.ca/site/innovative-solutions-canada/en/artificial-intelligence-ai-decision-making-process-visibility-traceability-and-compliance-governance",
+  "deadline": "2026-12-22T14:00:00-05:00",
+  "selfAssessedOnly": true,
+  "governmentScoreClaimed": false,
+  "gates": [
+    {
+      "id": "E1",
+      "requirement": "Continuously align AI systems with Canadian governance requirements; identify affected systems and reassessment triggers",
+      "implemented": [
+        "assurance/policy.mjs",
+        "assurance/integrated.mjs",
+        "assurance/governed-lifecycle.mjs",
+        "assurance/aia-scope.mjs"
+      ],
+      "verifiedExperiment": [
+        "test/policy-impact.test.mjs",
+        "test/integrated.test.mjs",
+        "test/governed-lifecycle.test.mjs"
+      ],
+      "status": "PARTIAL_SYNTHETIC",
+      "missingEvidence": [
+        "Independently captured exact official source versions and clauses",
+        "Expert-reviewed applicability and policy mappings",
+        "Representative customer systems in validated environment"
+      ],
+      "ownerRole": "Federal AI Policy + Assurance Engineering",
+      "nextAction": "Capture authoritative source snapshots and obtain signed applicable mapping review"
+    },
+    {
+      "id": "E2",
+      "requirement": "Interoperability through standards-based APIs, connectors and exchange of AI governance information",
+      "implemented": [
+        "server.mjs authenticated JSON API"
+      ],
+      "verifiedExperiment": [
+        "test/server.integration.test.mjs"
+      ],
+      "status": "PARTIAL_INTERNAL_API",
+      "missingEvidence": [
+        "At least three actual external interoperable adapter test receipts",
+        "Independent API contract and security validation"
+      ],
+      "ownerRole": "Integrations Engineering",
+      "nextAction": "Run 3 independent client adapters and record request/response receipts"
+    },
+    {
+      "id": "E3",
+      "requirement": "Controlled administration and access including residency, retention, export, deletion and monitoring",
+      "implemented": [
+        "server.mjs single-admin private session and evidence export",
+        "assurance/review-journal.mjs hash-linked internal review log"
+      ],
+      "verifiedExperiment": [
+        "test/server.integration.test.mjs"
+      ],
+      "status": "PARTIAL_SINGLE_ADMIN",
+      "missingEvidence": [
+        "Per-user credentials",
+        "Cross-tenant isolation and negative authorization test",
+        "Organization-controlled retention/deletion of policy records",
+        "Canadian/private/on-prem environment configuration"
+      ],
+      "ownerRole": "Security + Platform",
+      "nextAction": "Implement bounded identity+tenant proof under existing service before formal production claim"
+    },
+    {
+      "id": "E4",
+      "requirement": "Versioned governance controls, five-state evidence-backed assessments, add/modify/replace/retire and impact explanation",
+      "implemented": [
+        "assurance/source-registry.mjs",
+        "assurance/policy.mjs",
+        "assurance/replay.mjs",
+        "assurance/governed-lifecycle.mjs"
+      ],
+      "verifiedExperiment": [
+        "test/policy-impact.test.mjs",
+        "test/golden-replay.test.mjs",
+        "test/governed-lifecycle.test.mjs"
+      ],
+      "status": "PARTIAL_MAPPED_SIMULATION",
+      "missingEvidence": [
+        "Human-approved real policy-to-metric control links for five specified instruments",
+        "Verified source effective dates and supersession",
+        "Exceptions, reassessments and certainty supported by real reviewed evidence"
+      ],
+      "ownerRole": "Policy Specialist + Assurance",
+      "nextAction": "Approve an exact official requirement-to-control mapping with accountable reviewer and evidence"
+    },
+    {
+      "id": "E5",
+      "requirement": "Authorized reviewer validation/rejection/modification/annotation with auditable decision history",
+      "implemented": [
+        "assurance/review-journal.mjs internal single-account comment chain",
+        "assurance/governed-lifecycle.mjs technical mapping signature verification"
+      ],
+      "verifiedExperiment": [
+        "test/integrated.test.mjs",
+        "test/governed-lifecycle.test.mjs"
+      ],
+      "status": "PARTIAL_OPERATOR_ONLY",
+      "missingEvidence": [
+        "Independently identified user accounts and reviewer permissions",
+        "Immutable auditable version of edits/rejections in tenant scope",
+        "Authenticated external reviewer verification"
+      ],
+      "ownerRole": "Product Security + Human Review",
+      "nextAction": "Integrate per-reviewer identity and permissioned signed workflow"
+    },
+    {
+      "id": "E6",
+      "requirement": "First-party data, model and AI-generated-output risk/quality assessments and reassessment",
+      "implemented": [
+        "assurance/native.mjs data duplicates/schema, binary confusion metrics, output phrase rules",
+        "assurance/replay.mjs reruns changed technical metrics"
+      ],
+      "verifiedExperiment": [
+        "test/native.test.mjs",
+        "test/golden-replay.test.mjs"
+      ],
+      "status": "PARTIAL_BASIC_METRICS",
+      "missingEvidence": [
+        "Representativeness, distribution shift, calibration and model uncertainty",
+        "Grounded output correctness/consistency and meaningful safety evaluation",
+        "Independent dataset and expert-labelled outcomes"
+      ],
+      "ownerRole": "ML Evaluation",
+      "nextAction": "Add first-party calibration, shift and labelled grounded-output evaluation and blinded reference benchmark"
+    }
+  ],
+  "trl": {
+    "claimedLevel": null,
+    "status": "NOT_YET_SUBSTANTIATED",
+    "evidence": [
+      "CI runner",
+      "synthetic integrated native fixture",
+      "Railway service health"
+    ],
+    "missing": [
+      "Representative integrated environment",
+      "Named independent technical evaluator",
+      "Dated original data/measurement log",
+      "Context-specific baseline"
+    ]
+  },
+  "innovation": {
+    "claimedAdvancement": "HYPOTHESIS_ONLY",
+    "measuredCompetitiveAdvantage": false,
+    "comparators": [
+      "Manual governance workflow",
+      "IBM watsonx.governance",
+      "Microsoft Purview/Foundry"
+    ],
+    "nextAction": "Blinded matched-task performance/accuracy test; no competitor claims without comparable results"
+  },
+  "companyEligibility": {
+    "confirmedFromCurrentRepository": false,
+    "status": "DOCUMENTARY_EVIDENCE_REQUIRED",
+    "unknowns": [
+      "Incorporation evidence",
+      "R&D locus",
+      "Payroll and contractor pay location",
+      "FTE normal location including affiliates",
+      "Senior executive residency and affiliate calculations"
+    ]
+  },
+  "commercial": {
+    "buyerCallsVerified": 0,
+    "paidPilotsVerified": 0,
+    "revenueCollectedVerified": false,
+    "nextAction": "5–8 actual buyer conversations and pilot SOW for AEGIS only; do not transfer MCP Foundry leads"
+  }
+}
