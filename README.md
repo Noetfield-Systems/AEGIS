@@ -38,3 +38,9 @@ Deadline: 22 Dec 2026, 14:00 ET. Pass: 65/130 **and all mandatory criteria**. Go
 `npm test` tests evidence gating, scenario isolation, criterion scoring, team availability, and special Q8 conditions.
 ## Website language policy
 Website and login use **English (en-CA) as the default** and **French (fr-CA) as the only other locale**. Previous localStorage `fa` preferences are ignored in favour of English. The public-facing and private workspace UI is LTR in both languages. Persian is restricted to internal conversation/planning, never a website language option. Changing language must not mutate the persisted evidence store.
+
+## Public read-only evaluator demonstration (pre-submission)
+
+Open `/tour` to view the same engine's **precomputed synthetic integrated assurance result** without signing in. The independent evaluator can see a fictional policy version change, affected/unaffected systems, measured before/after technical findings, completed/active/planned work states and a deterministic content receipt. The page uses **en-CA / fr-CA only**, with English default, and adopts the approved Obsidian/Champagne system without redesigning the private workspace.
+
+The endpoint `GET /api/public/demo` returns **only** the fixed synthetic result calculated at service start. It does not accept input, expose sources, review journal or evidence, set a cookie, award ISC points or claim government acceptance. All `/api/assurance/*` endpoints and the internal application remain authenticated. See `test/server.integration.test.mjs` and `test/tour.test.mjs` for acceptance tests. This tour is not a TRL 5 demonstration or external scientific review.

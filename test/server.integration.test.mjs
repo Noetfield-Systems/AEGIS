@@ -39,6 +39,28 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  for(const [url,contains] of [['/','/premium.css'],['/premium.css','--amber'],['/locale.js','aegis_language'],['/aegis-emblem.svg','<svg'],['/ottawa-silhouette.svg','<svg'],['/app.js','function overview']]){
   const r=await fetch(base+url);assert.equal(r.status,200,url);assert.ok((await r.text()).includes(contains),url+' did not contain required asset');
  }
+
+ // The evaluator-facing tour is accessible anonymously, but no private data can leak.
+ for(const [url,required] of [['/tour','/tour.js'],['/tour.html','SYNTHETIC'],['/tour.css','--accent'],['/tour.js','/api/public/demo']]){
+  const r=await fetch(base+url);assert.equal(r.status,200,'public tour '+url);
+  assert.ok((await r.text()).includes(required),'public tour resource missing '+required);
+ }
+ const publicDemo=await fetch(base+'/api/public/demo');
+ assert.equal(publicDemo.status,200);
+ assert.equal(publicDemo.headers.get('set-cookie'),null,'public simulation must never set auth cookies');
+ const publicPayload=await publicDemo.json();
+ assert.equal(publicPayload.synthetic,true);
+ assert.equal(publicPayload.evidenceCredited,false);
+ assert.equal(publicPayload.readOnly,true);
+ assert.equal(publicPayload.result.summary.historicalAssessmentsReexecuted,1);
+ assert.equal(publicPayload.result.summary.changedTechnicalFindings,2);
+ assert.equal(publicPayload.result.summary.regulatoryComplianceStatus,'UNABLE_TO_DETERMINE');
+ assert.equal(publicPayload.result.reassessmentQueue.length,3);
+ assert.deepEqual(publicPayload.result.affectedSystemIds,['synthetic-A']);
+ assert.deepEqual(publicPayload.result.unaffectedSystemIds,['synthetic-B']);
+ assert.match(publicPayload.result.receiptHash,/^sha256:[a-f0-9]{64}$/);
+ assert.equal((await fetch(base+'/api/public/demo',{method:'POST'})).status,405);
+ assert.equal((await fetch(base+'/api/assurance/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'integrated',input:{}})})).status,401,'public access cannot run arbitrary assurance inputs');
  assert.equal((await fetch(base+'/api/state')).status,401,'private data must require login');
  const bad=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'wrong'})});
  assert.equal(bad.status,401);
