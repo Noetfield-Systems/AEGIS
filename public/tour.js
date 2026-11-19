@@ -23,6 +23,7 @@ const strings={
   transparency:'EVIDENCE STANDARD',whatmeans:'What this demonstration does—and does not—prove',demonstrates:'Demonstrated in this test',demonstratesbody:'Deterministic policy impact detection on fictional clauses, first-party native metric replay, original assessment preservation and a reproducible calculation receipt.',
   notverified:'Not independently verified',notverifiedbody:'Real Canadian regulatory applicability, a reviewed government policy-control mapping, multi-tenant authorization, a representative TRL 5 study or an external benchmark.',
   sourcecode:'Technical methodology and source:',footer:'An AI decision assurance research product by Noetfield Systems Inc.',
+  lineageEyebrow:'AEGIS / TRACEABLE DECISIONS',lineageTitle:'From rule change to evidence receipt.',lineageDesc:'Select a stage to inspect its measured technical result. All counts come from the native engine.',lineageScope:'SYNTHETIC MEASUREMENT',lineageHint:'Select a stage to inspect a measured result.',tracePolicy:'POLICY VERSION',traceControls:'CONTROL CHANGES',traceSystems:'AI SYSTEMS',traceReplay:'NATIVE REPLAY',traceFindings:'CHANGED FINDINGS',traceReceipt:'RESULT HASH',detailPolicy:'This synthetic version is the source of subsequent evaluation.',detailControls:'Mapped controls have changed synthetic clauses.',detailSystems:'Affected and unaffected systems are preserved.',detailReplay:'Completed assessments have been recomputed; future tasks are only planned.',detailFindings:'Changed native findings are not regulatory compliance findings.',detailReceipt:'Content hash binds the synthetic result; human review remains pending.',
   completed:'Completed · native replay',active:'In progress · reassessment plan',planned:'Planned · future version selection',
   none:'None',error:'The synthetic demonstration is temporarily unavailable.',updated:'Recomputed',preserved:'Original preserved',reviewPending:'Human review pending',
   MET:'MET',NOT_MET:'NOT MET',PARTIALLY_MET:'PARTIALLY MET',UNABLE_TO_DETERMINE:'UNABLE TO DETERMINE',NOT_APPLICABLE:'NOT APPLICABLE'
@@ -48,6 +49,7 @@ const strings={
   transparency:'NORME DE PREUVE',whatmeans:'Ce que la démonstration prouve — et ne prouve pas',demonstrates:'Démontré par ce test',demonstratesbody:'Détection déterministe sur des clauses fictives, réexécution de mesures natives, conservation des évaluations originales et empreinte reproductible.',
   notverified:'Non vérifié de façon indépendante',notverifiedbody:'Applicabilité des exigences canadiennes réelles, correspondances réglementaires approuvées, accès multiorganisationnel, étude représentative de NMT 5 ou comparaison externe.',
   sourcecode:'Méthode technique et code source :',footer:'Produit de recherche en assurance des décisions d’IA de Noetfield Systems Inc.',
+  lineageEyebrow:'AEGIS / DÉCISIONS TRAÇABLES',lineageTitle:'Du changement de règle au reçu de preuve.',lineageDesc:'Sélectionnez une étape pour examiner son résultat technique. Les chiffres viennent du moteur natif.',lineageScope:'MESURE FICTIVE',lineageHint:'Sélectionnez une étape pour examiner les résultats.',tracePolicy:'VERSION DE POLITIQUE',traceControls:'CONTRÔLES MODIFIÉS',traceSystems:'SYSTÈMES D’IA',traceReplay:'RÉÉVALUATION NATIVE',traceFindings:'CONSTATS MODIFIÉS',traceReceipt:'EMPREINTE DU RÉSULTAT',detailPolicy:'Cette version fictive est la source des évaluations.',detailControls:'Les contrôles liés aux clauses fictives sont modifiés.',detailSystems:'Les systèmes touchés et non touchés sont conservés.',detailReplay:'Les évaluations terminées sont recalculées; le travail futur reste planifié.',detailFindings:'Les constats natifs modifiés ne sont pas des décisions de conformité.',detailReceipt:'L’empreinte lie le résultat fictif; la révision humaine reste en attente.',
   completed:'Terminé · réexécution native',active:'En cours · plan de réévaluation',planned:'Planifié · choix de version future',
   none:'Aucun',error:'La démonstration simulée est temporairement indisponible.',updated:'Recalculé',preserved:'Original conservé',reviewPending:'Révision humaine en attente',
   MET:'SATISFAIT',NOT_MET:'NON SATISFAIT',PARTIALLY_MET:'PARTIELLEMENT SATISFAIT',UNABLE_TO_DETERMINE:'IMPOSSIBLE À DÉTERMINER',NOT_APPLICABLE:'NON APPLICABLE'
@@ -70,8 +72,26 @@ function translate(){
 }
 const appendChip=(node,label)=>{const e=document.createElement('span');e.textContent=label;node.appendChild(e)};
 const appendCell=(row,value,clazz='')=>{const cell=document.createElement('td');cell.textContent=value??'—';if(clazz)cell.className=clazz;row.appendChild(cell)};
+function renderTrace(data){
+ const root=byId('tour-lineage-nodes'),t=strings[language],s=data.summary;root.replaceChildren();
+ const items=[
+ ['tracePolicy',data.sourceVersions.after,'detailPolicy',0],
+ ['traceControls',s.changedControls,'detailControls',0],
+ ['traceSystems',s.affectedSystems,'detailSystems',0],
+ ['traceReplay',s.historicalAssessmentsReexecuted,'detailReplay',1],
+ ['traceFindings',s.changedTechnicalFindings,'detailFindings',1],
+ ['traceReceipt',data.receiptHash.slice(0,18)+'…','detailReceipt',3]];
+ items.forEach(([label,val,detail,card],i)=>{
+  const b=document.createElement('button');b.type='button';b.className='trace-card';b.dataset.card=String(card);b.dataset.detail=detail;
+  b.setAttribute('aria-label',t[label]+': '+val+'. '+t[detail]);
+  const n=document.createElement('span');n.className='trace-number';n.textContent=String(i+1).padStart(2,'0');
+  const l=document.createElement('small');l.textContent=t[label];
+  const v=document.createElement('strong');v.textContent=val;b.append(n,l,v);root.append(b);
+ });
+}
 function render(data){
  const t=strings[language],s=data.summary;
+ renderTrace(data);
  for(const [id,value] of [['stat-clauses',s.changedClauses],['stat-systems',s.affectedSystems],['stat-replays',s.historicalAssessmentsReexecuted],['stat-findings',s.changedTechnicalFindings]])byId(id).textContent=String(value);
  byId('before-version').textContent=data.sourceVersions.before;
  byId('after-version').textContent=data.sourceVersions.after;
@@ -106,6 +126,12 @@ async function load(){
   byId('demo-error').textContent=strings[language].error;byId('demo-error').hidden=false;byId('demo-loading').hidden=true;
  }
 }
+byId('tour-lineage-nodes').addEventListener('click',event=>{
+ const b=event.target.closest('[data-card]');if(!b)return;
+ byId('tour-lineage-detail').textContent=strings[language][b.dataset.detail];
+ const cards=document.querySelectorAll('#demo-content .grid .panel'),selected=cards[Number(b.dataset.card)];
+ if(selected){cards.forEach(p=>p.classList.remove('tour-selected'));selected.classList.add('tour-selected');selected.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});}
+});
 byId('locale').addEventListener('click',()=>{language=language==='en'?'fr':'en';translate()});
 translate();load();
 })();
