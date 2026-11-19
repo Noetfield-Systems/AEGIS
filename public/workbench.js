@@ -23,6 +23,7 @@ benchmarkInput:'DATASET',benchmarkRun:'Run policy benchmark',benchmarkWarning:'I
 benchmarkExport:'Download experiment receipt (JSON)',benchmarkOutcomes:'MEASURED CONFUSION MATRIX & UNCERTAINTY',benchmarkEmpty:'No benchmark has been run.',benchmarkEmptyText:'Run the experiment to generate genuine compiler predictions on synthetic test cases.',
 benchmarkFalsePos:'False positives',benchmarkFalseNeg:'False negatives',benchmarkPrecision95:'Precision 95% Wilson interval',benchmarkRecall95:'Recall 95% Wilson interval',benchmarkSample:'Sample size',benchmarkAttested:'Independent ground truth',benchmarkNo:'NOT VERIFIED',benchmarkReceipt:'Experiment SHA-256',
 benchmarkDone:'Eight-case synthetic benchmark computed. Interpret confidence intervals cautiously.',
+scenarioEyebrow:'EVALUATOR MODE / SELECT A PROOF PATH',scenarioTitle:'One engine. Different outcomes.',scenarioDesc:'Choose one of three synthetic cases. Each invokes the same native replay engine; a policy change does not always mean a failed control.',scenarioLabel:'Controlled assessment scenario',scenarioLoad:'Load scenario',scenarioLoaded:'Synthetic scenario changed. Previous results cleared; run the native evaluation to verify.',
 lineageEyebrow:'AEGIS SIGNATURE / DECISION PROVENANCE',lineageTitle:'Follow the evidence, not just the score.',
 lineageIntro:'Each node is derived from the native policy-to-reassessment result. Select a node to inspect its underlying stage.',
 lineageTag:'DETERMINISTIC · SYNTHETIC',lineageBoundary:'Measured technical trace only — no government compliance approval or independent human decision.',
@@ -52,6 +53,7 @@ benchmarkInput:'JEU DE DONNÉES',benchmarkRun:'Exécuter le benchmark',benchmark
 benchmarkExport:'Télécharger le reçu de l’expérience (JSON)',benchmarkOutcomes:'MATRICE DE CONFUSION ET INCERTITUDE',benchmarkEmpty:'Aucun benchmark exécuté.',benchmarkEmptyText:'Lancez l’expérience pour mesurer les prédictions natives sur des données fictives.',
 benchmarkFalsePos:'Faux positifs',benchmarkFalseNeg:'Faux négatifs',benchmarkPrecision95:'Intervalle Wilson à 95 % de la précision',benchmarkRecall95:'Intervalle Wilson à 95 % du rappel',benchmarkSample:'Taille de l’échantillon',benchmarkAttested:'Vérité terrain indépendante',benchmarkNo:'NON VÉRIFIÉE',benchmarkReceipt:'Empreinte SHA-256 de l’expérience',
 benchmarkDone:'Expérience fictive de huit cas calculée. Interprétez les intervalles avec prudence.',
+scenarioEyebrow:'PARCOURS D’ÉVALUATION / CHOISIR UN SCÉNARIO',scenarioTitle:'Un moteur. Plusieurs résultats.',scenarioDesc:'Choisissez parmi trois scénarios fictifs. Chacun utilise le même moteur natif; un changement de politique ne signifie pas toujours un contrôle non satisfait.',scenarioLabel:'Scénario d’évaluation contrôlé',scenarioLoad:'Charger le scénario',scenarioLoaded:'Nouveau scénario fictif chargé. Les résultats précédents ont été effacés; réexécutez l’évaluation native.',
 lineageEyebrow:'SIGNATURE AEGIS / PROVENANCE DES DÉCISIONS',lineageTitle:'Suivez les preuves, pas seulement le score.',
 lineageIntro:'Chaque nœud provient du résultat natif. Sélectionnez-le pour consulter l’étape correspondante.',
 lineageTag:'DÉTERMINISTE · SIMULATION',lineageBoundary:'Traçabilité technique seulement — aucune approbation gouvernementale ni décision humaine indépendante.',
@@ -63,7 +65,7 @@ MET:'SATISFAIT',NOT_MET:'NON SATISFAIT',PARTIALLY_MET:'PARTIELLEMENT SATISFAIT',
 Previous:'Précédent',Current:'Actuel'
 }
 };
-let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null,benchmark=null;
+let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null,benchmark=null,scenarios=[],activeScenarioId='combined';
 const el=id=>document.getElementById(id),q=sel=>document.querySelector(sel),qq=sel=>document.querySelectorAll(sel);
 const t=k=>copy[language][k]??k;
 const value=v=>v==null?'—':String(v);
@@ -110,7 +112,25 @@ function setStage(index){
  if(stageIndex===3)refreshCases().catch(()=>{});
  document.getElementById('workspace').scrollIntoView({behavior:'auto'});
 }
+function renderScenarioSelector(){
+ const select=el('scenario-select');select.replaceChildren();
+ for(const scenario of scenarios){
+  const option=document.createElement('option');
+  option.value=scenario.id;option.textContent=language==='fr'?scenario.nameFr:scenario.name;
+  select.append(option);
+ }
+ select.value=activeScenarioId;
+ const selected=scenarios.find(s=>s.id===activeScenarioId);
+ el('scenario-description').textContent=selected?(language==='fr'?selected.descriptionFr:selected.description):'';
+}
+function changeScenario(){
+ const selected=scenarios.find(s=>s.id===el('scenario-select').value);
+ if(!selected||selected.synthetic!==true||!selected.fixture?.policy||!selected.fixture?.replay){fail('Invalid synthetic scenario');return}
+ activeScenarioId=selected.id;fixture=structuredClone(selected.fixture);
+ result=null;caseEntry=null;renderAll();setStage(0);el('flow-status').textContent=t('scenarioLoaded');
+}
 function renderContext(){
+ renderScenarioSelector();
  const systems=el('system-list');systems.replaceChildren();
  for(const s of fixture.replay.systems){
   const card=elem('article','card');
@@ -345,11 +365,15 @@ async function downloadReport(locale){
 }
 async function start(){
  try{
-  const [demo,sources,acceptance,cases]=await Promise.all([
-   json('assurance/demo'),json('assurance/sources'),json('assurance/isc-matrix'),json('assurance/cases')
+  const [demo,sources,acceptance,cases,library]=await Promise.all([
+   json('assurance/demo'),json('assurance/sources'),json('assurance/isc-matrix'),json('assurance/cases'),
+   json('assurance/scenarios')
   ]);
   if(demo.synthetic!==true||!demo.fixture?.replay||!demo.fixture?.policy)throw Error('Expected a synthetic private scenario');
-  fixture=demo.fixture;catalogue=sources;matrix=acceptance;history=cases;
+  if(library.synthetic!==true||!Array.isArray(library.scenarios)||library.scenarios.length<3)throw Error('Scenario library unavailable');
+  scenarios=library.scenarios;activeScenarioId=library.defaultId||'combined';
+  fixture=structuredClone(scenarios.find(s=>s.id===activeScenarioId)?.fixture||demo.fixture);
+  catalogue=sources;matrix=acceptance;history=cases;
   el('busy').hidden=true;el('signin').hidden=true;el('app').hidden=false;renderAll();
  }catch(e){
   el('busy').hidden=true;if(!el('signin').hidden)return;
@@ -367,6 +391,8 @@ function boot(){
  qq('[data-step]').forEach(b=>b.addEventListener('click',()=>setStage(stages.indexOf(b.dataset.step))));
  el('prev').addEventListener('click',()=>setStage(stageIndex-1));
  el('next').addEventListener('click',()=>setStage(stageIndex+1));
+ el('scenario-load').addEventListener('click',changeScenario);
+ el('scenario-select').addEventListener('change',()=>{const selected=scenarios.find(s=>s.id===el('scenario-select').value);el('scenario-description').textContent=selected?(language==='fr'?selected.descriptionFr:selected.description):''});
  el('run').addEventListener('click',runAssessment);
  el('lineage-nodes').addEventListener('click',event=>{
   const target=event.target.closest('[data-go]');
