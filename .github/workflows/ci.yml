@@ -22,12 +22,20 @@ jobs:
           node scripts/golden-assurance-demo.mjs > /tmp/aegis-replay-a.json
           node scripts/golden-assurance-demo.mjs > /tmp/aegis-replay-b.json
           cmp /tmp/aegis-replay-a.json /tmp/aegis-replay-b.json
+      - name: Reproduce synthetic federal policy impact twice
+        run: |
+          node scripts/policy-impact-demo.mjs > /tmp/aegis-policy-a.json
+          node scripts/policy-impact-demo.mjs > /tmp/aegis-policy-b.json
+          cmp /tmp/aegis-policy-a.json /tmp/aegis-policy-b.json
       - name: Check JS syntax
         run: |
           node --check server.mjs
           node --check model.mjs
           node --check assurance/native.mjs
           node --check assurance/replay.mjs
+          node --check assurance/policy.mjs
+          node --check fixtures/policy-impact.mjs
+          node --check scripts/policy-impact-demo.mjs
           node --check fixtures/golden.mjs
           node --check scripts/golden-assurance-demo.mjs
           node --check public/app.js
