@@ -41,6 +41,7 @@ jobs:
           node --check assurance/policy.mjs
           node --check assurance/integrated.mjs
           node --check assurance/benchmark.mjs
+          node --check assurance/aia-scope.mjs
           node --check assurance/review-journal.mjs
           node --check fixtures/integrated.mjs
           node --check scripts/integrated-assurance-demo.mjs
