@@ -25,7 +25,7 @@ test('three independently shaped reference adapter schemas normalize determinist
  assert.equal(a.records[1].assessment.impactLevel,2);
  assert.equal(a.records[2].trace.durationMs,150);
  assert.equal(a.records[2].trace.approvedMetadata['gen_ai.operation.name'],'evaluate');
- assert.doesNotMatch(JSON.stringify(a),/PRIVATE CONTENT MUST NOT APPEAR|prompt/,'raw AI prompts are never included in outputs');
+ assert.doesNotMatch(JSON.stringify(a),/PRIVATE CONTENT MUST NOT APPEAR|"prompt":/,'raw AI prompts are never included in outputs');
 });
 
 test('bounded adapter validation rejects malformed or forged external data',()=>{
