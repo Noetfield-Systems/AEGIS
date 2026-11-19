@@ -1,5 +1,6 @@
 const root=document.getElementById('app'),toastBox=document.getElementById('toast');
 let state=null,d=null,meta=null,view='overview',modal=null,filter='';
+let currentAssuranceCase=null;
 const nav=[['overview','نمای کلی','◈'],['criteria','معیارهای Q','▦'],['gaps','شکاف‌ها و اقدام بعدی','⌁'],['evidence','رجیستری شواهد','◉'],['pilot','پایلوت ۳۰روزه','▤'],['tasks','کارها و مسئولان','✓'],['activities','مصاحبه و پیگیری','⌕'],['people','تیم و ظرفیت','♙'],['commercial','تجاری‌سازی','↗'],['risks','ریسک و مهار','△'],['lab','آزمایشگاه AEGIS','⚗'],['company','Company OS','✦'],['audit','تاریخچه و خروجی','≡']];
 const et=(x='')=>String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');
 const fmt=x=>Number(x||0).toLocaleString(window.aegisLocale?.language()==='fr'?'fr-CA':'en-CA');
@@ -43,7 +44,7 @@ function lab(){
  return sectionIntro('آزمایشگاه AEGIS','ارزیابی‌های بومی قابل‌تکرار روی داده، مدل و خروجی؛ و بررسی تغییر سیاست بدون دست‌کاری شواهد ثبت‌شده.')+
  '<div class="source-note" style="margin-bottom:20px"><strong>EXPERIMENTAL ONLY</strong> — نتایج فقط برای آزمایش داخلی هستند؛ در امتیاز ISC، وضعیت TRL، گیت‌ها یا رجیستری مدارک ثبت نمی‌شوند. این نسخه هنوز آزمون کامل ریسک، انصاف و ایمنی AI نیست.</div>'+
  '<div class="main-grid"><section class="panel"><div class="panel-head"><h3>اجرای آزمون بومی / Native Evaluation</h3><span class="badge amber">NO AUTO-CREDIT</span></div>'+
- '<div class="form-field"><label for="lab-mode">نوع ارزیابی / Test type</label><select id="lab-mode"><option value="data">Data quality — Schema, missingness, duplicates</option><option value="classifier">Model — Binary classification metrics</option><option value="output">Output — Deterministic phrase rules</option><option value="replay">Policy replay — Historical impact</option></select></div>'+
+ '<div class="form-field"><label for="lab-mode">نوع ارزیابی / Test type</label><select id="lab-mode"><option value="data">Data quality — Schema, missingness, duplicates</option><option value="classifier">Model — Binary classification metrics</option><option value="output">Output — Deterministic phrase rules</option><option value="replay">Policy replay — Historical impact</option><option value="golden-replay">Golden native replay</option><option value="policy-impact">Policy impact</option><option value="integrated">Integrated Assurance</option><option value="impact-benchmark">Impact benchmark</option><option value="decision-what-if">Decision what-if</option></select></div>'+
  '<div class="form-field" style="margin-top:14px"><label for="lab-input">ورودی JSON — داده واقعی یا fixture صریحاً آزمایشی</label><textarea id="lab-input" spellcheck="false" class="lab-input" placeholder="JSON input payload: { &quot;records&quot;:[], &quot;schema&quot;:{ &quot;age&quot;:&quot;number&quot; } }"></textarea></div>'+
  '<div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap"><button class="btn primary" type="button" data-lab-run>اجرای ارزیابی / Run evaluation</button><span class="muted">بدون تغییر امتیاز و بدون ذخیره ورودی</span></div>'+
  '<div id="lab-error" role="alert" style="color:#f9a1ac;margin-top:11px"></div></section>'+
@@ -55,7 +56,17 @@ function lab(){
  '<div><strong>Binary classifier</strong><code>{"labels":[1,0,1],"predictions":[1,0,0]}</code></div>'+
  '<div><strong>Output rules</strong><code>{"outputs":["approved"],"requiredPhrases":["approved"],"forbiddenPhrases":["rejected"]}</code></div>'+
  '<div><strong>Historical replay</strong><code>{"before":{"controls":{"P1":"old"}},"after":{"controls":{"P1":"new"}},"systems":[{"id":"S1","controlIds":["P1"]}],"assessments":[{"id":"A1","systemId":"S1","finding":"MET"}]}</code></div></div>'+
- '<p class="fineprint" style="margin-top:12px">نمونه‌های بالا فقط برای یادگیری قرارداد ورودی هستند، نه داده واقعی یا نتیجه بنچمارک.</p></div>';
+ '<p class="fineprint" style="margin-top:12px">نمونه‌های بالا فقط برای یادگیری قرارداد ورودی هستند، نه داده واقعی یا نتیجه بنچمارک.</p></div>'+
+ '<section class="panel" style="margin-top:20px"><div class="panel-head"><h3>Integrated Assurance Walkthrough</h3><span class="badge amber">SYNTHETIC / INTERNAL ONLY</span></div>'+
+ '<p>Simulate policy change, native historical replay, and recorded human review. No official compliance, TRL, or independent assurance claim.</p>'+
+ '<div class="actions" style="display:flex;gap:10px;flex-wrap:wrap;margin:14px 0"><button type="button" class="btn" data-assurance-demo>Load synthetic scenario</button><button type="button" class="btn primary" data-assurance-run>Run and record case</button><a class="btn" href="/api/assurance/report?lang=en">English report</a><a class="btn" href="/api/assurance/report?lang=fr">Rapport français</a></div>'+
+ '<label for="assurance-input">Scenario JSON (synthetic only)</label><textarea id="assurance-input" spellcheck="false" class="lab-input" rows="6" placeholder="Load the synthetic fixture"></textarea>'+
+ '<pre id="assurance-result" class="lab-output" aria-live="polite">No integrated case executed.</pre>'+
+ '<div class="form-grid" style="margin-top:16px"><div class="form-field"><label for="assurance-reviewer">Reviewer display name (not independently verified)</label><input id="assurance-reviewer" type="text" maxlength="120" autocomplete="off" placeholder="Internal operator name"></div>'+
+ '<div class="form-field"><label for="assurance-decision">Operator assessment</label><select id="assurance-decision"><option value="REQUEST_CHANGES">Request changes</option><option value="REJECT">Reject technical result</option><option value="APPROVE">Acknowledge technical result</option></select></div>'+
+ '<div class="form-field full"><label for="assurance-reason">Reason (12–1200 characters)</label><textarea id="assurance-reason" rows="3" maxlength="1200" placeholder="Grounds for this internal decision"></textarea></div></div>'+
+ '<div class="actions" style="margin-top:12px"><button type="button" class="btn primary" data-assurance-review>Record internal operator review</button></div>'+
+ '<p class="fineprint">Single shared administrator account; display names are unverified. Review is not independent and earns no ISC evidence credit.</p></section>';
 }
 
 function company(){const roles=[["GM","Venture Manager","Priority, evidence & revenue"],["PRODUCT","Product Design","EN/FR UX and usability"],["ENGINEER","Platform Engineering","API, data and release"],["AI-EVAL","Evaluation Lab","Native AI tests and metrics"],["POLICY","Policy Intelligence","Canadian source mapping"],["GTM","Growth & Partnerships","Paying pilots and buyer proof"],["QA","Independent Verifier","Reproduction and release QA"],["FINANCE","Operations & Finance","Actual cash and resource tracking"]];
@@ -87,6 +98,38 @@ async function saveRecord(e){e.preventDefault();const fd=new FormData(e.target),
  try{const x=await api('record',{method:'POST',body:JSON.stringify({collection:modal.collection,record:r})});modal=null;setData(x);alertToast('رکورد ذخیره شد؛ ارزیابی و شکاف‌ها به‌روزرسانی شدند.');}catch(ex){alertToast(ex.message,true)}}
 root.addEventListener('click',async e=>{
  const n=e.target.closest('button');if(!n){if(e.target.matches('[data-modal-bg]')){modal=null;render()}return}
+ if(n.dataset.assuranceDemo!==undefined){
+  const input=root.querySelector('#assurance-input'),out=root.querySelector('#assurance-result');
+  if(!input||!out)return;
+  try{const result=await api('assurance/demo');input.value=JSON.stringify(result.fixture,null,2);out.textContent='Synthetic scenario loaded.';currentAssuranceCase=null}
+  catch(ex){out.textContent=ex.message}
+  return;
+ }
+ if(n.dataset.assuranceRun!==undefined){
+  const input=root.querySelector('#assurance-input'),out=root.querySelector('#assurance-result');
+  if(!input||!out)return;
+  out.textContent='Executing native simulation…';
+  try{
+   const result=await api('assurance/cases',{method:'POST',body:JSON.stringify({input:JSON.parse(input.value)})});
+   currentAssuranceCase=result.case.receiptHash;
+   out.textContent=JSON.stringify({case:result.case,findings:result.result.findingsTrace,summary:result.result.summary},null,2);
+  }catch(ex){out.textContent=ex.message;currentAssuranceCase=null}
+  return;
+ }
+ if(n.dataset.assuranceReview!==undefined){
+  const out=root.querySelector('#assurance-result');if(!out)return;
+  if(!currentAssuranceCase){out.textContent='Run a case first.';return}
+  try{
+   const response=await api('assurance/reviews',{method:'POST',body:JSON.stringify({
+    caseReceiptHash:currentAssuranceCase,
+    reviewerDisplayName:root.querySelector('#assurance-reviewer')?.value||'',
+    reason:root.querySelector('#assurance-reason')?.value||'',
+    decision:root.querySelector('#assurance-decision')?.value||'REQUEST_CHANGES'
+   })});
+   out.textContent=JSON.stringify(response,null,2);
+  }catch(ex){out.textContent=ex.message}
+  return;
+ }
  if(n.dataset.labRun!==undefined){
   const elMode=root.querySelector('#lab-mode'),elInput=root.querySelector('#lab-input'),out=root.querySelector('#lab-result'),err=root.querySelector('#lab-error');
   if(!elMode||!elInput||!out)return;
