@@ -47,3 +47,14 @@ test('downloadable report is print-ready without dangerous script execution',asy
  assert.match(output,/@media print/);
  assert.match(server,/style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'/);
 });
+
+test('mobile evaluator tour exposes measured evidence before marketing methodology and uses shorter claim',async()=>{
+ const [html,js,css]=await Promise.all([
+  file('public/tour.html'),file('public/tour.js'),file('public/tour.css')
+ ]);
+ assert.ok(html.indexOf('id="results"')<html.indexOf('id="process"'),'live evidence should precede explanatory process');
+ assert.match(html,/See what changed\./);
+ assert.match(js,/Trace what follows\./);
+ assert.match(js,/Voyez ce qui change/);
+ assert.match(css,/First-impression audit: shorter mobile hero/);
+});
