@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0",
+  "workpacket_id": "AEGIS-V32-P0-POLICY-SOURCE-2026-11-19",
+  "venture_id": "aegis",
+  "company_os_id": "AEGIS-Company-OS",
+  "objective": "Independently capture exact official Canadian policy source versions and obtain a qualified, verifiable clause-to-control applicability review for the existing Policy→Native→Replay Officer Evidence Pack",
+  "source_issue_url": "https://github.com/Noetfield-Systems/AEGIS/issues/23",
+  "owner_role": "Federal AI Policy SME + Independent Assurance Verifier",
+  "priority": "P0",
+  "status": "OPEN_EXTERNAL_EVIDENCE_NEEDED",
+  "dependencies": [
+    "AEGIS-103 source catalogue",
+    "AEGIS-105 benchmark reference protocol",
+    "existing authorized Company OS execution path"
+  ],
+  "acceptance_criteria": [
+    "Record publisher, canonical URL, title, instrument, effective/published versions and retrieval timestamp for >=5 applicable government instruments",
+    "Store complete original official HTML/PDF bytes or immutable archived source reference, cryptographic SHA-256 digest and known version provenance; do not hash paraphrases as official documents",
+    "Identify precise official clause ID/text, jurisdiction/applicability assessment and mapped native test/control with qualified named reviewer signature and date",
+    "Provide at least one negative/not-applicable example and reject unmapped/expired/tampered inputs without false MET or legal approval",
+    "Generate labelled candidate inputs and a frozen protocol for a blind external reviewer; store any independent measured results separately from synthetic reference labels",
+    "Attach reproduction commands, code SHA, source SHA, environment, time and signed approval or explicit rejection to Officer Evidence Pack",
+    "Independent verifier checks original bytes and scope and explicitly accepts/rejects results before promoting any ISC E1/E4 coverage"
+  ],
+  "work_scope": [
+    "source capture",
+    "applicability and policy mapping",
+    "negative test fixture",
+    "read-only technical replay",
+    "external review and signed receipt"
+  ],
+  "budget_limit": "NOT_AUTHORIZED_OR_ALLOCATED",
+  "auth_scope": "Public official sources and specifically consented evidence only; no access to production private records without authorization",
+  "evidence_requirements": [
+    "Official source bytes or immutable archive receipts",
+    "Qualified reviewer identity/title and signed exact mapping",
+    "Independent verifier acceptance",
+    "versioned negative test cases",
+    "frozen experiment labels"
+  ],
+  "target_environment": "Authenticated AEGIS non-production controlled test and independent reviewer environment",
+  "created_at": "2026-11-19",
+  "next_action": "Archive one official Directive on Automated Decision-Making source version and obtain an attributable expert review of one source-to-control mapping, then repeat across selected instruments",
+  "blocker": "Qualified policy expert approval and authoritative source-version capture not independently verified",
+  "references": {
+    "officerPack": "docs/ISC_OFFICER_EVIDENCE_PACK_V32.md",
+    "trlDossier": "docs/TRL_EVIDENCE_DOSSIER_V32.md",
+    "activeAuditIssue": 23,
+    "existingBacklog": "ops/backlog.json"
+  }
+}

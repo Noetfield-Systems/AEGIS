@@ -1,3 +1,5 @@
+> **SUPERSEDED (19 Nov 2026).** This is an archived pre-Tabler design specification and is not authoritative for current UI work. The binding production design system is [AEGIS Design System v1.0](DESIGN_SYSTEM.md): real Tabler UI 1.5.1, Graphite/Porcelain, EN/FR-only and persistent Dark/Light/System. Do not copy the obsolete purple/Obsidian or FA/EN decisions into new code.
+
 # Premium Product Design System — AEGIS Obsidian v2
 
 ## Reference

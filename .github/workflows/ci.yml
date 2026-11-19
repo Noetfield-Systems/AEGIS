@@ -39,9 +39,19 @@ jobs:
           node scripts/governed-lifecycle-demo.mjs > /tmp/aegis-governed-a.json
           node scripts/governed-lifecycle-demo.mjs > /tmp/aegis-governed-b.json
           cmp /tmp/aegis-governed-a.json /tmp/aegis-governed-b.json
+      - name: Reproduce ISC Officer Evidence Pack twice (synthetic-only)
+        run: |
+          node scripts/officer-evidence-pack.mjs > /tmp/aegis-officer-a.json
+          node scripts/officer-evidence-pack.mjs > /tmp/aegis-officer-b.json
+          cmp /tmp/aegis-officer-a.json /tmp/aegis-officer-b.json
+          mkdir -p artifacts/officer-evidence
+          cp /tmp/aegis-officer-a.json artifacts/officer-evidence/aegis-officer-pack-synthetic.json
       - name: Check JS syntax
         run: |
           node --check server.mjs
+          node --check security/auth.mjs
+          node --check assurance/officer-pack.mjs
+          node --check scripts/officer-evidence-pack.mjs
           node --check model.mjs
           node --check assurance/native.mjs
           node --check assurance/replay.mjs
@@ -82,6 +92,14 @@ jobs:
           path: artifacts/browser-quality/*.png
           retention-days: 14
           if-no-files-found: ignore
+      - name: Preserve executable ISC Officer Evidence Pack
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-isc-officer-evidence-${{ github.run_id }}
+          path: artifacts/officer-evidence/*.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Check required source assets
         run: |
           test -s assurance/native.mjs

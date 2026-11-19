@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "updatedOn": "2026-11-18",
+  "updatedOn": "2026-11-19",
   "challenge": "EN578-24ISC4/100",
   "source": "https://www.ised-isde.canada.ca/site/innovative-solutions-canada/en/artificial-intelligence-ai-decision-making-process-visibility-traceability-and-compliance-governance",
   "deadline": "2026-12-22T14:00:00-05:00",
@@ -21,7 +21,8 @@
         "test/policy-impact.test.mjs",
         "test/integrated.test.mjs",
         "test/governed-lifecycle.test.mjs",
-        "test/impact-experiment.test.mjs — synthetic labels, FP/FN and Wilson interval coverage"
+        "test/impact-experiment.test.mjs — synthetic labels, FP/FN and Wilson interval coverage",
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
       ],
       "status": "PARTIAL_SYNTHETIC",
       "missingEvidence": [
@@ -40,7 +41,8 @@
         "server.mjs authenticated JSON API"
       ],
       "verifiedExperiment": [
-        "test/server.integration.test.mjs"
+        "test/server.integration.test.mjs",
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
       ],
       "status": "PARTIAL_INTERNAL_API",
       "missingEvidence": [
@@ -55,10 +57,13 @@
       "requirement": "Controlled administration and access including residency, retention, export, deletion and monitoring",
       "implemented": [
         "server.mjs single-admin private session and evidence export",
-        "assurance/review-journal.mjs hash-linked internal review log"
+        "assurance/review-journal.mjs hash-linked internal review log",
+        "security/auth.mjs — signed browser-scoped login attempts and persistently revocable single-admin sessions; safe CSV output"
       ],
       "verifiedExperiment": [
-        "test/server.integration.test.mjs"
+        "test/server.integration.test.mjs",
+        "test/security-remediation.test.mjs — lockout, proxy-scoped clients, session lifecycle and CSV security",
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
       ],
       "status": "PARTIAL_SINGLE_ADMIN",
       "missingEvidence": [
@@ -82,7 +87,8 @@
       "verifiedExperiment": [
         "test/policy-impact.test.mjs",
         "test/golden-replay.test.mjs",
-        "test/governed-lifecycle.test.mjs"
+        "test/governed-lifecycle.test.mjs",
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
       ],
       "status": "PARTIAL_MAPPED_SIMULATION",
       "missingEvidence": [
@@ -104,7 +110,8 @@
       "verifiedExperiment": [
         "test/integrated.test.mjs",
         "test/governed-lifecycle.test.mjs",
-        "test/workbench.test.mjs — EN/FR report, injection safeguards and private six-stage UI contract"
+        "test/workbench.test.mjs — EN/FR report, injection safeguards and private six-stage UI contract",
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
       ],
       "status": "PARTIAL_OPERATOR_ONLY",
       "missingEvidence": [
@@ -130,7 +137,8 @@
         "test/golden-replay.test.mjs",
         "test/advanced-native.test.mjs",
         "test/server.integration.test.mjs advanced E6 API",
-        "test/server.integration.test.mjs — authenticated report recomputation and E6 pipeline"
+        "test/server.integration.test.mjs — authenticated report recomputation and E6 pipeline",
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
       ],
       "status": "PARTIAL_MEASURABLE_NATIVE_METRICS",
       "missingEvidence": [

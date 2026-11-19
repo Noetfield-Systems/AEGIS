@@ -2,7 +2,8 @@ import http from 'node:http';
 import {readFile,mkdir,writeFile,rename} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {createHmac,randomUUID,timingSafeEqual} from 'node:crypto';
+import {randomUUID,timingSafeEqual} from 'node:crypto';
+import {createLoginGuard,createSessionRegistry,csvSafeCell} from './security/auth.mjs';
 import {seed,evaluate,CRITERIA,GATES,SOURCE,NOTICE,DEADLINE,normalizeEntity,isReviewed} from './model.mjs';
 import {runNative} from './assurance/native.mjs';
 import {getSourceRegistry} from './assurance/source-registry.mjs';
@@ -12,6 +13,7 @@ import {scenarioLibrary} from './fixtures/scenario-library.mjs';
 import {impactExperimentFixture} from './fixtures/impact-experiment.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 import {renderIntegratedReport} from './assurance/integrated-report.mjs';
+import {buildOfficerEvidencePack} from './assurance/officer-pack.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dataDir=process.env.DATA_DIR||path.join(root,'data');
 const storeFile=path.join(dataDir,'aegis-isc.json');
@@ -26,8 +28,10 @@ if(process.env.AEGIS_TRUSTED_REVIEW_KEYS_JSON){
  try{trustedReviewerKeys=JSON.parse(process.env.AEGIS_TRUSTED_REVIEW_KEYS_JSON);if(!Array.isArray(trustedReviewerKeys)||trustedReviewerKeys.length>30)throw Error('invalid trusted keys');}
  catch{console.error('AEGIS_TRUSTED_REVIEW_KEYS_JSON must be a valid, bounded array');process.exit(1)}
 }
-let state;let mutex=Promise.resolve();const attempts=new Map();
+let state;let mutex=Promise.resolve();
 await mkdir(dataDir,{recursive:true,mode:0o700});
+const loginGuard=createLoginGuard({secret:key});
+const authSessions=await createSessionRegistry({dir:dataDir,secret:key,adminPassword:admin});
 try {state=JSON.parse(await readFile(storeFile,'utf8'));if(!state||state.schema!==1)throw Error('Unknown store schema');}catch(e){if(e.code!=='ENOENT')throw e;state=seed();await safeSave(state)}
 async function safeSave(s){const f=storeFile+'.'+randomUUID()+'.tmp';await writeFile(f,JSON.stringify(s,null,2),{mode:0o600});await rename(f,storeFile)}
 
@@ -48,10 +52,8 @@ function updateJournal(update){
 }
 
 function eq(a,b){const x=Buffer.from(String(a||'')),y=Buffer.from(String(b||''));return x.length===y.length&&timingSafeEqual(x,y)}
-function sign(exp){return createHmac('sha256',key).update(exp).digest('hex')}
-function loginCookie(req){const exp=String(Date.now()+12*3600*1000);return `aegis_session=${exp}.${sign(exp)}; HttpOnly; SameSite=Strict; Path=/; Max-Age=43200${secure(req)?'; Secure':''}`}
 function secure(req){return req.headers['x-forwarded-proto']==='https'||Boolean(req.socket.encrypted)}
-function authorized(req){const raw=(req.headers.cookie||'').split('; ').find(x=>x.startsWith('aegis_session='))?.split('=')[1];if(!raw)return false;const [exp,sig]=raw.split('.');return /^\d{13}$/.test(exp||'')&&Number(exp)>Date.now()&&eq(sign(exp),sig)}
+function authorized(req){return authSessions.valid(req.headers.cookie)}
 function respond(res,status,payload,extra={}){const text=JSON.stringify(payload);res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...extra});res.end(text)}
 async function body(req){let total=0,raw='';for await(const chunk of req){total+=chunk.length;if(total>160_000)throw Error('حجم درخواست بیش از حد است.');raw+=chunk.toString('utf8')}let x;try{x=JSON.parse(raw||'{}')}catch{throw Error('JSON نامعتبر است.')}if(!x||typeof x!=='object'||Array.isArray(x))throw Error('بدنه نامعتبر است.');return x}
 function originOkay(req){const o=req.headers.origin;if(!o)return true;try{return new URL(o).host===req.headers.host}catch{return false}}
@@ -96,11 +98,18 @@ const server=http.createServer(async(req,res)=>{
   }
   if(url.pathname==='/api/auth/login'&&req.method==='POST'){
    if(!originOkay(req))return respond(res,403,{error:'Origin نامعتبر است.'});
-   const ip=(req.socket.remoteAddress||'unknown');const a=attempts.get(ip)||{count:0,until:0};if(a.count>=8&&a.until>Date.now())return respond(res,429,{error:'تلاش بیش از حد. بعداً دوباره تلاش کنید.'});
-   const p=await body(req);if(!eq(p.password,admin)){attempts.set(ip,{count:a.count+1,until:Date.now()+15*60_000});return respond(res,401,{error:'رمز ورود اشتباه است.'})}
-   attempts.delete(ip);return respond(res,200,{ok:true},{'Set-Cookie':loginCookie(req)});
+   const actor=loginGuard.keyFor(req.headers.cookie,req.socket.remoteAddress,req.headers['user-agent']);
+   if(loginGuard.blocked(actor))return respond(res,429,{error:'Too many login attempts. Try again later.'});
+   const p=await body(req);
+   if(!eq(p.password,admin)){loginGuard.failed(actor);return respond(res,401,{error:'Invalid passphrase.'})}
+   loginGuard.success(actor);
+   return respond(res,200,{ok:true},{'Set-Cookie':await authSessions.issue(secure(req))});
   }
-  if(url.pathname==='/api/auth/logout'&&req.method==='POST')return respond(res,200,{ok:true},{'Set-Cookie':'aegis_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0'});
+  if(url.pathname==='/api/auth/logout'&&req.method==='POST'){
+   if(!originOkay(req))return respond(res,403,{error:'Invalid request origin.'});
+   await authSessions.revoke(req.headers.cookie);
+   return respond(res,200,{ok:true},{'Set-Cookie':'aegis_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0'+(secure(req)?'; Secure':'')});
+  }
   if(url.pathname.startsWith('/api/')){
    if(!authorized(req))return respond(res,401,{error:'ورود به فضای خصوصی لازم است.'});
    if(req.method!=='GET'&&!originOkay(req))return respond(res,403,{error:'Origin نامعتبر است.'});
@@ -122,6 +131,10 @@ const server=http.createServer(async(req,res)=>{
    if(url.pathname==='/api/assurance/isc-matrix'&&req.method==='GET'){
     const raw=await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8');
     return respond(res,200,JSON.parse(raw));
+   }
+   if(url.pathname==='/api/assurance/officer-pack'&&req.method==='GET'){
+    const matrix=JSON.parse(await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8'));
+    return respond(res,200,buildOfficerEvidencePack(matrix));
    }
    // Recompute the bounded native result for a print-ready, separately credited-zero
    // report. The report only includes measurement lineage; it never archives raw input.
@@ -181,7 +194,7 @@ const server=http.createServer(async(req,res)=>{
    if(url.pathname==='/api/state'&&req.method==='GET')return respond(res,200,{state,derived:evaluate(state),meta:{criteria:CRITERIA,gates:GATES,source:SOURCE,notice:NOTICE,deadline:DEADLINE}});
    if(url.pathname==='/api/export'&&req.method==='GET'){
     const t=url.searchParams.get('format');if(t==='csv'){
-     const csvCell=x=>'"'+String(x??'').replaceAll('"','""')+'"';const cols=['id','title','type','status','url','reviewer','observedAt','criteria','tags','claim','limitations'];
+     const csvCell=csvSafeCell;const cols=['id','title','type','status','url','reviewer','observedAt','criteria','tags','claim','limitations'];
      const csv='\uFEFF'+[cols.join(','),...(state.evidence||[]).map(e=>cols.map(k=>csvCell(Array.isArray(e[k])?e[k].join('|'):e[k])).join(','))].join('\r\n');
      res.writeHead(200,{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="aegis-isc-evidence.csv"'});return res.end(csv);
     }
@@ -213,7 +226,10 @@ const server=http.createServer(async(req,res)=>{
    return respond(res,404,{error:'API یافت نشد.'});
   }
   if(req.method!=='GET'||!files[url.pathname]){res.writeHead(404);return res.end('Not found')}
-  const name=files[url.pathname];const data=await readFile(path.join(root,'public',name));res.writeHead(200,{'Content-Type':types[path.extname(name)]});res.end(data);
+  const name=files[url.pathname];const data=await readFile(path.join(root,'public',name));
+   const headers={'Content-Type':types[path.extname(name)]};
+   if(url.pathname==='/login'||url.pathname==='/index.html')headers['Set-Cookie']=loginGuard.clientCookie(secure(req));
+   res.writeHead(200,headers);res.end(data);
  }catch(e){console.error('request failed',e.message);respond(res,/نامعتبر|لازم|الزامی|مجاز|سند|گیت|تاریخ|حجم|خارج|مسئول|عنوان/.test(e.message)?400:500,{error:/نامعتبر|لازم|الزامی|مجاز|سند|گیت|تاریخ|حجم|خارج|مسئول|عنوان/.test(e.message)?e.message:'خطای غیرمنتظره سرور'})}
 });
 server.listen(port,'0.0.0.0',()=>console.log(`AEGIS ISC listening on :${port}`));
