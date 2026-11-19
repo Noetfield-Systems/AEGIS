@@ -171,6 +171,12 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.equal((await fetch(base+'/api/assurance/adapters/validate',{
   method:'POST',headers,body:JSON.stringify({records:[{adapter:'otel-agent-span-v1',input:{traceId:'invalid'}}]})})).status,400);
  assert.equal((await fetch(base+'/api/assurance/adapters/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({records:examples.records})})).status,401);
+ assert.equal((await fetch(base+'/api/assurance/policy-mapping')).status,401);
+ const proposedPolicyMapping=await (await fetch(base+'/api/assurance/policy-mapping',{headers})).json();
+ assert.equal(proposedPolicyMapping.clauseCount,6);
+ assert.equal(proposedPolicyMapping.expertApproval,false);
+ assert.equal(proposedPolicyMapping.iscEvidenceCredited,false);
+ assert.match(proposedPolicyMapping.originalByteSha256,/^sha256:[a-f0-9]{64}$/);
  const iscMatrix=await (await fetch(base+'/api/assurance/isc-matrix',{headers})).json();
  assert.equal(iscMatrix.gates.length,6);
  assert.equal((await fetch(base+'/api/assurance/impact-experiment-demo')).status,401);
