@@ -15,6 +15,11 @@ test('Officer Evidence Pack is repeatable, hash-bound, source-linked and transpa
  assert.ok(one.essentialOutcomes.every(g=>g.fullyVerified===false&&g.executableTests.length&&g.missingIndependentEvidence.length));
  assert.deepEqual(one.essentialOutcomes.map(g=>g.id),['E1','E2','E3','E4','E5','E6']);
  assert.equal(one.sourceReferences.fullDocumentsCapturedAndHashed,false);
+ assert.equal(one.sourceReferences.originalByteCaptureCount,1);
+ assert.equal(one.candidateControlMapping.clauseCount,6);
+ assert.equal(one.candidateControlMapping.expertApproval,false);
+ assert.equal(one.candidateControlMapping.iscEvidenceCredited,false);
+ assert.equal(one.candidateControlMapping.originalByteSha256,one.sourceReferences.originalByteCaptureReceipts[0].originalBytesSha256);
  assert.equal(one.sourceReferences.approvedRegulatoryMappings,0);
  assert.equal(one.officialPolicyApplicabilityVerified,false);
  assert.equal(one.independentHumanReviewerVerified,false);
