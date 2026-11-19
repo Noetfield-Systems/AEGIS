@@ -17,11 +17,19 @@ jobs:
           node-version: '22'
       - name: Unit and contract tests
         run: npm test
+      - name: Reproduce Golden Assurance Replay twice
+        run: |
+          node scripts/golden-assurance-demo.mjs > /tmp/aegis-replay-a.json
+          node scripts/golden-assurance-demo.mjs > /tmp/aegis-replay-b.json
+          cmp /tmp/aegis-replay-a.json /tmp/aegis-replay-b.json
       - name: Check JS syntax
         run: |
           node --check server.mjs
           node --check model.mjs
           node --check assurance/native.mjs
+          node --check assurance/replay.mjs
+          node --check fixtures/golden.mjs
+          node --check scripts/golden-assurance-demo.mjs
           node --check public/app.js
           node --check public/locale.js
           node --check scripts/daily-operations.mjs
