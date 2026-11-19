@@ -13,6 +13,7 @@ import {scenarioLibrary} from './fixtures/scenario-library.mjs';
 import {impactExperimentFixture} from './fixtures/impact-experiment.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 import {renderIntegratedReport} from './assurance/integrated-report.mjs';
+import {buildOfficerEvidencePack} from './assurance/officer-pack.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dataDir=process.env.DATA_DIR||path.join(root,'data');
 const storeFile=path.join(dataDir,'aegis-isc.json');
@@ -130,6 +131,10 @@ const server=http.createServer(async(req,res)=>{
    if(url.pathname==='/api/assurance/isc-matrix'&&req.method==='GET'){
     const raw=await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8');
     return respond(res,200,JSON.parse(raw));
+   }
+   if(url.pathname==='/api/assurance/officer-pack'&&req.method==='GET'){
+    const matrix=JSON.parse(await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8'));
+    return respond(res,200,buildOfficerEvidencePack(matrix));
    }
    // Recompute the bounded native result for a print-ready, separately credited-zero
    // report. The report only includes measurement lineage; it never archives raw input.
