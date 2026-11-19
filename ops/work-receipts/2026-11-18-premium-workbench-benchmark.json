@@ -1,0 +1,135 @@
+{
+  "schema": "AEGIS_WORKRECEIPT_V2",
+  "initiative": "PRE_ISC_PREMIUM_ASSURANCE_EXPERIENCE",
+  "executionLocalDate": "2026-11-18",
+  "repository": "Noetfield-Systems/AEGIS",
+  "currentProduct": "Noetfield AEGIS",
+  "verifiedDeliveries": [
+    {
+      "change": "Six-stage premium private EN/FR Assurance Workbench and detailed bilingual report",
+      "pr": "https://github.com/Noetfield-Systems/AEGIS/pull/18",
+      "commit": "113e819feeb0838ed1c8e03f5687d4b5a91e2b9a",
+      "ciRun": "https://github.com/Noetfield-Systems/AEGIS/actions/runs/44477412893",
+      "testsPassed": 82,
+      "testsFailed": 0,
+      "railwayDeployment": "c1f84792-573b-4ed9-885b-d6865d59fdf1",
+      "railwayDeploymentConfirmedSuccess": true
+    },
+    {
+      "change": "Compiler-derived controlled policy impact experiment, uncertainty and JSON receipt",
+      "pr": "https://github.com/Noetfield-Systems/AEGIS/pull/19",
+      "commit": "8fd68bc1ce1f238d514af4be3dd316378439590e",
+      "ciRun": "https://github.com/Noetfield-Systems/AEGIS/actions/runs/44478621490",
+      "testsPassed": 87,
+      "testsFailed": 0,
+      "railwayDeployment": "6964917e-4ea0-4b34-a35a-20f3027e8229",
+      "railwayDeploymentConfirmedSuccess": true
+    }
+  ],
+  "softwareEvidence": {
+    "privateWorkbenchPath": "/workbench",
+    "publicSyntheticTourPath": "/tour",
+    "languages": [
+      "en-CA",
+      "fr-CA"
+    ],
+    "firstPartyAssessment": "Existing authenticated integrated policy-to-native historical evaluation",
+    "internalCaseReceipt": "Bounded persisted case summary and SHA-256 result hash",
+    "review": "One authenticated administrative session; reviewer's display name unverified",
+    "detailedReport": [
+      "Fresh native result",
+      "Previous/new policy versions",
+      "Measured before/after findings",
+      "Original input and result hashes",
+      "Lifecycle actions",
+      "Internal review event when available",
+      "Official source hyperlinks labeled as references",
+      "Scientific/legal caveats"
+    ],
+    "benchmark": {
+      "fixture": "synthetic-benchmark-demo-v1",
+      "totalSyntheticCases": 8,
+      "deliberateDisagreements": 2,
+      "illustrativeTp": 3,
+      "illustrativeFp": 1,
+      "illustrativeTn": 3,
+      "illustrativeFn": 1,
+      "illustrativePrecision": 0.75,
+      "illustrativeRecall": 0.75,
+      "actualCompilerProducesPredictions": true,
+      "independentExpertLabelReview": false,
+      "externalBaselineCompared": false
+    },
+    "unauthorizedApiBoundaryVerifiedInCI": true,
+    "outputHtmlEscapingVerifiedInCI": true,
+    "offlineUiVisualReviewVerified": false,
+    "authenticatedRealProductionSmokeVerified": false,
+    "publicWebsiteLanguagePolicy": "EN/FR only; no Persian website"
+  },
+  "deploymentAtCodeRelease": {
+    "service": "aegis-isc-web",
+    "projectId": "f11f031e-91dc-4941-8562-a75a0d1b3122",
+    "deploymentId": "6964917e-4ea0-4b34-a35a-20f3027e8229",
+    "commit": "8fd68bc1ce1f238d514af4be3dd316378439590e",
+    "status": "SUCCESS",
+    "region": "sfo",
+    "canadianDataResidencyEstablished": false,
+    "mountedVolumePreserved": true
+  },
+  "acceptance": {
+    "iscEssentialOutcomesPassedByGovernment": false,
+    "allSixOutcomesCompleted": false,
+    "submittedToISC": false,
+    "independentFederalPolicyApproval": false,
+    "trl5ScientificallyEstablished": false,
+    "namedQualifiedHumanIndependentVerification": false,
+    "enterpriseMultiTenantRBACImplemented": false,
+    "threeRealExternalAdaptersVerified": false,
+    "paidCustomerOrPaymentVerified": false,
+    "noNewReadinessScoreCredit": true
+  },
+  "nextRequiredRealEvidence": [
+    {
+      "priority": "P0",
+      "work": "Obtain complete original effective federal policy versions and expert-approved mappings",
+      "ownerRole": "Qualified federal policy / legal practitioner"
+    },
+    {
+      "priority": "P0",
+      "work": "Run a representative integrated AEGIS trial with measured method, environment and named independent reviewer",
+      "ownerRole": "ML Evaluation Research"
+    },
+    {
+      "priority": "P0",
+      "work": "Provide company eligibility documents, accountable team, project budget and complete ISC submission crosswalk",
+      "ownerRole": "Founder / applicant"
+    },
+    {
+      "priority": "P1",
+      "work": "Per-user reviewer identity, cross-tenant RBAC, retention and deletion, validated Canadian/private deployment route",
+      "ownerRole": "Security + platform"
+    },
+    {
+      "priority": "P1",
+      "work": "Three actual connector/API integration receipts and blind benchmark with external labels and comparable baseline",
+      "ownerRole": "Integrations + independent QA"
+    },
+    {
+      "priority": "P1",
+      "work": "Independent browser QA: Chrome, Safari, Android and keyboard/screen-reader EN/FR report and web journey",
+      "ownerRole": "Product QA"
+    },
+    {
+      "priority": "P1",
+      "work": "AEGIS buyer discovery and paid pilot, evidenced independently",
+      "ownerRole": "Commercial"
+    }
+  ],
+  "methodDocuments": [
+    "docs/UX_DESIGN_SYSTEM.md",
+    "docs/IMPACT_BENCHMARK_METHOD.md",
+    "docs/INTEGRATED_ASSURANCE_EXECUTION.md",
+    "ops/isc-e1-e6-matrix.json"
+  ],
+  "status": "VERIFIED_SYNTHETIC_ENGINEERING_AND_DEPLOYMENT_MILESTONE"
+}
