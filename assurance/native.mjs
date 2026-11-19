@@ -10,6 +10,7 @@ import {runIntegratedAssurance} from './integrated.mjs';
 import {benchmarkImpact,evaluateCounterfactual} from './benchmark.mjs';
 import {triageAiaScope} from './aia-scope.mjs';
 import {runGovernedLifecycle} from './governed-lifecycle.mjs';
+import {evaluateDistributionShift,evaluateCalibration,evaluateGroundedClaims} from './advanced-native.mjs';
 const maxRows=500;
 const fail=(msg)=>{throw new TypeError(msg)};
 const obj=(x,label)=>{if(!x||typeof x!=='object'||Array.isArray(x))fail(label+' must be an object');return x};
@@ -105,5 +106,8 @@ export function runNative(input,context={}){
  if(mode==='decision-what-if')return evaluateCounterfactual(payload);
  if(mode==='aia-scope')return triageAiaScope(payload);
  if(mode==='governed-lifecycle')return runGovernedLifecycle(payload,{data:evaluateData,classifier:evaluateClassifier,output:evaluateOutputs},context.trustedReviewerKeys||[]);
- fail('mode must be data, classifier, output, replay, golden-replay, policy-impact integrated, impact-benchmark decision-what-if aia-scope or governed-lifecycle');
+ if(mode==='distribution-shift')return evaluateDistributionShift(payload);
+ if(mode==='binary-calibration')return evaluateCalibration(payload);
+ if(mode==='grounded-claims')return evaluateGroundedClaims(payload);
+ fail('mode must be data, classifier, output, replay, golden-replay, policy-impact integrated, impact-benchmark decision-what-if aia-scope governed-lifecycle, distribution-shift, binary-calibration or grounded-claims');
 }
