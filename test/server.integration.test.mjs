@@ -11,6 +11,7 @@ import {randomBytes} from 'node:crypto';
 import {createGoldenFixture} from '../fixtures/golden.mjs';
 import {policyImpactFixture} from '../fixtures/policy-impact.mjs';
 import {integratedFixture} from '../fixtures/integrated.mjs';
+import {governedFixture} from '../fixtures/governed.mjs';
 
 async function freePort(){
  return await new Promise((resolve,reject)=>{
@@ -85,6 +86,29 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.equal(scope.result.legalApplicabilityConfirmed,false);
 
  assert.ok(policyResult.result.proposedControls.every(c=>c.isActive===false));
+ // AEGIS-103 policy provenance and lifecycle are restricted to the signed-in admin.
+ assert.equal((await fetch(base+'/api/assurance/sources')).status,401);
+ assert.equal((await fetch(base+'/api/assurance/governed-demo')).status,401);
+ const catalog=await (await fetch(base+'/api/assurance/sources',{headers})).json();
+ assert.ok(catalog.sources.length>=5);
+ assert.equal(catalog.officialFullDocumentHashesVerified,false);
+ assert.equal(catalog.approvedRegulatoryMappings,0);
+ const governed=await (await fetch(base+'/api/assurance/governed-demo',{headers})).json();
+ assert.equal(governed.synthetic,true);
+ const historical=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'governed-lifecycle',input:governed.fixture})});
+ assert.equal(historical.status,200);
+ const lifecycle=await historical.json();
+ assert.equal(lifecycle.evidenceCredited,false);
+ assert.equal(lifecycle.result.completedNativeReplays,1);
+ assert.equal(lifecycle.result.lifecyclePlans.length,3);
+ assert.equal(lifecycle.result.lifecyclePlans.find(x=>x.phase==='IN_PROGRESS').decision.selectedPolicyVersion,null);
+ assert.equal(lifecycle.result.lifecyclePlans.find(x=>x.phase==='PLANNED').decision.selectedPolicyVersion,null);
+ assert.equal(lifecycle.result.regulatoryStatus,'UNABLE_TO_DETERMINE');
+ const forged=structuredClone(governed.fixture);
+ forged.trustedReviewerKeys=[{id:'self-authorized',publicKeyPem:'NOT_TRUSTED'}];
+ const noClientKey=await (await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'governed-lifecycle',input:forged})})).json();
+ assert.equal(noClientKey.result.technicalApprovalChecks.filter(x=>x.status==='TECHNICAL_MAPPING_SIGNATURE_VALID').length,0);
+
  // Authenticated multi-engine demo, internal case hash and reviewer event chain.
  assert.equal((await fetch(base+'/api/assurance/demo')).status,401);
  assert.equal((await fetch(base+'/api/assurance/cases',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:integratedFixture()})})).status,401);
