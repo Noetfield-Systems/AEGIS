@@ -178,8 +178,19 @@ try{
  await screenshot('06a-workbench-mobile-menu.png');
  await evaluate('document.querySelector("#workbench-backdrop").click()');
  assert(!(await evaluate('document.querySelector("#workbench-sidebar").classList.contains("is-open")')),'Mobile offcanvas did not dismiss');
+ await sleep(300); // Let the upstream offcanvas transition settle before full-page capture.
+ assert(await evaluate('document.querySelector("#mobile-menu").getAttribute("aria-expanded")')==='false','Drawer aria-expanded remained open');
+
  await evaluate('document.querySelector(\'[data-step="evaluate"]\').click();document.querySelector("#run").click();');
  await wait(async()=>await evaluate('!document.querySelector("#eval-results").hidden'),'Mobile evaluation did not execute');
+
+ await evaluate('window.scrollTo({left:0,top:0,behavior:"instant"})');
+ await sleep(320);
+ const geometry=await evaluate('(()=>{const $=s=>document.querySelector(s)?.getBoundingClientRect(),a=$("#workspace"),b=$(".heading h1"),c=$(".main.page-wrapper");return {viewport:innerWidth,scrollX:scrollX,scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,workspaceLeft:a?.left,workspaceRight:a?.right,headingLeft:b?.left,headingRight:b?.right,mainLeft:c?.left,mainRight:c?.right}})()');
+ console.log('AEGIS_MOBILE_GEOMETRY',JSON.stringify(geometry));
+ assert(Math.abs(geometry.scrollX)<=1,'Mobile viewport scrolled horizontally: '+JSON.stringify(geometry));
+ assert(geometry.workspaceLeft>=-1&&geometry.workspaceRight<=geometry.viewport+2,'Workbench mobile content clipped: '+JSON.stringify(geometry));
+ assert(geometry.headingLeft>=-1&&geometry.headingRight<=geometry.viewport+2,'Workbench translated heading clipped: '+JSON.stringify(geometry));
  const width=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');
  assert(width.document<=width.viewport+3,'Mobile workbench horizontal overflow: '+JSON.stringify(width));
  await screenshot('06-workbench-lineage-mobile.png');
@@ -189,6 +200,15 @@ try{
  const widthLight=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');
  assert(widthLight.document<=widthLight.viewport+3,'Mobile light mode overflow '+JSON.stringify(widthLight));
  await screenshot('06b-workbench-lineage-mobile-light.png');
+ for(const width of [320,390,768,1024,1440]){
+  await command('Emulation.setDeviceMetricsOverride',{width,height:860,deviceScaleFactor:1,mobile:width<900});
+  await sleep(175);
+  const g=await evaluate('({viewport:innerWidth,scroll:scrollX,document:document.documentElement.scrollWidth,content:document.querySelector("#workspace").getBoundingClientRect().right})');
+  assert(g.document<=g.viewport+3&&g.scroll<2,'Workbench breakpoint overflow at '+width+': '+JSON.stringify(g));
+  if(width===320)await screenshot('06c-workbench-320px-light.png');
+ }
+ await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+
  await evaluate('window.AegisTheme.set("dark")');
  await navigate('/tour');
  await evaluate('document.querySelector("#menu-button").click()');
