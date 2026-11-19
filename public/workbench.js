@@ -5,6 +5,7 @@ const stages=['context','policy','evaluate','review','report','coverage'];
 const languageKey='aegis_workbench_language';
 const copy={
 en:{
+appearance:'Appearance',dark:'Dark',light:'Light',system:'System',environmentLabel:'ENVIRONMENT',researchEnv:'Controlled research',sourceVersionLabel:'SOURCE VERSION',executionLabel:'NATIVE ENGINE',engineStatus:'Ready for evaluation',receiptLabel:'RESULT RECEIPT',notGenerated:'Not generated',
 skip:'Skip to workbench',private:'PRIVATE RESEARCH WORKSPACE',journey:'ASSURANCE JOURNEY',
 navContext:'System context',navContextSub:'System & policy register',navPolicy:'Policy impact',navPolicySub:'Versioned source change',navEvaluate:'Native evaluation',navEvaluateSub:'Technical before & after',navReview:'Human review',navReviewSub:'Operator decisions & receipt',navReport:'Evidence dossier',navReportSub:'Download in EN / FR',navCoverage:'ISC coverage',navCoverageSub:'E1–E6 acceptance matrix',
 sourceBadge:'RESEARCH STANDARD',sourceNote:'Evidence before claims',back:'Back to ISC Readiness Studio',publicTour:'View public demonstration',workbench:'Assurance Workbench',authenticated:'AUTHENTICATED · PRIVATE',
@@ -35,6 +36,7 @@ MET:'MET',NOT_MET:'NOT MET',PARTIALLY_MET:'PARTIALLY MET',NOT_APPLICABLE:'NOT AP
 'Previous':'Previous','Current':'Current'
 },
 fr:{
+appearance:'Apparence',dark:'Sombre',light:'Clair',system:'Système',environmentLabel:'ENVIRONNEMENT',researchEnv:'Recherche contrôlée',sourceVersionLabel:'VERSION SOURCE',executionLabel:'MOTEUR NATIF',engineStatus:'Prêt pour évaluation',receiptLabel:'EMPREINTE DU RÉSULTAT',notGenerated:'Non générée',
 skip:'Aller au parcours',private:'ESPACE PRIVÉ DE RECHERCHE',journey:'PARCOURS D’ASSURANCE',
 navContext:'Contexte du système',navContextSub:'Registre des systèmes et politiques',navPolicy:'Impact des politiques',navPolicySub:'Modification de source versionnée',navEvaluate:'Évaluation native',navEvaluateSub:'Résultats techniques avant et après',navReview:'Révision humaine',navReviewSub:'Décisions internes et empreinte',navReport:'Dossier de preuves',navReportSub:'Téléchargement EN / FR',navCoverage:'Couverture ISC',navCoverageSub:'Matrice des critères E1 à E6',
 sourceBadge:'NORME DE RECHERCHE',sourceNote:'La preuve avant toute affirmation',back:'Retour à l’espace ISC',publicTour:'Voir la démonstration publique',workbench:'Espace d’assurance',authenticated:'AUTHENTIFIÉ · PRIVÉ',
@@ -98,8 +100,14 @@ function updateLanguage(){
  if(fixture)renderAll();
  if(benchmark)renderBenchmark();
 }
+function closeWorkbenchNav(){
+ const sidebar=el('workbench-sidebar');sidebar?.classList.remove('is-open');
+ el('workbench-backdrop').hidden=true;
+ el('mobile-menu')?.setAttribute('aria-expanded','false');
+}
 function setStage(index){
  stageIndex=Math.max(0,Math.min(stages.length-1,index));
+ closeWorkbenchNav();
  qq('.stage').forEach(n=>n.hidden=n.dataset.screen!==stages[stageIndex]);
  qq('[data-step]').forEach(n=>{
   const selected=n.dataset.step===stages[stageIndex];
@@ -130,6 +138,7 @@ function changeScenario(){
  result=null;caseEntry=null;renderAll();setStage(0);el('flow-status').textContent=t('scenarioLoaded');
 }
 function renderContext(){
+ setText('wb-version',fixture.policy?.after?.version||'—');
  renderScenarioSelector();
  const systems=el('system-list');systems.replaceChildren();
  for(const s of fixture.replay.systems){
@@ -197,6 +206,8 @@ function renderLineage(){
  }
 }
 function renderEvaluation(){
+ setText('wb-receipt-short',result?.receiptHash?result.receiptHash.slice(0,18)+'…':t('notGenerated'));
+ el('wb-receipt-short').removeAttribute('data-t');
  const loaded=Boolean(result);
  el('eval-placeholder').hidden=loaded;el('eval-results').hidden=!loaded;
  if(!loaded)return;
@@ -381,6 +392,25 @@ async function start(){
  }
 }
 function boot(){
+ const menu=el('mobile-menu');
+ menu.addEventListener('click',()=>{
+  const open=!el('workbench-sidebar').classList.contains('is-open');
+  el('workbench-sidebar').classList.toggle('is-open',open);
+  el('workbench-backdrop').hidden=!open;
+  menu.setAttribute('aria-expanded',String(open));
+  if(open)el('workbench-sidebar').querySelector('button')?.focus();
+ });
+ el('workbench-backdrop').addEventListener('click',()=>{closeWorkbenchNav();menu.focus()});
+ document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){
+   closeWorkbenchNav();document.querySelector('.appearance-select')?.removeAttribute('open');
+  }
+ });
+ document.addEventListener('click',event=>{
+  const select=document.querySelector('.appearance-select');
+  if(select?.open&&!select.contains(event.target))select.open=false;
+ });
+
  try{language=localStorage.getItem(languageKey)==='fr'?'fr':'en'}catch{}
  updateLanguage();
  el('locale').addEventListener('click',()=>{
