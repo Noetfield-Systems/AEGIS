@@ -6,6 +6,7 @@
 import {createHash} from 'node:crypto';
 import {replayCompleted} from './replay.mjs';
 import {compilePolicyImpact} from './policy.mjs';
+import {runIntegratedAssurance} from './integrated.mjs';
 const maxRows=500;
 const fail=(msg)=>{throw new TypeError(msg)};
 const obj=(x,label)=>{if(!x||typeof x!=='object'||Array.isArray(x))fail(label+' must be an object');return x};
@@ -96,5 +97,6 @@ export function runNative(input){
  if(mode==='replay')return replayPolicy(payload);
  if(mode==='golden-replay')return replayCompleted(payload,{data:evaluateData,classifier:evaluateClassifier,output:evaluateOutputs});
  if(mode==='policy-impact')return compilePolicyImpact(payload);
- fail('mode must be data, classifier, output, replay, golden-replay or policy-impact');
+ if(mode==='integrated')return runIntegratedAssurance(payload,{data:evaluateData,classifier:evaluateClassifier,output:evaluateOutputs});
+ fail('mode must be data, classifier, output, replay, golden-replay, policy-impact or integrated');
 }
