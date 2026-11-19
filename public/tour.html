@@ -9,7 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/vendor/tabler.min.css">
 <link rel="stylesheet" href="/tour.css">
+<link rel="stylesheet" href="/tour-system.css">
 <script defer src="/tour.js"></script>
 </head>
 <body>
@@ -66,7 +69,8 @@
     <span class="breadcrumb">AEGIS <span>/</span> <strong id="breadcrumb-current">Command center</strong></span></div>
    <div class="top-right">
     <span class="top-source"><span class="live-dot"></span><span data-i18n="environment">SYNTHETIC ENVIRONMENT</span></span>
-    <button type="button" id="locale" class="language" aria-label="Switch to French">EN <span>/</span> FR</button>
+    <button type="button" class="top-theme" data-theme-toggle aria-label="Switch color appearance" title="Switch color appearance"><svg class="icon"><use href="/tabler-icons.svg#ti-sun"/></svg></button>
+<button type="button" id="locale" class="language" aria-label="Switch to French">EN <span>/</span> FR</button>
     <a class="top-private" href="/login" id="private-top-link"><span data-i18n="openPrivate">Open workspace</span><svg class="icon icon-xs"><use href="#ic-external"/></svg></a>
    </div>
   </header>

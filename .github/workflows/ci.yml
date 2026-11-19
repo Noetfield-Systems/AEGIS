@@ -15,6 +15,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Install pinned Tabler design system
+        run: npm install --ignore-scripts --no-audit --no-fund
       - name: Unit and contract tests
         run: npm test
       - name: Reproduce Golden Assurance Replay twice
@@ -52,6 +54,7 @@ jobs:
           node --check assurance/advanced-native.mjs
           node --check public/tour.js
           node --check public/workbench.js
+          node --check public/theme.js
           node --check scripts/browser-quality.mjs
           node --check assurance/integrated-report.mjs
           node --check assurance/impact-experiment.mjs

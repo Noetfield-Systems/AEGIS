@@ -74,7 +74,7 @@ const publicDemoEnvelope=Object.freeze({
   reassessmentQueue:publicDemonstration.reassessmentQueue,
   summary:publicDemonstration.summary,receiptHash:publicDemonstration.receiptHash}
 });
-const files={'/':'tour.html','/login':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js','/aegis-emblem.svg':'aegis-emblem.svg','/ottawa-silhouette.svg':'ottawa-silhouette.svg','/tour':'tour.html','/tour.html':'tour.html','/tour.css':'tour.css','/tour.js':'tour.js','/workbench':'workbench.html','/workbench.html':'workbench.html','/workbench.css':'workbench.css','/workbench.js':'workbench.js'};
+const files={'/theme.js':'theme.js','/workbench-system.css':'workbench-system.css','/tour-system.css':'tour-system.css','/login-system.css':'login-system.css','/tabler-icons.svg':'tabler-icons.svg','/':'tour.html','/login':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js','/aegis-emblem.svg':'aegis-emblem.svg','/ottawa-silhouette.svg':'ottawa-silhouette.svg','/tour':'tour.html','/tour.html':'tour.html','/tour.css':'tour.css','/tour.js':'tour.js','/workbench':'workbench.html','/workbench.html':'workbench.html','/workbench.css':'workbench.css','/workbench.js':'workbench.js'};
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml'};
 const server=http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');res.setHeader('Cache-Control','no-store');
@@ -82,6 +82,11 @@ const server=http.createServer(async(req,res)=>{
  if(secure(req))res.setHeader('Strict-Transport-Security','max-age=31536000; includeSubDomains');
  const url=new URL(req.url,'http://localhost');
  try{
+  // Self-host the pinned Tabler 1.5.1 CSS; no third-party CDN or runtime external dependency.
+  if(url.pathname==='/vendor/tabler.min.css'&&req.method==='GET'){
+   const data=await readFile(path.join(root,'node_modules/@tabler/core/dist/css/tabler.min.css'));
+   res.writeHead(200,{'Content-Type':'text/css; charset=utf-8','Cache-Control':'public, max-age=86400','X-Content-Type-Options':'nosniff'});return res.end(data);
+  }
   if(url.pathname==='/api/health'){return respond(res,200,{ok:true,app:'aegis-isc',version:'1.1.0',persistence:'file'})}
   // Public static showcase serves a fixed, precomputed synthetic scenario only.
   // Never accept public caller inputs or expose policy/review/evidence records here.

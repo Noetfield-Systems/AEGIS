@@ -9,17 +9,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/vendor/tabler.min.css">
 <link rel="stylesheet" href="/workbench.css">
+<link rel="stylesheet" href="/workbench-system.css">
+<script src="/theme.js"></script>
 <script src="/workbench.js" defer></script>
 </head>
 <body>
 <a href="#workspace" class="skip" data-t="skip">Skip to workbench</a>
-<div class="shell">
-<aside class="sidebar" aria-label="Workbench stages">
+<div class="shell page">
+<aside class="sidebar navbar navbar-vertical" id="workbench-sidebar" aria-label="Workbench stages">
  <a class="brand" href="/workbench" aria-label="AEGIS workbench"><span class="brand-symbol">A</span><span class="brand-copy"><strong>AEGIS</strong><small>ASSURANCE ENGINE</small></span></a>
  <div class="workspace-name"><span class="status-dot"></span><span data-t="private">PRIVATE RESEARCH WORKSPACE</span></div>
  <div class="side-divider"></div><div class="rail-caption" data-t="journey">ASSURANCE JOURNEY</div>
- <nav class="stage-nav" id="stage-nav">
+ <nav class="stage-nav navbar-nav" id="stage-nav">
   <button type="button" data-step="context" class="selected" aria-current="step"><span class="step-number">01</span><span><strong data-t="navContext">System context</strong><small data-t="navContextSub">System & policy register</small></span><span class="step-indicator"></span></button>
   <button type="button" data-step="policy"><span class="step-number">02</span><span><strong data-t="navPolicy">Policy impact</strong><small data-t="navPolicySub">Versioned source change</small></span><span class="step-indicator"></span></button>
   <button type="button" data-step="evaluate"><span class="step-number">03</span><span><strong data-t="navEvaluate">Native evaluation</strong><small data-t="navEvaluateSub">Technical before & after</small></span><span class="step-indicator"></span></button>
@@ -29,15 +32,24 @@
  </nav>
  <div class="side-bottom"><div class="source-badge"><span data-t="sourceBadge">RESEARCH STANDARD</span><b data-t="sourceNote">Evidence before claims</b></div><a href="/login" data-t="back">Back to ISC Readiness Studio</a><a href="/tour" data-t="publicTour">View public demonstration</a></div>
 </aside>
-<div class="main">
-<header class="topbar"><div class="crumb"><span>NOETFIELD</span><span class="slash">/</span><strong>AEGIS</strong><span class="slash">/</span><span data-t="workbench">Assurance Workbench</span></div><div class="top-actions"><span class="secure-label"><span class="status-dot"></span><span data-t="authenticated">AUTHENTICATED · PRIVATE</span></span><button type="button" class="locale" id="locale" aria-label="Switch to French">EN / FR</button></div></header>
-<main id="workspace" class="content">
+<div class="main page-wrapper">
+<div class="mobile-backdrop" id="workbench-backdrop" hidden></div>
+<header class="topbar navbar"><button type="button" id="mobile-menu" class="icon-action mobile-menu" aria-label="Open workbench navigation" aria-controls="workbench-sidebar" aria-expanded="false"><svg class="ti"><use href="/tabler-icons.svg#ti-menu-2"/></svg></button><div class="crumb"><span>NOETFIELD</span><span class="slash">/</span><strong>AEGIS</strong><span class="slash">/</span><span data-t="workbench">Assurance Workbench</span></div><div class="top-actions"><span class="secure-label"><span class="status-dot"></span><span data-t="authenticated">AUTHENTICATED · PRIVATE</span></span><button type="button" class="locale" id="locale" aria-label="Switch to French">EN / FR</button>
+<details class="appearance-select"><summary class="icon-action" aria-label="Appearance settings" title="Appearance settings"><svg class="ti"><use href="/tabler-icons.svg#ti-sun"/></svg><span class="appearance-word" data-t="appearance">Appearance</span></summary><div class="appearance-popover" role="group" aria-label="Appearance mode"><button type="button" data-theme-choice="dark" data-t="dark">Dark</button><button type="button" data-theme-choice="light" data-t="light">Light</button><button type="button" data-theme-choice="system" data-t="system">System</button></div></details>
+</div></header>
+<main id="workspace" class="content page-body">
  <div class="eyebrow"><span class="eyebrow-line"></span><span data-t="kicker">DECISION ASSURANCE / CONTROLLED RESEARCH ENVIRONMENT</span></div>
  <div class="heading"><div><h1 data-t="title">See the decision.<br>Trace the evidence.</h1><p data-t="intro">Follow a policy change from source to affected systems, native reevaluation, human judgment and a reproducible evidence dossier.</p></div><div class="heading-side"><span class="tag-gold" data-t="research">SYNTHETIC RESEARCH</span><div class="mini-fact"><span data-t="assurance">Assurance state</span><strong data-t="pending">UNABLE TO DETERMINE</strong></div></div></div>
- <div class="warning"><span class="warning-icon" aria-hidden="true">i</span><p data-t="warning">This workspace uses a controlled synthetic scenario. The technical engine is real, but the policy text and model evidence are not approved federal findings. Activity here does not grant ISC points or prove TRL 5.</p></div>
- <div id="error" class="error" role="alert" hidden></div>
- <div id="signin" class="signin" hidden><h2 data-t="signInTitle">Private session required</h2><p data-t="signInCopy">Sign in to the existing ISC workspace. The workbench uses its authenticated session and does not expose confidential cases publicly.</p><a href="/login" class="btn primary" data-t="signIn">Sign in to AEGIS</a></div>
- <div id="busy" class="loading" role="status" data-t="loading">Loading versioned synthetic scenario…</div>
+ <section class="workbench-stats" aria-label="Assurance research environment">
+ <div><span class="stats-icon"><svg class="ti"><use href="/tabler-icons.svg#ti-shield-check"/></svg></span><span><small data-t="environmentLabel">ENVIRONMENT</small><strong data-t="researchEnv">Controlled research</strong></span></div>
+ <div><span class="stats-icon"><svg class="ti"><use href="/tabler-icons.svg#ti-layout-dashboard"/></svg></span><span><small data-t="sourceVersionLabel">SOURCE VERSION</small><strong id="wb-version">—</strong></span></div>
+ <div><span class="stats-icon"><svg class="ti"><use href="/tabler-icons.svg#ti-flask"/></svg></span><span><small data-t="executionLabel">NATIVE ENGINE</small><strong data-t="engineStatus">Ready for evaluation</strong></span></div>
+ <div><span class="stats-icon"><svg class="ti"><use href="/tabler-icons.svg#ti-shield-check"/></svg></span><span><small data-t="receiptLabel">RESULT RECEIPT</small><strong id="wb-receipt-short" data-t="notGenerated">Not generated</strong></span></div>
+ </section>
+ <div class="warning alert"><span class="warning-icon" aria-hidden="true">i</span><p data-t="warning">This workspace uses a controlled synthetic scenario. The technical engine is real, but the policy text and model evidence are not approved federal findings. Activity here does not grant ISC points or prove TRL 5.</p></div>
+ <div id="error" class="error alert alert-danger" role="alert" hidden></div>
+ <div id="signin" class="signin" hidden><h2 data-t="signInTitle">Private session required</h2><p data-t="signInCopy">Sign in to the existing ISC workspace. The workbench uses its authenticated session and does not expose confidential cases publicly.</p><a href="/login" class="btn primary btn-primary" data-t="signIn">Sign in to AEGIS</a></div>
+ <div id="busy" class="loading card" role="status" data-t="loading">Loading versioned synthetic scenario…</div>
  <div id="app" hidden>
   <div class="step-header"><div class="step-pill"><span id="step-counter">01 / 06</span><span data-t="stage">GUIDED WORKFLOW</span></div><div class="context-meta"><span data-t="fixture">Dataset: synthetic</span><span id="scenario-id">—</span></div></div>
   <section class="stage" data-screen="context">
@@ -48,23 +60,23 @@
       <p data-t="scenarioDesc">Choose one of three synthetic cases. Each invokes the same native replay engine; a policy change does not always mean a failed control.</p>
      </div>
      <div class="scenario-chooser-controls"><label for="scenario-select" data-t="scenarioLabel">Controlled assessment scenario</label>
-      <select id="scenario-select"></select>
-      <button type="button" id="scenario-load" class="btn primary" data-t="scenarioLoad">Load scenario</button>
+      <select class="form-select" id="scenario-select"></select>
+      <button type="button" id="scenario-load" class="btn primary btn-primary" data-t="scenarioLoad">Load scenario</button>
      </div>
      <p id="scenario-description" class="scenario-note" aria-live="polite"></p>
    </div>
    <div class="two-col">
-    <article class="pane"><div class="pane-label" data-t="systemRegistry">SYSTEM INVENTORY</div><div id="system-list" class="cards"></div></article>
-    <article class="pane"><div class="pane-label" data-t="researchContext">RESEARCH CONTEXT</div><div class="field-list"><div><small data-t="scenarioName">Scenario identifier</small><code id="case-scenario">—</code></div><div><small data-t="sourceInstrument">Source instrument</small><strong id="case-source">—</strong></div><div><small data-t="baseline">Baseline policy</small><code id="case-baseline">—</code></div><div><small data-t="proposed">Candidate policy</small><code id="case-proposed">—</code></div></div><div class="note" data-t="contextNote">Source identifiers refer to official publication families; the clauses and thresholds in this example are synthetic and do not represent approved government requirements.</div></article>
+    <article class="pane card"><div class="pane-label" data-t="systemRegistry">SYSTEM INVENTORY</div><div id="system-list" class="cards"></div></article>
+    <article class="pane card"><div class="pane-label" data-t="researchContext">RESEARCH CONTEXT</div><div class="field-list"><div><small data-t="scenarioName">Scenario identifier</small><code id="case-scenario">—</code></div><div><small data-t="sourceInstrument">Source instrument</small><strong id="case-source">—</strong></div><div><small data-t="baseline">Baseline policy</small><code id="case-baseline">—</code></div><div><small data-t="proposed">Candidate policy</small><code id="case-proposed">—</code></div></div><div class="note" data-t="contextNote">Source identifiers refer to official publication families; the clauses and thresholds in this example are synthetic and do not represent approved government requirements.</div></article>
    </div>
   </section>
   <section class="stage" data-screen="policy" hidden>
    <div class="section-title"><div><h2 data-t="policyTitle">One policy change. Measurable downstream impact.</h2><p data-t="policyDesc">Compare the original and proposed instrument excerpts, then see how the control mapping identifies impacted AI systems.</p></div><span class="num">02</span></div>
-   <div class="two-col"><article class="pane"><div class="pane-label" data-t="versionDiff">VERSION DIFFERENCE · SYNTHETIC</div><div id="policy-diff"></div></article><article class="pane"><div class="pane-label" data-t="sourceRefs">FEDERAL SOURCE REFERENCES</div><div id="sources" class="source-list"></div><div class="note" data-t="notSnapshot">These are official reference links, not verified snapshots, legal applicability determinations or approved control mappings.</div></article></div>
+   <div class="two-col"><article class="pane card"><div class="pane-label" data-t="versionDiff">VERSION DIFFERENCE · SYNTHETIC</div><div id="policy-diff"></div></article><article class="pane card"><div class="pane-label" data-t="sourceRefs">FEDERAL SOURCE REFERENCES</div><div id="sources" class="source-list"></div><div class="note" data-t="notSnapshot">These are official reference links, not verified snapshots, legal applicability determinations or approved control mappings.</div></article></div>
   </section>
   <section class="stage" data-screen="evaluate" hidden>
    <div class="section-title"><div><h2 data-t="evalTitle">Rerun the evidence. Preserve the original.</h2><p data-t="evalDesc">Execute first-party data, classifier and output metrics over the fixed synthetic fixture. Results are calculated on the server, not generated by UI mock data.</p></div><span class="num">03</span></div>
-   <div class="ribbon"><div><small data-t="evalMethod">EVALUATOR CONTRACT</small><strong data-t="evalMethodText">Deterministic native / version-bound / receipt-linked</strong></div><button type="button" class="btn primary" id="run"><span data-t="run">Run native evaluation</span></button></div>
+   <div class="ribbon"><div><small data-t="evalMethod">EVALUATOR CONTRACT</small><strong data-t="evalMethodText">Deterministic native / version-bound / receipt-linked</strong></div><button type="button" class="btn primary btn-primary" id="run"><span data-t="run">Run native evaluation</span></button></div>
    <div id="eval-placeholder" class="empty"><span class="pulse"></span><strong data-t="notRun">No measurement has been run yet.</strong><p data-t="runHint">Run the evaluation to compare previous and recomputed technical findings.</p></div>
    <div id="eval-results" hidden>
     <section class="lineage" aria-labelledby="lineage-title">
@@ -72,35 +84,35 @@
       <div id="lineage-nodes" class="lineage-nodes" role="group" aria-label="Policy to decision lineage"></div>
       <div class="lineage-foot"><span class="status-dot"></span><span data-t="lineageBoundary">Measured technical trace only — no government compliance approval or independent human decision.</span></div>
     </section>
-    <div class="metrics"><div><small data-t="metricChanged">Changed technical findings</small><strong id="m-changed">—</strong></div><div><small data-t="metricReplayed">Historical assessments rerun</small><strong id="m-replayed">—</strong></div><div><small data-t="metricAffected">Affected systems</small><strong id="m-affected">—</strong></div><div><small data-t="metricPending">Pending active / planned</small><strong id="m-pending">—</strong></div></div><article class="pane"><div class="pane-label" data-t="beforeAfter">NATIVE FINDINGS · BEFORE / AFTER</div><div class="table-scroll"><table><thead><tr><th data-t="control">Control</th><th data-t="oldResult">Historical finding</th><th data-t="newResult">Recomputed finding</th><th data-t="measured">Measured value</th><th data-t="change">Changed?</th></tr></thead><tbody id="findings"></tbody></table></div></article><div class="subhead" data-t="lifecycle">ASSESSMENT LIFECYCLE</div><div id="work-queue" class="cards grid-three"></div></div>
+    <div class="metrics"><div><small data-t="metricChanged">Changed technical findings</small><strong id="m-changed">—</strong></div><div><small data-t="metricReplayed">Historical assessments rerun</small><strong id="m-replayed">—</strong></div><div><small data-t="metricAffected">Affected systems</small><strong id="m-affected">—</strong></div><div><small data-t="metricPending">Pending active / planned</small><strong id="m-pending">—</strong></div></div><article class="pane card"><div class="pane-label" data-t="beforeAfter">NATIVE FINDINGS · BEFORE / AFTER</div><div class="table-scroll"><table><thead><tr><th data-t="control">Control</th><th data-t="oldResult">Historical finding</th><th data-t="newResult">Recomputed finding</th><th data-t="measured">Measured value</th><th data-t="change">Changed?</th></tr></thead><tbody id="findings"></tbody></table></div></article><div class="subhead" data-t="lifecycle">ASSESSMENT LIFECYCLE</div><div id="work-queue" class="cards grid-three"></div></div>
   </section>
   <section class="stage" data-screen="review" hidden>
    <div class="section-title"><div><h2 data-t="reviewTitle">Human judgment stays accountable.</h2><p data-t="reviewDesc">Register a technical simulation under its exact receipt. Record an internal decision and reason without claiming a second independent reviewer.</p></div><span class="num">04</span></div>
-   <div class="two-col"><article class="pane"><div class="pane-label" data-t="caseRecord">RECORDED CASE</div><p class="muted" id="record-hint" data-t="recordHint">Run native evaluation before recording a case.</p><div class="hashbox" id="case-receipt" hidden><small data-t="receipt">Result SHA-256</small><code id="receipt-value">—</code></div><button type="button" class="btn secondary" id="record" disabled data-t="record">Record this technical case</button><div class="note" data-t="recordNote">Only derived metrics and receipt metadata enter the internal journal. Raw scenario input is not archived here.</div></article>
-   <article class="pane"><div class="pane-label" data-t="operatorReview">INTERNAL OPERATOR REVIEW</div><form id="review-form"><label for="reviewer" data-t="reviewer">Operator display name (not identity-verified)</label><input id="reviewer" name="reviewer" autocomplete="off" maxlength="120" required minlength="2" placeholder="Internal reviewer"><label for="decision" data-t="decision">Technical review decision</label><select id="decision" name="decision"><option value="REQUEST_CHANGES" data-t="changes">Request changes</option><option value="REJECT" data-t="reject">Reject measurement</option><option value="APPROVE" data-t="ack">Acknowledge technical measurement</option></select><label for="reason" data-t="reason">Evidence-based rationale (12–1200 characters)</label><textarea id="reason" name="reason" rows="4" required minlength="12" maxlength="1200" placeholder="Describe the tested findings and remaining limitations."></textarea><button type="submit" class="btn primary" id="review-submit" disabled data-t="submitReview">Record internal review</button></form><p class="fine" data-t="identityLimitation">One administrator session. A display name is not independently authenticated, and acknowledgment is not legal or federal compliance approval.</p></article></div>
+   <div class="two-col"><article class="pane card"><div class="pane-label" data-t="caseRecord">RECORDED CASE</div><p class="muted" id="record-hint" data-t="recordHint">Run native evaluation before recording a case.</p><div class="hashbox" id="case-receipt" hidden><small data-t="receipt">Result SHA-256</small><code id="receipt-value">—</code></div><button type="button" class="btn secondary btn-outline-primary" id="record" disabled data-t="record">Record this technical case</button><div class="note" data-t="recordNote">Only derived metrics and receipt metadata enter the internal journal. Raw scenario input is not archived here.</div></article>
+   <article class="pane card"><div class="pane-label" data-t="operatorReview">INTERNAL OPERATOR REVIEW</div><form id="review-form"><label for="reviewer" data-t="reviewer">Operator display name (not identity-verified)</label><input class="form-control" id="reviewer" name="reviewer" autocomplete="off" maxlength="120" required minlength="2" placeholder="Internal reviewer"><label for="decision" data-t="decision">Technical review decision</label><select class="form-select" id="decision" name="decision"><option value="REQUEST_CHANGES" data-t="changes">Request changes</option><option value="REJECT" data-t="reject">Reject measurement</option><option value="APPROVE" data-t="ack">Acknowledge technical measurement</option></select><label for="reason" data-t="reason">Evidence-based rationale (12–1200 characters)</label><textarea class="form-control" id="reason" name="reason" rows="4" required minlength="12" maxlength="1200" placeholder="Describe the tested findings and remaining limitations."></textarea><button type="submit" class="btn primary btn-primary" id="review-submit" disabled data-t="submitReview">Record internal review</button></form><p class="fine" data-t="identityLimitation">One administrator session. A display name is not independently authenticated, and acknowledgment is not legal or federal compliance approval.</p></article></div>
    <div class="subhead" data-t="history">RECENT INTERNAL CASE HISTORY</div><div id="case-history" class="history"></div>
   </section>
   <section class="stage" data-screen="report" hidden>
    <div class="section-title"><div><h2 data-t="reportTitle">A dossier that can be interrogated.</h2><p data-t="reportDesc">Generate a bilingual, print-ready report from fresh native computation: source lineage, historical findings, lifecycle actions, review and scientific limits.</p></div><span class="num">05</span></div>
-   <div class="two-col"><article class="pane report-preview"><div class="pane-label" data-t="deliverable">TECHNICAL EVIDENCE DOSSIER</div><div class="paper"><div class="paper-brand">AEGIS <small>NOETFIELD SYSTEMS INC.</small></div><div class="paper-eyebrow" data-t="paperEyebrow">REPRODUCIBLE ASSURANCE / EXPERIMENTAL</div><h3 data-t="paperTitle">Decision Assurance & Regulatory Replay</h3><p data-t="paperText">An auditable record of version changes, first-party measurements, review events and source limitations.</p><div class="paper-line"></div><div class="paper-rows"><div><span data-t="caseStatus">Case status</span><b id="report-status">NOT RUN</b></div><div><span data-t="reportReceipt">Receipt</span><code id="report-receipt">—</code></div><div><span data-t="reportedFinding">Regulatory finding</span><b>UNABLE_TO_DETERMINE</b></div></div></div></article><article class="pane"><div class="pane-label" data-t="exportOptions">EXPORT OPTIONS</div><p class="muted" data-t="exportDesc">Choose a language. The server reruns the model checks and includes a matching internal review event when one exists. You can print the HTML dossier to PDF in your browser.</p><div class="download-actions"><button type="button" class="btn primary" data-report="en" disabled data-t="downloadEn">Download English report</button><button type="button" class="btn secondary" data-report="fr" disabled data-t="downloadFr">Télécharger le rapport français</button></div><div class="note" data-t="reportLimit">The report contains no official government endorsement, no asserted TRL level and no independent review claim. It does not award ISC evidence credit.</div></article></div>
+   <div class="two-col"><article class="pane report-preview"><div class="pane-label" data-t="deliverable">TECHNICAL EVIDENCE DOSSIER</div><div class="paper"><div class="paper-brand">AEGIS <small>NOETFIELD SYSTEMS INC.</small></div><div class="paper-eyebrow" data-t="paperEyebrow">REPRODUCIBLE ASSURANCE / EXPERIMENTAL</div><h3 data-t="paperTitle">Decision Assurance & Regulatory Replay</h3><p data-t="paperText">An auditable record of version changes, first-party measurements, review events and source limitations.</p><div class="paper-line"></div><div class="paper-rows"><div><span data-t="caseStatus">Case status</span><b id="report-status">NOT RUN</b></div><div><span data-t="reportReceipt">Receipt</span><code id="report-receipt">—</code></div><div><span data-t="reportedFinding">Regulatory finding</span><b>UNABLE_TO_DETERMINE</b></div></div></div></article><article class="pane card"><div class="pane-label" data-t="exportOptions">EXPORT OPTIONS</div><p class="muted" data-t="exportDesc">Choose a language. The server reruns the model checks and includes a matching internal review event when one exists. You can print the HTML dossier to PDF in your browser.</p><div class="download-actions"><button type="button" class="btn primary btn-primary" data-report="en" disabled data-t="downloadEn">Download English report</button><button type="button" class="btn secondary btn-outline-primary" data-report="fr" disabled data-t="downloadFr">Télécharger le rapport français</button></div><div class="note" data-t="reportLimit">The report contains no official government endorsement, no asserted TRL level and no independent review claim. It does not award ISC evidence credit.</div></article></div>
   </section>
   <section class="stage" data-screen="coverage" hidden>
    <div class="section-title"><div><h2 data-t="coverageTitle">Engineering evidence versus mandatory outcomes.</h2><p data-t="coverageDesc">Six essential ISC outcomes with implemented artifacts, experimental tests and remaining proof gaps. This is an internal acceptance matrix, not a government score.</p></div><span class="num">06</span></div>
    <div id="coverage-grid" class="coverage-grid"></div>
    <div class="subhead" data-t="benchmarkHeading">BENCHMARK STUDIO / FIRST-PARTY POLICY IMPACT</div>
    <div class="two-col benchmark-layout">
-    <article class="pane">
+    <article class="pane card">
      <div class="pane-label" data-t="benchmarkMethod">ACTUAL COMPILER PREDICTIONS · SYNTHETIC LABELS</div>
      <h3 data-t="benchmarkTitle">Measure predictions, not promises.</h3>
      <p class="muted" data-t="benchmarkCopy">Eight controlled examples, two deliberately discordant reference labels, first-party impact classification and Wilson 95% intervals. The labels are not independently validated.</p>
      <div class="ribbon benchmark-controls">
       <div><small data-t="benchmarkInput">DATASET</small><strong>synthetic-benchmark-demo-v1</strong></div>
-      <button type="button" class="btn primary" id="benchmark-run" data-t="benchmarkRun">Run policy benchmark</button>
+      <button type="button" class="btn primary btn-primary" id="benchmark-run" data-t="benchmarkRun">Run policy benchmark</button>
      </div>
      <div class="note" data-t="benchmarkWarning">Illustrative measurements do not establish real-world accuracy, competitor superiority, official policy applicability or TRL 5.</div>
-     <button type="button" class="btn secondary" id="benchmark-download" data-t="benchmarkExport" disabled>Download experiment receipt (JSON)</button>
+     <button type="button" class="btn secondary btn-outline-primary" id="benchmark-download" data-t="benchmarkExport" disabled>Download experiment receipt (JSON)</button>
     </article>
-    <article class="pane">
+    <article class="pane card">
      <div class="pane-label" data-t="benchmarkOutcomes">MEASURED CONFUSION MATRIX & UNCERTAINTY</div>
      <div id="benchmark-placeholder" class="empty"><strong data-t="benchmarkEmpty">No benchmark has been run.</strong><p data-t="benchmarkEmptyText">Run the experiment to generate genuine compiler predictions on synthetic test cases.</p></div>
      <div id="benchmark-results" hidden>
@@ -121,7 +133,7 @@
     </article>
    </div><div class="note" data-t="coverageNote">Do not mark TRL 5, full E1–E6 compliance, Canadian data residency or independent reviewer verification without specific original evidence.</div>
   </section>
-  <div class="footer-nav"><button type="button" class="btn quiet" id="prev" data-t="prev">Previous stage</button><span class="footer-center" id="flow-status" aria-live="polite"></span><button type="button" class="btn primary" id="next" data-t="next">Continue to next stage</button></div>
+  <div class="footer-nav"><button type="button" class="btn quiet btn-outline-secondary" id="prev" data-t="prev">Previous stage</button><span class="footer-center" id="flow-status" aria-live="polite"></span><button type="button" class="btn primary btn-primary" id="next" data-t="next">Continue to next stage</button></div>
  </div>
 </main>
 <footer class="foot"><span>AEGIS / NOETFIELD SYSTEMS INC.</span><span data-t="footer">Technical demonstration, not a Government of Canada determination.</span><span>EN / FR</span></footer>

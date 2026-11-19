@@ -8,6 +8,7 @@ Canonical owner: Noetfield Systems Inc. Product: AEGIS. Repository: Noetfield-Sy
 3. docs/ARCHITECTURE.md
 4. docs/ISC_EVIDENCE_AND_BENCHMARKS.md
 5. docs/ROADMAP_30_DAY.md
+6. docs/DESIGN_SYSTEM.md — binding UI foundation before every design edit
 
 ## Public interface language — binding Founder decision (November 18, 2026)
 - **AEGIS web interface: English (en-CA) by default and French (fr-CA) as the only alternative.** No Persian / FA locale, Persian language toggle, or RTL pages on the website.
@@ -26,3 +27,10 @@ Canonical owner: Noetfield Systems Inc. Product: AEGIS. Repository: Noetfield-Sy
 - Do not reset or overwrite persistent Railway volume. Do not publish secrets or credentials.
 - Avoid status-only work when a real code, evidence, customer, or shipment action is available.
 - Each report: actual commit SHA, tests, deployment, blocker, evidence URL, next owner/action/due.
+
+## Permanent Design System Lock — November 19, 2026
+- All public console, login, private ISC and Assurance Workbench changes **MUST** follow [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md).
+- Use real pinned MIT Tabler UI v1.5.1, original Tabler Icons, and AEGIS graphite/porcelain design tokens. No ad hoc AI-generated generic themes, purple/brown gradients, inconsistent icon packs or oversized static Hero components.
+- Dark / Light / System are required and persistent across pages. Reuse one source of truth; never implement isolated color pickers.
+- Mobile layouts must pass real Chrome tests at 320px and 390px, with keyboard and focus behavior, no horizontal document overflow and usable offcanvas controls. Preserve EN/FR and native technical evidence calculation.
+- Before claiming a premium release, review actual screenshots AND run authenticated and unauthenticated E2E; CI success alone does not equal aesthetic parity with the best market products.

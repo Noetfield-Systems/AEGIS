@@ -119,18 +119,43 @@ try{
  await wait(async()=>await evaluate('!!document.querySelector("#login-form")'),'Private login did not render');
  let body=await evaluate('document.body.innerText');
  assert(!persian.test(body),'Legacy English login rendered Persian.');
- assert(body.includes('Enter the AEGIS workspace'),'Premium login copy missing.');
- await screenshot('01-legacy-login-en-desktop.png');
+ assert(body.includes('Welcome to AEGIS.'),'Premium Tabler login copy missing.');
+ await screenshot('01-premium-login-en-dark.png');
+ await evaluate('document.querySelector("[data-theme-toggle]").click()');
+ await wait(async()=>await evaluate('document.documentElement.dataset.bsTheme==="light"'),'Login light mode did not activate');
+ await screenshot('01b-premium-login-en-light.png');
+ await evaluate('document.querySelector("[data-theme-toggle]").click()');
+ await wait(async()=>await evaluate('document.documentElement.dataset.bsTheme==="dark"'),'Login dark mode did not restore');
  const restricted=await evaluate('(async()=> (await fetch("/api/assurance/cases")).status)()');
  assert(restricted===401,'Unauthenticated case registry became accessible');
  // Language-toggle really reloads and changes the visible page, not just document.lang.
  await evaluate('document.querySelector("#lang-toggle").click()');
- await wait(async()=>await evaluate('document.documentElement.lang==="fr-CA" && document.body.innerText.includes("Accéder à l’espace AEGIS")'),'Legacy fr-CA login not translated');
+ await wait(async()=>await evaluate('document.documentElement.lang==="fr-CA" && document.body.innerText.includes("Bienvenue dans AEGIS.")'),'Legacy fr-CA login not translated');
  body=await evaluate('document.body.innerText');
  assert(!persian.test(body),'Legacy French login rendered Persian.');
- await screenshot('02-legacy-login-fr-desktop.png');
+ await screenshot('02-premium-login-fr-dark.png');
  await evaluate('document.querySelector("#lang-toggle").click()');
  await wait(async()=>await evaluate('document.documentElement.lang==="en-CA" && !!document.querySelector("#login-form")'),'English locale not restored');
+ // The original customer screenshot was the login: test actual sign-in geometry at
+ // the most constrained mobile breakpoints, in both premium appearances.
+ for(const width of [390,320]){
+  await command('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+  await navigate('/login');
+  await wait(async()=>await evaluate('!!document.querySelector("#login-form")'),'Mobile auth page unavailable');
+  const geometry=await evaluate('(()=>{const e=document.querySelector(".login-card").getBoundingClientRect();return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,left:e.left,right:e.right,cardWidth:e.width}})()');
+  assert(geometry.left>=-1&&geometry.right<=geometry.viewport+2&&geometry.scrollWidth<=geometry.viewport+3,'Login overflows at '+width+': '+JSON.stringify(geometry));
+  if(width===390){
+   await screenshot('02b-premium-login-390px-dark.png');
+   await evaluate('window.AegisTheme.set("light")');
+   assert(await evaluate('document.documentElement.dataset.bsTheme')==='light','Mobile login light appearance failed');
+   await screenshot('02c-premium-login-390px-light.png');
+   await evaluate('window.AegisTheme.set("dark")');
+  }
+ }
+ await command('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ await navigate('/login');
+ await wait(async()=>await evaluate('!!document.querySelector("#login-form")'),'Desktop login unavailable after mobile layout checks');
+
  const loginStatus=await evaluate('(async()=> (await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:'+JSON.stringify(password)+'})})).status)()');
  assert(loginStatus===200,'Local authorized login failed');
  await navigate('/workbench');
@@ -138,6 +163,12 @@ try{
  body=await evaluate('document.body.innerText');
  assert(!persian.test(body),'English private workbench rendered Persian.');
  await screenshot('03-workbench-context-desktop.png');
+ assert(await evaluate('document.querySelector("#wb-version").textContent.includes("v2")'),'Versioned policy metadata not visible');
+ await evaluate('document.querySelector(".appearance-select summary").click();document.querySelector("[data-theme-choice=light]").click()');
+ await wait(async()=>await evaluate('document.documentElement.dataset.bsTheme==="light"'),'Workbench light appearance failed');
+ await screenshot('03b-workbench-context-light.png');
+ await evaluate('document.querySelector(".appearance-select summary").click();document.querySelector("[data-theme-choice=dark]").click()');
+ await wait(async()=>await evaluate('document.documentElement.dataset.bsTheme==="dark"'),'Workbench dark appearance failed');
  await evaluate('document.querySelector(\'[data-step="evaluate"]\').click();document.querySelector("#run").click();');
  await wait(async()=>await evaluate('!document.querySelector("#eval-results").hidden && document.querySelectorAll("#lineage-nodes .lineage-node").length===6'),'Native evaluation and real provenance did not render');
  const finding=await evaluate('document.querySelector("#m-changed").textContent');
@@ -161,11 +192,44 @@ try{
  await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  await navigate('/workbench');
  await wait(async()=>await evaluate('!!document.querySelector("#app") && !document.querySelector("#app").hidden'),'Mobile workbench did not load');
+ await evaluate('document.querySelector("#mobile-menu").click()');
+ assert(await evaluate('document.querySelector("#workbench-sidebar").classList.contains("is-open")'),'Workbench mobile offcanvas failed to open');
+ assert(await evaluate('document.querySelector("#mobile-menu").getAttribute("aria-expanded")')==='true','Workbench drawer accessibility state missing');
+ await screenshot('06a-workbench-mobile-menu.png');
+ await evaluate('document.querySelector("#workbench-backdrop").click()');
+ assert(!(await evaluate('document.querySelector("#workbench-sidebar").classList.contains("is-open")')),'Mobile offcanvas did not dismiss');
+ await sleep(300); // Let the upstream offcanvas transition settle before full-page capture.
+ assert(await evaluate('document.querySelector("#mobile-menu").getAttribute("aria-expanded")')==='false','Drawer aria-expanded remained open');
+
  await evaluate('document.querySelector(\'[data-step="evaluate"]\').click();document.querySelector("#run").click();');
  await wait(async()=>await evaluate('!document.querySelector("#eval-results").hidden'),'Mobile evaluation did not execute');
+
+ await evaluate('window.scrollTo({left:0,top:0,behavior:"instant"})');
+ await sleep(320);
+ const geometry=await evaluate('(()=>{const $=s=>document.querySelector(s)?.getBoundingClientRect(),a=$("#workspace"),b=$(".heading h1"),c=$(".main.page-wrapper");return {viewport:innerWidth,scrollX:scrollX,scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,workspaceLeft:a?.left,workspaceRight:a?.right,headingLeft:b?.left,headingRight:b?.right,mainLeft:c?.left,mainRight:c?.right}})()');
+ console.log('AEGIS_MOBILE_GEOMETRY',JSON.stringify(geometry));
+ assert(Math.abs(geometry.scrollX)<=1,'Mobile viewport scrolled horizontally: '+JSON.stringify(geometry));
+ assert(geometry.workspaceLeft>=-1&&geometry.workspaceRight<=geometry.viewport+2,'Workbench mobile content clipped: '+JSON.stringify(geometry));
+ assert(geometry.headingLeft>=-1&&geometry.headingRight<=geometry.viewport+2,'Workbench translated heading clipped: '+JSON.stringify(geometry));
  const width=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');
  assert(width.document<=width.viewport+3,'Mobile workbench horizontal overflow: '+JSON.stringify(width));
  await screenshot('06-workbench-lineage-mobile.png');
+ await evaluate('document.querySelector("[data-theme-toggle]")?.click()');
+ await evaluate('window.AegisTheme.set("light")');
+ assert(await evaluate('document.documentElement.dataset.bsTheme')==='light','Mobile system theme not applied');
+ const widthLight=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');
+ assert(widthLight.document<=widthLight.viewport+3,'Mobile light mode overflow '+JSON.stringify(widthLight));
+ await screenshot('06b-workbench-lineage-mobile-light.png');
+ for(const width of [320,390,768,1024,1440]){
+  await command('Emulation.setDeviceMetricsOverride',{width,height:860,deviceScaleFactor:1,mobile:width<900});
+  await sleep(175);
+  const g=await evaluate('({viewport:innerWidth,scroll:scrollX,document:document.documentElement.scrollWidth,content:document.querySelector("#workspace").getBoundingClientRect().right})');
+  assert(g.document<=g.viewport+3&&g.scroll<2,'Workbench breakpoint overflow at '+width+': '+JSON.stringify(g));
+  if(width===320)await screenshot('06c-workbench-320px-light.png');
+ }
+ await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+
+ await evaluate('window.AegisTheme.set("dark")');
  await navigate('/tour');
  await evaluate('document.querySelector("#menu-button").click()');
  assert(await evaluate('document.querySelector("#sidebar").classList.contains("open")'),'Mobile sidebar did not open');

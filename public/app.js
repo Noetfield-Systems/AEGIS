@@ -18,7 +18,39 @@ function alertToast(message,error=false){const n=document.createElement('div');n
 function setData(x){state=x.state;d=x.derived;if(x.meta)meta=x.meta;render()}
 function currentTitle(){return nav.find(x=>x[0]===view)?.[1]||'Operations'}
 function logout(){api('auth/logout',{method:'POST'}).catch(()=>{}).finally(()=>{state=null;d=null;login()})}
-function login(error=''){root.innerHTML=`<main class="login-wrap"><section class="login-story"><div class="brand"><div class="logo-mark">A</div><div><strong>AEGIS</strong><small>NOETFIELD · ISC</small></div></div><div><div class="eyebrow light">EVIDENCE OPERATIONS / 2026</div><h1>From assessment scores,<br>to defensible decisions.</h1><p>Register evidence, track control gaps and preserve accountable decisions. Synthetic experiments never replace independently verified proof.</p></div><small>PRIVATE WORKSPACE · NOETFIELD SYSTEMS INC.</small></section><section class="login-side"><form class="login-card" id="login-form"><div class="eyebrow">WORKSPACE ACCESS</div><h2>Enter the AEGIS workspace</h2><p>This research environment contains private assessment records. An authorized administrator session is required.</p><label for="password">Administrator passphrase</label><input id="password" name="password" type="password" minlength="12" autocomplete="current-password" required placeholder="Enter administrator passphrase"><div class="login-error" id="login-error">${et(error)}</div><button class="btn primary" type="submit">Enter private workspace →</button><a class="btn" href="/tour" style="margin-top:12px;display:inline-flex;justify-content:center;width:100%">Explore public demonstration</a><a class="btn" href="/workbench" style="margin-top:9px;display:inline-flex;justify-content:center;width:100%">Open Assurance Workbench</a></form></section></main>`;el('#login-form').onsubmit=async e=>{e.preventDefault();const pw=new FormData(e.target).get('password');try{await api('auth/login',{method:'POST',body:JSON.stringify({password:pw})});setData(await api('state'));}catch(err){el('#login-error').textContent=err.message}}}
+function login(error=''){root.innerHTML=`<main class="login-wrap">
+<section class="login-story">
+ <div class="brand"><div class="logo-mark">A</div><div><strong>AEGIS</strong><small>DECISION ASSURANCE</small></div></div>
+ <div class="login-story-content">
+  <div class="eyebrow light">ASSURANCE PLATFORM / RESEARCH ENVIRONMENT</div>
+  <h1>Every decision.<br>Every control.<br>Accounted for.</h1>
+  <p>Trace policy changes through AI systems, technical evaluations and reproducible evidence — in one governed workspace.</p>
+  <div class="login-evidence-preview" aria-label="Assurance workflow overview">
+   <div class="preview-title"><span class="preview-indicator"></span><strong>THE ASSURANCE CHAIN</strong><span>01 — 03</span></div>
+   <div class="preview-stage"><span>01</span><div><strong>Policy intelligence</strong><small>Versioned requirements & impact</small></div><span class="preview-line"></span></div>
+   <div class="preview-stage"><span>02</span><div><strong>Native evaluation</strong><small>Historical vs recomputed</small></div><span class="preview-line"></span></div>
+   <div class="preview-stage"><span>03</span><div><strong>Evidence provenance</strong><small>Verifiable result receipt</small></div></div>
+  </div>
+ </div>
+ <small class="login-story-footer">PRIVATE WORKSPACE · NOETFIELD SYSTEMS INC.</small>
+</section>
+<section class="login-side">
+ <div class="login-side-top"><span class="login-side-name">AEGIS <span>/</span> SECURE ACCESS</span><button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch color appearance" title="Switch color appearance"><svg class="ti" aria-hidden="true"><use href="/tabler-icons.svg#ti-sun"/></svg></button></div>
+ <form class="login-card card" id="login-form">
+  <div class="login-kicker"><span class="login-kicker-dot"></span> WORKSPACE ACCESS</div>
+  <h2>Welcome to AEGIS.</h2>
+  <p>Sign in to the private research workspace to run native assurance evaluations and inspect evidence.</p>
+  <label for="password">Administrator passphrase</label>
+  <input class="form-control" id="password" name="password" type="password" minlength="12" autocomplete="current-password" required placeholder="Enter administrator passphrase">
+  <div class="login-error" id="login-error" role="alert">${et(error)}</div>
+  <button class="btn primary btn-primary" type="submit">Enter private workspace →</button>
+  <div class="login-card-divider"><span>EXPLORE THE PRODUCT</span></div>
+  <a class="btn login-link btn-outline-secondary" href="/tour">Explore public demonstration</a>
+  <a class="btn login-link btn-outline-secondary" href="/workbench">Open Assurance Workbench</a>
+  <div class="login-fineprint"><svg class="ti" aria-hidden="true"><use href="/tabler-icons.svg#ti-shield-check"/></svg> Private access · Controlled research only</div>
+ </form>
+ <p class="login-side-bottom">© 2026 NOETFIELD SYSTEMS INC. · EN / FR</p>
+</section></main>`;el('#login-form').onsubmit=async e=>{e.preventDefault();const pw=new FormData(e.target).get('password');try{await api('auth/login',{method:'POST',body:JSON.stringify({password:pw})});setData(await api('state'));}catch(err){el('#login-error').textContent=err.message}}}
 async function init(){try{setData(await api('state'))}catch(e){login()}}
 function chrome(body){const current=scoreLabel(d.score);return `<div class="app-layout"><aside class="side"><div class="brand"><div class="logo-mark">A</div><div><strong>AEGIS <span style="color:#a8cebb">/ ISC</span></strong><small>NOETFIELD SYSTEMS</small></div></div><div class="nav-title">WORKSPACE / اتاق عملیات</div><nav class="nav">${nav.map(([id,name,sym])=>`<button type="button" class="${view===id?'active':''}" data-nav="${id}"><span class="nav-icon">${sym}</span>${name}${id==='gaps'?`<span class="nav-badge">${fmt(d.openGates.length)}</span>`:''}</button>`).join('')}</nav><div class="sidebar-bottom"><div class="eyebrow">CURRENT READINESS</div><div style="margin-top:8px;color:#d4e9e1;font-size:21px;font-weight:800;direction:ltr;text-align:right">${fmt(d.score)} <small>/ 130</small></div><div class="side-progress"><span style="width:${d.score/130*100}%"></span></div><small>${et(current)} · حد عبور ۶۵</small><div style="margin-top:20px"><a href="/workbench" class="sidelink" style="display:block;margin-bottom:12px;color:#d6ae74">Open Assurance Workbench ↗</a><button class="sidelink" data-logout>خروج از فضای خصوصی ↗</button></div></div></aside><div class="main"><header class="topbar"><div class="crumb">Noetfield <span>›</span> AEGIS <span>›</span> <strong>${et(currentTitle())}</strong></div><div class="top-actions"><span class="date-chip">ISC 2026 <span style="margin:0 8px;color:#c1ccc5">|</span> مهلت: ۲۲ دسامبر</span><button class="btn quiet" data-export="json">خروجی پرونده ↓</button><button class="btn primary" data-new="evidence">+ افزودن سند</button></div></header><main class="content">${body}<div style="margin-top:45px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#8da198;font-size:10px;border-top:1px solid #dde6df;padding-top:18px"><span>AEGIS ISC · تخمین داخلی، نه ارزیابی رسمی دولت کانادا</span><span>${link(meta.source,'قواعد ISC')} · ${link(meta.notice,'اعلامیه و اصلاحیه‌ها')}</span></div></main></div></div>${modal?renderModal():''}`}
 function sectionIntro(title,description,action=''){return `<div class="section-intro"><div><div class="eyebrow">EVIDENCE FIRST <span class="dashline"></span> EN578-24ISC4/100</div><h1>${title}</h1><p>${description}</p></div>${action}</div>`}
