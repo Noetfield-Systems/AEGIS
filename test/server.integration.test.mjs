@@ -84,6 +84,20 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.equal(scope.result.inferredTriage,'POTENTIALLY_IN_SCOPE_REQUIRES_REVIEW');
  assert.equal(scope.result.aiaReviewFlag,'SCHEDULE_AUTHORIZED_AIA_REVIEW');
  assert.equal(scope.result.legalApplicabilityConfirmed,false);
+ const calibrated=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'binary-calibration',input:{
+  datasetVersion:'test-ds',modelVersion:'test-model',probabilities:[0.1,0.9],labels:[0,1]
+ }})});
+ assert.equal(calibrated.status,200);
+ const cal=await calibrated.json();
+ assert.equal(cal.evidenceCredited,false);
+ assert.equal(cal.result.metrics.brierScore,0.01);
+ assert.equal(cal.result.complianceFinding,'UNABLE_TO_DETERMINE');
+ const grounded=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'grounded-claims',input:{
+  datasetVersion:'test-ds',modelVersion:'test-model',cases:[{id:'c',referenceFacts:['checked fact'],outputClaims:['checked fact','unsupported'],abstained:false}]
+ }})});
+ assert.equal(grounded.status,200);
+ assert.equal((await grounded.json()).result.metrics.totalUnsupported,1);
+
 
  assert.ok(policyResult.result.proposedControls.every(c=>c.isActive===false));
  // AEGIS-103 policy provenance and lifecycle are restricted to the signed-in admin.
