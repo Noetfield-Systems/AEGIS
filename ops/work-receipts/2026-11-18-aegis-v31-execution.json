@@ -1,0 +1,117 @@
+{
+  "schema": "AEGIS_VERIFIED_EXECUTION_RECEIPT_V1",
+  "workPacket": "AEGIS-103 + AEGIS-102/E6",
+  "localExecutionDate": "2026-11-18",
+  "company": "Noetfield Systems Inc.",
+  "product": "AEGIS",
+  "sourceDirective": "AEGIS v3.1 ISC Bid Advancement and Verified Execution Sprint",
+  "baselineCommit": "819058689bad0c88de63201b3db4b3b2bbf2c338",
+  "changes": [
+    {
+      "pr": "https://github.com/Noetfield-Systems/AEGIS/pull/15",
+      "commit": "633fce1c3bbb455410545960ed5943756f29f00f",
+      "scope": "Official section-based source catalogue, signature-gated technical mappings with server-only trust anchor, completed native replay, in-progress rebase and future policy selection",
+      "testRun": "https://github.com/Noetfield-Systems/AEGIS/actions/runs/44449941487",
+      "testsPassed": 67,
+      "testsFailed": 0,
+      "railwayDeployment": "8c64a4fc-d06e-4c97-8487-4b7b19a75bf4"
+    },
+    {
+      "pr": "https://github.com/Noetfield-Systems/AEGIS/pull/16",
+      "commit": "3f2c8eb759e28251f8646cd7012c95c583b4973e",
+      "scope": "First-party PSI drift, binary Brier/ECE calibration and exact-label grounded-output assessment, each with negative tests and evidence contracts",
+      "testRun": "https://github.com/Noetfield-Systems/AEGIS/actions/runs/44450504156",
+      "testsPassed": 74,
+      "testsFailed": 0,
+      "railwayDeployment": "28baaedc-f4e7-4059-828e-6cbaeb72cd26"
+    }
+  ],
+  "latestProductionVerification": {
+    "platform": "Railway",
+    "projectId": "f11f031e-91dc-4941-8562-a75a0d1b3122",
+    "serviceId": "eb2125e2-a991-435b-926a-6262027ebf3b",
+    "deploymentId": "28baaedc-f4e7-4059-828e-6cbaeb72cd26",
+    "observedStatus": "SUCCESS",
+    "environment": "production",
+    "serviceState": "online",
+    "runningReplicas": 1,
+    "expectedReplicas": 1,
+    "volumeAttached": true,
+    "actualRegion": "sfo",
+    "canadianResidencyEstablished": false,
+    "railwayWarnings": 0,
+    "railwayCriticals": 0,
+    "anonymousProductionHealthGetVerified": false,
+    "authenticatedGoldenReplayProductionPOSTVerified": false
+  },
+  "sourceEvidence": {
+    "officialPageLinks": [
+      "https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592",
+      "https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/algorithmic-impact-assessment.html",
+      "https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/guide-scope-directive-automated-decision-making.html"
+    ],
+    "verifiedShortSourceExcerpts": true,
+    "originalDocumentBytesArchived": false,
+    "fullSourceVersionConfirmed": false,
+    "technicallySignedMappingEvidence": "ephemeral-unit-tests-only",
+    "qualifiedRealReviewerVerified": false,
+    "regulatoryApprovalClaimed": false
+  },
+  "behaviors": {
+    "completedAssessment": "Recomputed deterministically on unchanged historical fixtures by existing Golden Replay",
+    "inProgressAssessment": "Created version rebase and invalidation plan, not executed as completed",
+    "futureAssessment": "Selected policy version based on effective date and technical mapping approval; not run prematurely",
+    "missingInvalidExpiredEvidence": "Returns UNABLE_TO_DETERMINE rather than false positive",
+    "policyControlMapping": "Only server-configured trusted Ed25519 public keys can verify technical-review signatures; default trust anchors empty",
+    "nativeE6": [
+      "univariate PSI data shift",
+      "binary classification Brier calibration and ECE",
+      "exact reference-labelled output claim checks and abstention"
+    ],
+    "determinism": "double-run byte comparison in CI",
+    "noAutomaticComplianceCredit": true
+  },
+  "independentVerification": {
+    "githubActionsSeparateRunner": true,
+    "externalIndependentHumanPolicyReview": false,
+    "externalIndependentScientificReviewer": false,
+    "representativeFederalEnvironmentTrial": false,
+    "trl5Established": false
+  },
+  "acceptance": {
+    "essentialOutcomeStatus": "PARTIAL_NON_RESPONSIVE_UNTIL_REAL_EVIDENCE",
+    "machineReadableMatrix": "ops/isc-e1-e6-matrix.json",
+    "trl": "NOT_SUBSTANTIATED",
+    "officialISCApplicationSubmitted": false,
+    "eligibilityEvidenceExternallyValidated": false,
+    "commercialPayingCustomerVerified": false
+  },
+  "openActions": [
+    {
+      "id": "AEGIS-103",
+      "ownerRole": "Qualified federal policy specialist",
+      "task": "Capture official source bytes, dates and section-to-metric applicability with authenticated review"
+    },
+    {
+      "id": "AEGIS-107",
+      "ownerRole": "Platform security",
+      "task": "Per-user tenant RBAC, retention/deletion and Canadian hosting proof"
+    },
+    {
+      "id": "AEGIS-105",
+      "ownerRole": "Independent science/QA",
+      "task": "Blinded benchmark with named outside reviewer and representative environment/TRl dossier"
+    },
+    {
+      "id": "ISC-APPLICATION",
+      "ownerRole": "Applicant",
+      "task": "Check corporate/affiliate eligibility, personnel commitments, budget and exact tender amendments before Dec 18 internal target"
+    },
+    {
+      "id": "AEGIS-108",
+      "ownerRole": "Commercial",
+      "task": "Actual buyer conversations, scoped paid pilot proposal and independently verified receipts"
+    }
+  ],
+  "status": "VERIFIED_SYNTHETIC_ENGINEERING_MILESTONE_ONLY"
+}
