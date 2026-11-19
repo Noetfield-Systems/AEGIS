@@ -3,6 +3,7 @@
  */
 import {runNative} from './native.mjs';
 import {getSourceRegistry} from './source-registry.mjs';
+import {getCandidatePolicyMapping} from './policy-mapping.mjs';
 import {contentHash} from './replay.mjs';
 import {integratedFixture} from '../fixtures/integrated.mjs';
 import {governedFixture} from '../fixtures/governed.mjs';
@@ -48,6 +49,7 @@ export function buildOfficerEvidencePack(matrix){
   externalComparisonMeasured:false,
   sampleData:'SYNTHETIC_ONLY',
   method:'First-party source catalogue → controlled integrated native evaluation → governed lifecycle → source-labelled impact benchmark',
+  candidateControlMapping:getCandidatePolicyMapping(),
   sourceReferences:{
    checkedOn:sources.checkedOn,
    sourceCount:sources.sources.length,
