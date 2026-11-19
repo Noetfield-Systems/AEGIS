@@ -14,6 +14,7 @@ import {impactExperimentFixture} from './fixtures/impact-experiment.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 import {renderIntegratedReport} from './assurance/integrated-report.mjs';
 import {buildOfficerEvidencePack} from './assurance/officer-pack.mjs';
+import {getCandidatePolicyMapping} from './assurance/policy-mapping.mjs';
 import {adapterKinds,validateAdapterBatch} from './assurance/interop.mjs';
 import {interoperabilitySamples} from './fixtures/interop.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
@@ -178,6 +179,8 @@ const server=http.createServer(async(req,res)=>{
     catch(err){if(err instanceof TypeError||err instanceof RangeError||err instanceof SyntaxError)
       return respond(res,400,{error:err.message});throw err;}
    }
+   if(url.pathname==='/api/assurance/policy-mapping'&&req.method==='GET')
+    return respond(res,200,getCandidatePolicyMapping());
    if(url.pathname==='/api/assurance/isc-matrix'&&req.method==='GET'){
     const raw=await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8');
     return respond(res,200,JSON.parse(raw));
