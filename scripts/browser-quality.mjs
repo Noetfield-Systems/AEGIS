@@ -149,6 +149,9 @@ try{
  await screenshot('06-workbench-lineage-mobile.png');
  await navigate('/tour');
  await wait(async()=>await evaluate('!!document.querySelector("#demo-content") && !document.querySelector("#demo-content").hidden'),'Public tour did not render native result');
+ const firstImpression=await evaluate('({heroHeight:document.querySelector(".hero").getBoundingClientRect().height,viewportHeight:innerHeight,resultsBeforeProcess:!!(document.querySelector("#results").compareDocumentPosition(document.querySelector("#process")) & Node.DOCUMENT_POSITION_FOLLOWING)})');
+ assert(firstImpression.resultsBeforeProcess,'Evidence should precede explanatory process on mobile');
+ assert(firstImpression.heroHeight<firstImpression.viewportHeight,'Mobile hero consumes the entire first viewport: '+JSON.stringify(firstImpression));
  const nodes=await evaluate('document.querySelectorAll("#tour-lineage-nodes .trace-card").length');
  assert(nodes===6,'Public evaluator trace sequence did not render');
  const widthTour=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');
