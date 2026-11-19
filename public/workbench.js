@@ -9,7 +9,7 @@ officerPackTitle:'ISC OFFICER EVIDENCE PACK',officerPackCopy:'Native receipts, t
 appearance:'Appearance',dark:'Dark',light:'Light',system:'System',environmentLabel:'ENVIRONMENT',researchEnv:'Controlled research',sourceVersionLabel:'SOURCE VERSION',executionLabel:'NATIVE ENGINE',engineStatus:'Ready for evaluation',receiptLabel:'RESULT RECEIPT',notGenerated:'Not generated',
 skip:'Skip to workbench',private:'PRIVATE RESEARCH WORKSPACE',journey:'ASSURANCE JOURNEY',
 navContext:'System context',navContextSub:'System & policy register',navPolicy:'Policy impact',navPolicySub:'Versioned source change',navEvaluate:'Native evaluation',navEvaluateSub:'Technical before & after',navReview:'Human review',navReviewSub:'Operator decisions & receipt',navReport:'Evidence dossier',navReportSub:'Download in EN / FR',navCoverage:'ISC coverage',navCoverageSub:'E1–E6 acceptance matrix',
-sourceBadge:'RESEARCH STANDARD',sourceNote:'Evidence before claims',back:'Back to ISC Readiness Studio',publicTour:'View public demonstration',workbench:'Assurance Workbench',authenticated:'AUTHENTICATED · PRIVATE',
+sourceBadge:'RESEARCH STANDARD',sourceNote:'Evidence before claims',back:'Back to ISC Readiness Studio',publicTour:'View public demonstration',workbench:'Assurance Workbench',authenticated:'AUTHENTICATED · PRIVATE',checkingAccess:'CHECKING ACCESS…',publicPreview:'PUBLIC SAMPLE · READ-ONLY',previewTitle:'Interactive demonstration · read-only',previewCopy:'Explore all six stages using fixed synthetic inputs and precomputed native measurements. No account is required. Private reviews and records remain protected.',privateSignIn:'Sign in for private evaluations',previewOnly:'This is a read-only public simulation; sign in to record a real operator review.',interopEyebrow:'E2 / INTEROPERABILITY CONTRACT LAB',interopTitle:'Three data formats. One governed evidence model.',interopCopy:'Validate AI inventory, AIA metadata and agent trace records. Raw prompts and outputs are excluded. Reference contracts are not three live integrations.',interopValidate:'Validate three adapter examples',interopSuccess:'Three synthetic formats validated · No external system connected · Receipt',
 kicker:'DECISION ASSURANCE / CONTROLLED RESEARCH ENVIRONMENT',title:'See the decision.\nTrace the evidence.',intro:'Follow a policy change from source to affected systems, native reevaluation, human judgment and a reproducible evidence dossier.',research:'SYNTHETIC RESEARCH',assurance:'Assurance state',pending:'UNABLE TO DETERMINE',
 warning:'This workspace uses a controlled synthetic scenario. The technical engine is real, but the policy text and model evidence are not approved federal findings. Activity here does not grant ISC points or prove TRL 5.',signInTitle:'Private session required',signInCopy:'Sign in to the existing ISC workspace. The workbench uses its authenticated session and does not expose confidential cases publicly.',signIn:'Sign in to AEGIS',loading:'Loading versioned synthetic scenario…',stage:'GUIDED WORKFLOW',fixture:'Dataset: synthetic',
 contextTitle:'Start with the system, not the score.',contextDesc:'Identify what AI system is being evaluated, its original controls and which evidence is within scope. Data shown here is explicitly fictitious.',systemRegistry:'SYSTEM INVENTORY',researchContext:'RESEARCH CONTEXT',scenarioName:'Scenario identifier',sourceInstrument:'Source instrument',baseline:'Baseline policy',proposed:'Candidate policy',contextNote:'Source identifiers refer to official publication families; the clauses and thresholds in this example are synthetic and do not represent approved government requirements.',
@@ -41,7 +41,7 @@ officerPackTitle:'DOSSIER DE PREUVES ISC POUR ÉVALUATEUR',officerPackCopy:'Reç
 appearance:'Apparence',dark:'Sombre',light:'Clair',system:'Système',environmentLabel:'ENVIRONNEMENT',researchEnv:'Recherche contrôlée',sourceVersionLabel:'VERSION SOURCE',executionLabel:'MOTEUR NATIF',engineStatus:'Prêt pour évaluation',receiptLabel:'EMPREINTE DU RÉSULTAT',notGenerated:'Non générée',
 skip:'Aller au parcours',private:'ESPACE PRIVÉ DE RECHERCHE',journey:'PARCOURS D’ASSURANCE',
 navContext:'Contexte du système',navContextSub:'Registre des systèmes et politiques',navPolicy:'Impact des politiques',navPolicySub:'Modification de source versionnée',navEvaluate:'Évaluation native',navEvaluateSub:'Résultats techniques avant et après',navReview:'Révision humaine',navReviewSub:'Décisions internes et empreinte',navReport:'Dossier de preuves',navReportSub:'Téléchargement EN / FR',navCoverage:'Couverture ISC',navCoverageSub:'Matrice des critères E1 à E6',
-sourceBadge:'NORME DE RECHERCHE',sourceNote:'La preuve avant toute affirmation',back:'Retour à l’espace ISC',publicTour:'Voir la démonstration publique',workbench:'Espace d’assurance',authenticated:'AUTHENTIFIÉ · PRIVÉ',
+sourceBadge:'NORME DE RECHERCHE',sourceNote:'La preuve avant toute affirmation',back:'Retour à l’espace ISC',publicTour:'Voir la démonstration publique',workbench:'Espace d’assurance',authenticated:'AUTHENTIFIÉ · PRIVÉ',checkingAccess:'VÉRIFICATION DE L’ACCÈS…',publicPreview:'EXEMPLE PUBLIC · LECTURE SEULE',previewTitle:'Démonstration interactive · lecture seule',previewCopy:'Explorez les six étapes à partir de données fictives fixes et de mesures natives précalculées. Aucun compte requis. Les avis et dossiers privés restent protégés.',privateSignIn:'Connexion pour les évaluations privées',previewOnly:'Cette simulation publique est en lecture seule; connectez-vous pour enregistrer une revue interne.',interopEyebrow:'E2 / LABORATOIRE D’INTEROPÉRABILITÉ',interopTitle:'Trois formats. Un modèle de preuve gouverné.',interopCopy:'Validez l’inventaire des systèmes, les métadonnées AIA et les traces d’agents. Les requêtes et réponses brutes sont exclues. Ces contrats ne représentent pas trois connexions réelles.',interopValidate:'Valider trois exemples d’adaptateur',interopSuccess:'Trois formats fictifs validés · Aucun système externe connecté · Reçu',
 kicker:'ASSURANCE DÉCISIONNELLE / ENVIRONNEMENT DE RECHERCHE CONTRÔLÉ',title:'Voyez la décision.\nRetracez les preuves.',intro:'Suivez un changement de politique, des systèmes touchés à la réévaluation native, à la décision humaine et au dossier de preuves reproductible.',research:'RECHERCHE SIMULÉE',assurance:'État de l’assurance',pending:'IMPOSSIBLE À DÉTERMINER',
 warning:'Cet espace utilise un scénario fictif contrôlé. Le moteur technique est réel, mais les politiques et preuves du modèle ne sont pas des constats fédéraux approuvés. Aucune étape ne donne de points ISC ni ne démontre un NMT 5.',signInTitle:'Session privée requise',signInCopy:'Connectez-vous à l’espace ISC. Ce parcours utilise la session authentifiée et ne rend pas les dossiers privés accessibles au public.',signIn:'Se connecter à AEGIS',loading:'Chargement du scénario fictif versionné…',stage:'PARCOURS GUIDÉ',fixture:'Données : fictives',
 contextTitle:'Commencez par le système, pas par le score.',contextDesc:'Identifiez le système d’IA, ses contrôles initiaux et la portée des preuves. Ces données sont entièrement fictives.',systemRegistry:'INVENTAIRE DES SYSTÈMES',researchContext:'CONTEXTE DE RECHERCHE',scenarioName:'Identifiant du scénario',sourceInstrument:'Instrument de référence',baseline:'Politique initiale',proposed:'Politique proposée',contextNote:'Les identifiants renvoient à des familles de publications officielles. Les clauses et les seuils sont fictifs et ne représentent pas des exigences approuvées.',
@@ -69,7 +69,7 @@ MET:'SATISFAIT',NOT_MET:'NON SATISFAIT',PARTIALLY_MET:'PARTIELLEMENT SATISFAIT',
 Previous:'Précédent',Current:'Actuel'
 }
 };
-let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null,benchmark=null,scenarios=[],activeScenarioId='combined';
+let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null,benchmark=null,scenarios=[],activeScenarioId='combined',publicPreview=null;
 const el=id=>document.getElementById(id),q=sel=>document.querySelector(sel),qq=sel=>document.querySelectorAll(sel);
 const t=k=>copy[language][k]??k;
 const value=v=>v==null?'—':String(v);
@@ -88,6 +88,10 @@ async function api(path,options={}){
  return r;
 }
 async function json(path,options={}){return (await api(path,options)).json()}
+function refreshAccessPresentation(){
+ const label=el('session-label');if(label)label.textContent=publicPreview===null?t('checkingAccess'):publicPreview?t('publicPreview'):t('authenticated');
+ el('preview-notice').hidden=publicPreview!==true;
+}
 function updateLanguage(){
  document.documentElement.lang=language==='fr'?'fr-CA':'en-CA';document.documentElement.dir='ltr';
  document.title=language==='fr'?'AEGIS — Espace d’assurance':'AEGIS — Assurance Workbench';
@@ -99,6 +103,7 @@ function updateLanguage(){
  });
  el('locale').textContent=language==='fr'?'FR / EN':'EN / FR';
  el('locale').setAttribute('aria-label',language==='en'?'Switch to French':'Passer en anglais');
+ refreshAccessPresentation();
  if(fixture)renderAll();
  if(benchmark)renderBenchmark();
 }
@@ -237,8 +242,8 @@ function renderEvaluation(){
 }
 function renderReview(){
  const ready=Boolean(result),recorded=Boolean(caseEntry);
- el('record').disabled=!ready||recorded;
- el('review-submit').disabled=!recorded;
+ el('record').disabled=publicPreview===true||!ready||recorded;
+ el('review-submit').disabled=publicPreview===true||!recorded;
  el('case-receipt').hidden=!ready;
  setText('receipt-value',ready?result.receiptHash:'—');
  el('record-hint').textContent=recorded?t('caseSaved'):ready?t('record'):t('recordHint');
@@ -311,9 +316,15 @@ function renderBenchmark(){
 async function runBenchmark(){
  const button=el('benchmark-run');button.disabled=true;clearError();
  try{
-  const demo=await json('assurance/impact-experiment-demo');
-  if(demo.synthetic!==true||demo.referenceLabelsIndependentlyVerified!==false||!demo.fixture)throw Error('Expected an unverified synthetic benchmark');
-  const output=await json('assurance/run',{method:'POST',body:JSON.stringify({mode:'impact-experiment',input:demo.fixture})});
+  let output;
+  if(publicPreview){
+   output=await (await fetch('/api/public/impact-preview',{credentials:'omit'})).json();
+   if(output.synthetic!==true||output.precomputed!==true||output.readOnly!==true)throw Error('Invalid public benchmark data');
+  }else{
+   const demo=await json('assurance/impact-experiment-demo');
+   if(demo.synthetic!==true||demo.referenceLabelsIndependentlyVerified!==false||!demo.fixture)throw Error('Expected an unverified synthetic benchmark');
+   output=await json('assurance/run',{method:'POST',body:JSON.stringify({mode:'impact-experiment',input:demo.fixture})});
+  }
   if(output.evidenceCredited!==false||output.result?.kind!=='compiled-policy-impact-benchmark'||output.result.referenceLabelsIndependentlyVerified!==false)throw Error('Benchmark attribution mismatch');
   benchmark=output.result;renderBenchmark();el('flow-status').textContent=t('benchmarkDone');
  }catch(e){fail(e.message)}finally{button.disabled=false}
@@ -326,7 +337,7 @@ function exportBenchmark(){
  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(href),1000);
 }
 async function refreshCases(){
- if(!fixture)return;
+ if(!fixture||publicPreview)return;
  history=await json('assurance/cases');
  if(result){caseEntry=history.cases.find(c=>c.receiptHash===result.receiptHash)||null}
  renderReview();renderReport();
@@ -334,7 +345,10 @@ async function refreshCases(){
 async function runAssessment(){
  clearError();el('run').disabled=true;el('run').textContent=t('loading');
  try{
-  const x=await json('assurance/run',{method:'POST',body:JSON.stringify({mode:'integrated',input:fixture})});
+  const x=publicPreview
+   ?await (await fetch('/api/public/workbench-result?scenario='+encodeURIComponent(activeScenarioId),{credentials:'omit'})).json()
+   :await json('assurance/run',{method:'POST',body:JSON.stringify({mode:'integrated',input:fixture})});
+  if(publicPreview&&(x.synthetic!==true||x.precomputed!==true||x.readOnly!==true))throw Error('Public workbench proof contract mismatch');
   if(x.evidenceCredited!==false||x.result?.kind!=='integrated-ai-assurance-simulation'||x.result.summary?.regulatoryComplianceStatus!=='UNABLE_TO_DETERMINE')throw Error('Native evidence contract mismatch');
   result=x.result;
   caseEntry=history?.cases.find(c=>c.receiptHash===result.receiptHash)||null;
@@ -342,6 +356,7 @@ async function runAssessment(){
  }catch(e){fail(e.message)}finally{el('run').disabled=false;el('run').textContent=t('run')}
 }
 async function recordCase(){
+ if(publicPreview){fail(t('previewOnly'));return}
  if(!result){fail(t('runFirst'));return}
  el('record').disabled=true;clearError();
  try{
@@ -352,6 +367,7 @@ async function recordCase(){
 }
 async function saveReview(evt){
  evt.preventDefault();
+ if(publicPreview){fail(t('previewOnly'));return}
  if(!caseEntry){fail(t('reviewUnavailable'));return}
  clearError();const btn=el('review-submit');btn.disabled=true;
  try{
@@ -367,7 +383,10 @@ async function downloadReport(locale){
  if(!fixture||!result){fail(t('runFirst'));return}
  clearError();
  try{
-  const response=await api('assurance/report-detail',{method:'POST',headers:{Accept:'text/html','Content-Type':'application/json'},body:JSON.stringify({input:fixture,lang:locale})});
+  const response=publicPreview
+   ?await fetch('/api/public/workbench-report?scenario='+encodeURIComponent(activeScenarioId)+'&lang='+encodeURIComponent(locale),{credentials:'omit'})
+   :await api('assurance/report-detail',{method:'POST',headers:{Accept:'text/html','Content-Type':'application/json'},body:JSON.stringify({input:fixture,lang:locale})});
+  if(!response.ok)throw Error('Report unavailable');
   if(response.headers.get('content-type')?.includes('text/html')!==true)throw Error('Unexpected export format');
   const output=await response.blob(),name='aegis-assurance-technical-'+locale+'.html';
   const a=document.createElement('a'),url=URL.createObjectURL(output);
@@ -376,7 +395,25 @@ async function downloadReport(locale){
   el('flow-status').textContent=t('reportReady');
  }catch(e){fail(e.message)}
 }
+async function validateInteroperability(){
+ const btn=el('interop-validate');
+ if(publicPreview){fail(t('previewOnly'));return}
+ btn.disabled=true;clearError();
+ try{
+  const samples=await json('assurance/adapters/examples');
+  if(samples.synthetic!==true||samples.records?.length!==3)throw Error('Synthetic adapter samples unavailable');
+  const response=await json('assurance/adapters/validate',{method:'POST',body:JSON.stringify({records:samples.records})});
+  if(response.recordCount!==3||response.readOnly!==true||
+     response.independentConnectionVerified!==false||response.iscEvidenceCredited!==false)
+   throw Error('Interoperability validation boundary failed');
+  const target=el('interop-results');target.hidden=false;target.replaceChildren();
+  const label=document.createElement('strong');label.textContent=t('interopSuccess')+': '+response.receiptHash;
+  const list=document.createElement('p');list.textContent=response.sourceFormats.join(' · ');
+  target.append(label,list);
+ }catch(e){fail(e.message)}finally{btn.disabled=false}
+}
 async function downloadOfficerPack(){
+ if(publicPreview){fail(t('previewOnly'));return}
  clearError();const button=el('officer-pack-download');button.disabled=true;
  try{
   const pack=await json('assurance/officer-pack');
@@ -389,19 +426,43 @@ async function downloadOfficerPack(){
 }
 async function start(){
  try{
-  const [demo,sources,acceptance,cases,library]=await Promise.all([
-   json('assurance/demo'),json('assurance/sources'),json('assurance/isc-matrix'),json('assurance/cases'),
-   json('assurance/scenarios')
-  ]);
-  if(demo.synthetic!==true||!demo.fixture?.replay||!demo.fixture?.policy)throw Error('Expected a synthetic private scenario');
-  if(library.synthetic!==true||!Array.isArray(library.scenarios)||library.scenarios.length<3)throw Error('Scenario library unavailable');
-  scenarios=library.scenarios;activeScenarioId=library.defaultId||'combined';
-  fixture=structuredClone(scenarios.find(s=>s.id===activeScenarioId)?.fixture||demo.fixture);
-  catalogue=sources;matrix=acceptance;history=cases;
-  el('busy').hidden=true;el('signin').hidden=true;el('app').hidden=false;renderAll();
+  // A direct public visitor can inspect all six technical stages without gaining
+  // access to arbitrary compute, case journals, ISC ratings or private records.
+  const status=await fetch('/api/auth/status',{credentials:'same-origin'});
+  if(!status.ok)throw Error('Session status is unavailable');
+  const session=await status.json();
+  publicPreview=session.authenticated!==true;
+  if(publicPreview){
+   const response=await fetch('/api/public/workbench',{credentials:'omit'});
+   if(!response.ok)throw Error('Public preview is unavailable');
+   const demo=await response.json();
+   if(demo.synthetic!==true||demo.readOnly!==true||demo.precomputed!==true||
+      demo.privateCasesIncluded!==false||demo.scenarios?.length!==3||
+      demo.iscMatrix?.selfAssessedOnly!==true)throw Error('Public demo boundary check failed');
+   scenarios=demo.scenarios;activeScenarioId=demo.defaultId||'combined';
+   fixture=structuredClone(scenarios.find(s=>s.id===activeScenarioId)?.fixture);
+   catalogue=demo.sourceRegistry;matrix=demo.iscMatrix;history={cases:[],events:[]};
+  }else{
+   const [demo,sources,acceptance,cases,library]=await Promise.all([
+    json('assurance/demo'),json('assurance/sources'),json('assurance/isc-matrix'),json('assurance/cases'),
+    json('assurance/scenarios')
+   ]);
+   if(demo.synthetic!==true||!demo.fixture?.replay||!demo.fixture?.policy)throw Error('Expected a synthetic private scenario');
+   if(library.synthetic!==true||!Array.isArray(library.scenarios)||library.scenarios.length<3)throw Error('Scenario library unavailable');
+   scenarios=library.scenarios;activeScenarioId=library.defaultId||'combined';
+   fixture=structuredClone(scenarios.find(s=>s.id===activeScenarioId)?.fixture||demo.fixture);
+   catalogue=sources;matrix=acceptance;history=cases;
+  }
+  if(!fixture?.policy||!fixture?.replay)throw Error('Versioned sample scenario missing');
+  el('busy').hidden=true;el('signin').hidden=true;el('app').hidden=false;
+  el('officer-pack-download').disabled=publicPreview;
+  el('interop-validate').disabled=publicPreview;
+  el('interop-private-link').hidden=!publicPreview;
+  refreshAccessPresentation();
+  renderAll();
  }catch(e){
   el('busy').hidden=true;if(!el('signin').hidden)return;
-  fail(t('loadError')+' '+e.message);
+  fail(t('loadError')+' '+e.message);refreshAccessPresentation();
  }
 }
 function boot(){
@@ -448,6 +509,7 @@ function boot(){
  el('review-form').addEventListener('submit',saveReview);
  el('benchmark-run').addEventListener('click',runBenchmark);
  el('benchmark-download').addEventListener('click',exportBenchmark);
+ el('interop-validate').addEventListener('click',validateInteroperability);
   el('officer-pack-download').addEventListener('click',downloadOfficerPack);
  qq('[data-report]').forEach(b=>b.addEventListener('click',()=>downloadReport(b.dataset.report)));
  start();

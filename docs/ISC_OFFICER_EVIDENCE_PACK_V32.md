@@ -45,3 +45,7 @@ CI separately records the same output as an artifact. Inspect `technicalExperime
 ## Real proof still required
 
 Commission a policy expert to approve exact official source clauses and archived snapshot versions; obtain independent labelled cases, a controlled manual baseline and one real-client integrated demonstration. Record named human reviewer, title, date, input hashes, operating environment, limitations, false negatives and negative tests. Only then update individual E1–E6 states with traceable evidence. Do **not** mark the complete system TRL5 based on local CI alone.
+
+## New source and interoperability proof beyond v3.2
+
+The current Officer Pack includes one actual official Directive original-byte capture receipt (69,865 bytes; SHA-256 `225f990673205a49cee216fb8fc124909e8eb917559e3e258a8dd7fb7c35a0e3`) and six **proposed** section-to-control mappings. `sourceReferences.originalByteCaptureCount` is 1. `candidateControlMapping.expertApproval` remains **false** and official effective-version attestation is still missing. All other policy instruments, E2 independent actual systems, E3 tenancy/data controls, E5 independent reviewers and Q2 TRL evidence remain external acceptance gaps. Source capture artifact: https://github.com/Noetfield-Systems/AEGIS/actions/runs/44521533939/artifacts/14526599860 .

@@ -34,7 +34,7 @@
 </aside>
 <div class="main page-wrapper">
 <div class="mobile-backdrop" id="workbench-backdrop" hidden></div>
-<header class="topbar navbar"><button type="button" id="mobile-menu" class="icon-action mobile-menu" aria-label="Open workbench navigation" aria-controls="workbench-sidebar" aria-expanded="false"><svg class="ti"><use href="/tabler-icons.svg#ti-menu-2"/></svg></button><div class="crumb"><span>NOETFIELD</span><span class="slash">/</span><strong>AEGIS</strong><span class="slash">/</span><span data-t="workbench">Assurance Workbench</span></div><div class="top-actions"><span class="secure-label"><span class="status-dot"></span><span data-t="authenticated">AUTHENTICATED · PRIVATE</span></span><button type="button" class="locale" id="locale" aria-label="Switch to French">EN / FR</button>
+<header class="topbar navbar"><button type="button" id="mobile-menu" class="icon-action mobile-menu" aria-label="Open workbench navigation" aria-controls="workbench-sidebar" aria-expanded="false"><svg class="ti"><use href="/tabler-icons.svg#ti-menu-2"/></svg></button><div class="crumb"><span>NOETFIELD</span><span class="slash">/</span><strong>AEGIS</strong><span class="slash">/</span><span data-t="workbench">Assurance Workbench</span></div><div class="top-actions"><span class="secure-label"><span class="status-dot"></span><span id="session-label" data-t="checkingAccess">CHECKING ACCESS…</span></span><button type="button" class="locale" id="locale" aria-label="Switch to French">EN / FR</button>
 <details class="appearance-select"><summary class="icon-action" aria-label="Appearance settings" title="Appearance settings"><svg class="ti"><use href="/tabler-icons.svg#ti-sun"/></svg><span class="appearance-word" data-t="appearance">Appearance</span></summary><div class="appearance-popover" role="group" aria-label="Appearance mode"><button type="button" data-theme-choice="dark" data-t="dark">Dark</button><button type="button" data-theme-choice="light" data-t="light">Light</button><button type="button" data-theme-choice="system" data-t="system">System</button></div></details>
 </div></header>
 <main id="workspace" class="content page-body">
@@ -47,6 +47,11 @@
  <div><span class="stats-icon"><svg class="ti"><use href="/tabler-icons.svg#ti-shield-check"/></svg></span><span><small data-t="receiptLabel">RESULT RECEIPT</small><strong id="wb-receipt-short" data-t="notGenerated">Not generated</strong></span></div>
  </section>
  <div class="warning alert"><span class="warning-icon" aria-hidden="true">i</span><p data-t="warning">This workspace uses a controlled synthetic scenario. The technical engine is real, but the policy text and model evidence are not approved federal findings. Activity here does not grant ISC points or prove TRL 5.</p></div>
+ <section id="preview-notice" class="preview-notice" aria-live="polite" hidden>
+  <span class="preview-mark"><svg class="ti" aria-hidden="true"><use href="/tabler-icons.svg#ti-shield-check"/></svg></span>
+  <div class="preview-notice-copy"><strong data-t="previewTitle">Interactive demonstration · read-only</strong><p data-t="previewCopy">Explore the six-stage workflow using fixed synthetic inputs and previously computed native results. No account or confidential data required; review actions and private records remain protected.</p></div>
+  <a class="btn primary btn-primary preview-signin" href="/login" data-t="privateSignIn">Sign in for private evaluations</a>
+ </section>
  <div id="error" class="error alert alert-danger" role="alert" hidden></div>
  <div id="signin" class="signin" hidden><h2 data-t="signInTitle">Private session required</h2><p data-t="signInCopy">Sign in to the existing ISC workspace. The workbench uses its authenticated session and does not expose confidential cases publicly.</p><a href="/login" class="btn primary btn-primary" data-t="signIn">Sign in to AEGIS</a></div>
  <div id="busy" class="loading card" role="status" data-t="loading">Loading versioned synthetic scenario…</div>
@@ -99,6 +104,17 @@
   <section class="stage" data-screen="coverage" hidden>
    <div class="section-title"><div><h2 data-t="coverageTitle">Engineering evidence versus mandatory outcomes.</h2><p data-t="coverageDesc">Six essential ISC outcomes with implemented artifacts, experimental tests and remaining proof gaps. This is an internal acceptance matrix, not a government score.</p></div><span class="num">06</span></div>
    <div id="coverage-grid" class="coverage-grid"></div>
+   <article class="pane card" style="margin:15px 0 24px" id="e2-interoperability">
+    <div class="pane-label" data-t="interopEyebrow">E2 / INTEROPERABILITY CONTRACT LAB</div>
+    <div class="two-col" style="align-items:center">
+     <div><h3 data-t="interopTitle">Three data formats. One governed evidence model.</h3>
+      <p class="muted" data-t="interopCopy">Validate bounded AI-system inventory, AIA metadata and agent-trace records. Original prompts and output data are excluded. Synthetic contracts do not mean three live external connections.</p>
+     </div>
+     <div><button type="button" class="btn primary btn-primary" id="interop-validate" data-t="interopValidate">Validate three adapter examples</button>
+      <a href="/login" id="interop-private-link" data-t="privateSignIn" hidden>Sign in for private evaluations</a></div>
+    </div>
+    <div id="interop-results" class="note" hidden aria-live="polite"></div>
+   </article>
    <div class="subhead" data-t="benchmarkHeading">BENCHMARK STUDIO / FIRST-PARTY POLICY IMPACT</div>
    <div class="two-col benchmark-layout">
     <article class="pane card">

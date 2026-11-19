@@ -15,18 +15,20 @@
         "assurance/integrated.mjs",
         "assurance/governed-lifecycle.mjs",
         "assurance/aia-scope.mjs",
-        "assurance/impact-experiment.mjs — compiler-derived impact experiment with per-case source receipt"
+        "assurance/impact-experiment.mjs — compiler-derived impact experiment with per-case source receipt",
+        "ops/policy-snapshots/DIRECTIVE_ADM_2026-11-19.manifest.json — original government HTML 69,865 bytes, SHA-256 from successful live GitHub Actions capture"
       ],
       "verifiedExperiment": [
         "test/policy-impact.test.mjs",
         "test/integrated.test.mjs",
         "test/governed-lifecycle.test.mjs",
         "test/impact-experiment.test.mjs — synthetic labels, FP/FN and Wilson interval coverage",
-        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off",
+        "test/policy-mapping.test.mjs — SHA-256 manifest/candidate control reference integrity; not legal review"
       ],
       "status": "PARTIAL_SYNTHETIC",
       "missingEvidence": [
-        "Independently captured exact official source versions and clauses",
+        "Complete independently archived and professionally attested effective-version corpus for all other required policy instruments (only original Directive HTML capture complete)",
         "Expert-reviewed applicability and policy mappings",
         "Representative customer systems in validated environment",
         "Independently labelled blinded impact benchmark with representative actual official changes"
@@ -38,15 +40,19 @@
       "id": "E2",
       "requirement": "Interoperability through standards-based APIs, connectors and exchange of AI governance information",
       "implemented": [
-        "server.mjs authenticated JSON API"
+        "server.mjs authenticated JSON API",
+        "assurance/interop.mjs — bounded v1 governance inventory, AIA metadata, and OpenTelemetry agent trace reference adapters",
+        "server.mjs — authenticated read-only /api/assurance/adapters/validate endpoint with source fingerprints"
       ],
       "verifiedExperiment": [
         "test/server.integration.test.mjs",
-        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off",
+        "test/interop.test.mjs — three synthetic cross-format schema normalization tests and invalid-input/PII-minimization negatives",
+        "test/server.integration.test.mjs — three-format authenticated API exchange contract; no live external connector claimed"
       ],
-      "status": "PARTIAL_INTERNAL_API",
+      "status": "PARTIAL_THREE_VALIDATED_REFERENCE_ADAPTERS",
       "missingEvidence": [
-        "At least three actual external interoperable adapter test receipts",
+        "Three separately authorized live external system round trips with independently checked request/response provenance (current three adapters use only synthetic payloads)",
         "Independent API contract and security validation"
       ],
       "ownerRole": "Integrations Engineering",
@@ -82,17 +88,20 @@
         "assurance/source-registry.mjs",
         "assurance/policy.mjs",
         "assurance/replay.mjs",
-        "assurance/governed-lifecycle.mjs"
+        "assurance/governed-lifecycle.mjs",
+        "ops/policy-mappings/DADM_candidate_v1.json — 6 exact section IDs mapped to candidate controls, original SHA-256-bound, no independent legal approval",
+        "assurance/policy-mapping.mjs — strict validation of source capture and unapproved mapping status"
       ],
       "verifiedExperiment": [
         "test/policy-impact.test.mjs",
         "test/golden-replay.test.mjs",
         "test/governed-lifecycle.test.mjs",
-        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off"
+        "test/officer-evidence-pack.test.mjs — traceability only, synthetic; no independent E1–E6 sign-off",
+        "test/policy-mapping.test.mjs — 6 proposed section IDs and negative forged expert-approval controls"
       ],
-      "status": "PARTIAL_MAPPED_SIMULATION",
+      "status": "PARTIAL_SOURCE_BYTES_CAPTURED_PROPOSED_MAPPINGS",
       "missingEvidence": [
-        "Human-approved real policy-to-metric control links for five specified instruments",
+        "Qualified policy expert review/approval of five mandated sources and all exact requirement-to-control mappings; current six Directive mapping candidates remain unapproved",
         "Verified source effective dates and supersession",
         "Exceptions, reassessments and certainty supported by real reviewed evidence"
       ],
@@ -157,7 +166,8 @@
     "evidence": [
       "CI runner",
       "synthetic integrated native fixture",
-      "Railway service health"
+      "Railway service health",
+      "Original official Directive HTML bytes captured and CI SHA256 verified (source provenance only, not representative TRL validation)"
     ],
     "missing": [
       "Representative integrated environment",

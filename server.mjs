@@ -14,6 +14,9 @@ import {impactExperimentFixture} from './fixtures/impact-experiment.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
 import {renderIntegratedReport} from './assurance/integrated-report.mjs';
 import {buildOfficerEvidencePack} from './assurance/officer-pack.mjs';
+import {getCandidatePolicyMapping} from './assurance/policy-mapping.mjs';
+import {adapterKinds,validateAdapterBatch} from './assurance/interop.mjs';
+import {interoperabilitySamples} from './fixtures/interop.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dataDir=process.env.DATA_DIR||path.join(root,'data');
 const storeFile=path.join(dataDir,'aegis-isc.json');
@@ -64,6 +67,12 @@ async function mutate(op,actor='operator'){
  await safeSave(s);state=s;return {state:s,derived:evaluate(s),...info};});
  mutex=job.then(()=>{},()=>{});return job;
 }
+// Public interactive workbench uses only these fixed synthetic fixtures. No API
+// endpoint here accepts arbitrary evaluation inputs or accesses persistent records.
+const publicPreviewCases=Object.freeze(scenarioLibrary().map(({id,name,nameFr,description,descriptionFr,synthetic,fixture})=>
+ ({id,name,nameFr,description,descriptionFr,synthetic,fixture})));
+const publicPreviewResults=new Map(publicPreviewCases.map(s=>[s.id,runNative({mode:'integrated',input:s.fixture})]));
+const publicPreviewImpact=runNative({mode:'impact-experiment',input:impactExperimentFixture()});
 const publicDemonstration=runNative({mode:'integrated',input:integratedFixture()});
 const publicDemoEnvelope=Object.freeze({
  synthetic:true,evidenceCredited:false,readOnly:true,sourcePolicyOfficiallyVerified:false,
@@ -90,6 +99,38 @@ const server=http.createServer(async(req,res)=>{
    res.writeHead(200,{'Content-Type':'text/css; charset=utf-8','Cache-Control':'public, max-age=86400','X-Content-Type-Options':'nosniff'});return res.end(data);
   }
   if(url.pathname==='/api/health'){return respond(res,200,{ok:true,app:'aegis-isc',version:'1.1.0',persistence:'file'})}
+  if(url.pathname==='/api/auth/status'&&req.method==='GET')
+   return respond(res,200,{authenticated:authorized(req),identityMode:'SINGLE_OPERATOR'});
+  if(url.pathname==='/api/public/workbench'){
+   if(req.method!=='GET')return respond(res,405,{error:'Read-only public preview'},{Allow:'GET'});
+   const matrix=JSON.parse(await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8'));
+   return respond(res,200,{synthetic:true,evidenceCredited:false,readOnly:true,precomputed:true,
+    defaultId:'combined',scenarios:publicPreviewCases,sourceRegistry:getSourceRegistry(),
+    iscMatrix:matrix,privateCasesIncluded:false,
+    disclaimer:'Fixed synthetic example only, not independent evaluation, legal compliance, customer evidence or a TRL finding.'});
+  }
+  if(url.pathname==='/api/public/workbench-result'){
+   if(req.method!=='GET')return respond(res,405,{error:'Read-only public preview'},{Allow:'GET'});
+   const scenarioId=url.searchParams.get('scenario')||'combined',result=publicPreviewResults.get(scenarioId);
+   if(!result)return respond(res,400,{error:'Unknown synthetic scenario'});
+   return respond(res,200,{synthetic:true,evidenceCredited:false,readOnly:true,precomputed:true,result});
+  }
+  if(url.pathname==='/api/public/impact-preview'){
+   if(req.method!=='GET')return respond(res,405,{error:'Read-only public preview'},{Allow:'GET'});
+   return respond(res,200,{synthetic:true,evidenceCredited:false,readOnly:true,precomputed:true,
+    referenceLabelsIndependentlyVerified:false,result:publicPreviewImpact});
+  }
+  if(url.pathname==='/api/public/workbench-report'){
+   if(req.method!=='GET')return respond(res,405,{error:'Read-only public preview'},{Allow:'GET'});
+   const lang=url.searchParams.get('lang')||'en',scenarioId=url.searchParams.get('scenario')||'combined';
+   if(!['en','fr'].includes(lang)||!publicPreviewResults.has(scenarioId))return respond(res,400,{error:'Unknown synthetic report'});
+   const html=renderIntegratedReport(publicPreviewResults.get(scenarioId),{lang,generatedAt:'2026-11-19T00:00:00Z'});
+   res.writeHead(200,{'Content-Type':'text/html; charset=utf-8',
+    'Content-Disposition':'attachment; filename="aegis-synthetic-workbench-'+lang+'.html"',
+    'Cache-Control':'no-store','Content-Security-Policy':"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'"});
+   return res.end(html);
+  }
+
   // Public static showcase serves a fixed, precomputed synthetic scenario only.
   // Never accept public caller inputs or expose policy/review/evidence records here.
   if(url.pathname==='/api/public/demo'){
@@ -128,6 +169,18 @@ const server=http.createServer(async(req,res)=>{
    // Experimental assurance case registry is distinct from the ISC readiness score/evidence store.
    // Only a single local administrator identity exists. Reviewer display names are not verified.
    // Read-only evidence acceptance matrix; this is the self-assessed project document.
+   if(url.pathname==='/api/assurance/adapters'&&req.method==='GET')
+    return respond(res,200,{schemaVersion:'1.0',adapters:adapterKinds,liveExternalConnectionsVerified:0,
+      independentConformanceAttested:false,contractValidationAvailable:true});
+   if(url.pathname==='/api/assurance/adapters/examples'&&req.method==='GET')
+    return respond(res,200,{synthetic:true,records:interoperabilitySamples});
+   if(url.pathname==='/api/assurance/adapters/validate'&&req.method==='POST'){
+    try{return respond(res,200,validateAdapterBatch(await body(req)))}
+    catch(err){if(err instanceof TypeError||err instanceof RangeError||err instanceof SyntaxError)
+      return respond(res,400,{error:err.message});throw err;}
+   }
+   if(url.pathname==='/api/assurance/policy-mapping'&&req.method==='GET')
+    return respond(res,200,getCandidatePolicyMapping());
    if(url.pathname==='/api/assurance/isc-matrix'&&req.method==='GET'){
     const raw=await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8');
     return respond(res,200,JSON.parse(raw));

@@ -79,6 +79,54 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.deepEqual(publicPayload.result.unaffectedSystemIds,['synthetic-B']);
  assert.match(publicPayload.result.receiptHash,/^sha256:[a-f0-9]{64}$/);
  assert.equal((await fetch(base+'/api/public/demo',{method:'POST'})).status,405);
+ // Public evaluation is a real precomputed native result, not a gated dead-end:
+ // visitors can inspect all six stages without receiving any private journal.
+ const session=await (await fetch(base+'/api/auth/status')).json();
+ assert.equal(session.authenticated,false);
+ const wbPreviewRequest=await fetch(base+'/api/public/workbench');
+ assert.equal(wbPreviewRequest.status,200);
+ assert.equal(wbPreviewRequest.headers.get('set-cookie'),null);
+ const wbPreview=await wbPreviewRequest.json();
+ assert.equal(wbPreview.synthetic,true);
+ assert.equal(wbPreview.readOnly,true);
+ assert.equal(wbPreview.precomputed,true);
+ assert.equal(wbPreview.privateCasesIncluded,false);
+ assert.equal(wbPreview.scenarios.length,3);
+ assert.equal(wbPreview.iscMatrix.gates.length,6);
+ assert.ok(wbPreview.iscMatrix.gates.every(g=>g.status.startsWith('PARTIAL')));
+ assert.deepEqual(wbPreview.scenarios.map(s=>s.id),['combined','data','model']);
+ assert.equal(JSON.stringify(wbPreview).includes('aegis_session='),false);
+ assert.equal(JSON.stringify(wbPreview).includes('reviewerDisplayName'),false);
+ for(const scenario of ['combined','data','model']){
+  const response=await fetch(base+'/api/public/workbench-result?scenario='+scenario);
+  assert.equal(response.status,200);
+  const p=await response.json();
+  assert.equal(p.synthetic,true);
+  assert.equal(p.readOnly,true);
+  assert.equal(p.precomputed,true);
+  assert.equal(p.evidenceCredited,false);
+  assert.equal(p.result.kind,'integrated-ai-assurance-simulation');
+  assert.equal(p.result.summary.regulatoryComplianceStatus,'UNABLE_TO_DETERMINE');
+  assert.match(p.result.receiptHash,/^sha256:[0-9a-f]{64}$/);
+ }
+ const model=await (await fetch(base+'/api/public/workbench-result?scenario=model')).json();
+ assert.equal(model.result.summary.changedTechnicalFindings,0,'no false model failures in preview');
+ assert.equal((await fetch(base+'/api/public/workbench-result?scenario=../../private')).status,400);
+ assert.equal((await fetch(base+'/api/public/workbench',{method:'POST'})).status,405);
+ assert.equal((await fetch(base+'/api/public/workbench-result',{method:'POST'})).status,405);
+ const publicBench=await (await fetch(base+'/api/public/impact-preview')).json();
+ assert.equal(publicBench.synthetic,true);
+ assert.equal(publicBench.readOnly,true);
+ assert.equal(publicBench.result.referenceLabelsIndependentlyVerified,false);
+ for(const lang of ['en','fr']){
+  const report=await fetch(base+'/api/public/workbench-report?scenario=data&lang='+lang);
+  assert.equal(report.status,200);
+  const html=await report.text();
+  assert.match(html,/synthetic|fictif/i);
+  assert.match(html,/UNABLE TO DETERMINE|IMPOSSIBLE À DÉTERMINER/);
+  assert.match(report.headers.get('content-security-policy'),/default-src 'none'/);
+ }
+ assert.equal((await fetch(base+'/api/public/workbench-report?scenario=invalid')).status,400);
  assert.equal((await fetch(base+'/api/assurance/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'integrated',input:{}})})).status,401,'public access cannot run arbitrary assurance inputs');
 
  for(const [uri,text] of [['/workbench','Assurance Workbench'],['/workbench.css','--gold'],['/workbench.js','assurance/report-detail']]){
@@ -101,7 +149,34 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  const cookie=login.headers.get('set-cookie')?.split(';')[0];
  assert.ok(cookie?.startsWith('aegis_session='));
  const headers={Cookie:cookie,'Content-Type':'application/json'};
+ assert.equal((await (await fetch(base+'/api/auth/status',{headers})).json()).authenticated,true);
 
+ // E2 three-format interop contracts: bounded, authenticated and read-only.
+ assert.equal((await fetch(base+'/api/assurance/adapters')).status,401,'no public contract validation access to operator API');
+ const adapterCatalogue=await (await fetch(base+'/api/assurance/adapters',{headers})).json();
+ assert.equal(adapterCatalogue.adapters.length,3);
+ assert.equal(adapterCatalogue.liveExternalConnectionsVerified,0);
+ const examples=await (await fetch(base+'/api/assurance/adapters/examples',{headers})).json();
+ assert.equal(examples.synthetic,true);
+ assert.equal(examples.records.length,3);
+ const exchange=await fetch(base+'/api/assurance/adapters/validate',{
+  method:'POST',headers,body:JSON.stringify({records:examples.records})});
+ assert.equal(exchange.status,200);
+ const normalized=await exchange.json();
+ assert.equal(normalized.recordCount,3);
+ assert.equal(normalized.readOnly,true);
+ assert.equal(normalized.independentConnectionVerified,false);
+ assert.equal(normalized.records[2].trace.promptsAndOutputsDiscarded,true);
+ assert.match(normalized.receiptHash,/^sha256:[a-f0-9]{64}$/);
+ assert.equal((await fetch(base+'/api/assurance/adapters/validate',{
+  method:'POST',headers,body:JSON.stringify({records:[{adapter:'otel-agent-span-v1',input:{traceId:'invalid'}}]})})).status,400);
+ assert.equal((await fetch(base+'/api/assurance/adapters/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({records:examples.records})})).status,401);
+ assert.equal((await fetch(base+'/api/assurance/policy-mapping')).status,401);
+ const proposedPolicyMapping=await (await fetch(base+'/api/assurance/policy-mapping',{headers})).json();
+ assert.equal(proposedPolicyMapping.clauseCount,6);
+ assert.equal(proposedPolicyMapping.expertApproval,false);
+ assert.equal(proposedPolicyMapping.iscEvidenceCredited,false);
+ assert.match(proposedPolicyMapping.originalByteSha256,/^sha256:[a-f0-9]{64}$/);
  const iscMatrix=await (await fetch(base+'/api/assurance/isc-matrix',{headers})).json();
  assert.equal(iscMatrix.gates.length,6);
  assert.equal((await fetch(base+'/api/assurance/impact-experiment-demo')).status,401);

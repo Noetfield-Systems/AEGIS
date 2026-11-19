@@ -1,0 +1,54 @@
+name: AEGIS Official Policy Source Capture
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/official-policy-evidence.yml'
+      - 'assurance/source-archive.mjs'
+      - 'scripts/capture-policy-source.mjs'
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  original-source-byte-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Capture actual government HTML bytes and metadata
+        run: |
+          mkdir -p artifacts/policy-sources
+          node scripts/capture-policy-source.mjs \
+            --id DIRECTIVE_ADM \
+            --url 'https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32592' \
+            --out artifacts/policy-sources > artifacts/policy-sources/dadm-capture.stdout.json
+      - name: Verify actual archive content hash, not a paraphrase
+        run: |
+          node --input-type=module <<'NODE'
+          import {readFile,readdir,writeFile} from 'node:fs/promises';
+          import {createHash} from 'node:crypto';
+          const root='artifacts/policy-sources';
+          const names=await readdir(root);
+          const manifestName=names.find(x=>x.endsWith('.manifest.json'));
+          if(!manifestName)throw Error('No captured government manifest');
+          const manifest=JSON.parse(await readFile(root+'/'+manifestName,'utf8'));
+          const original=await readFile(root+'/'+manifest.snapshotFilename);
+          const sha='sha256:'+createHash('sha256').update(original).digest('hex');
+          if(sha!==manifest.sha256 || original.length!==manifest.byteLength || manifest.expertMappingApproved!==false)throw Error('Original government file validation failed');
+          await writeFile(root+'/verification.json',JSON.stringify({
+            originalBytesVerified:true,sha256:sha,bytes:original.length,
+            sourceId:manifest.sourceId,governmentLegalApplicabilityVerified:false,
+            qualifiedIndependentReviewerSigned:false,
+            githubSha:process.env.GITHUB_SHA
+          },null,2)+'\n');
+          NODE
+      - name: Retain independently rehashable source snapshot and manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-original-official-policy-${{ github.run_id }}
+          path: artifacts/policy-sources/
+          retention-days: 90
+          if-no-files-found: warn

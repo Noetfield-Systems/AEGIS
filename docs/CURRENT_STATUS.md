@@ -20,3 +20,11 @@
 
 ## Execution ownership
 Existing Founder OS → Company OS → worker → independent verification → GitHub → Railway → receipt chain is the intended control plane, not a newly built duplicate runtime. Authenticated dispatch to Sina OS and a completed autonomous coding cycle remain unverified. The next critical WorkPacket is independently archived federal-policy source and human-approved control mapping, plus labelled blind benchmark for [AEGIS-105](../ops/backlog.json).
+
+## v3.4 read-only public Workbench + policy and integration progress (PR #26)
+
+[PR #26](https://github.com/Noetfield-Systems/AEGIS/pull/26) fixes the screenshot-confirmed unauthenticated Workbench dead end. The six-stage page now offers an **interactive precomputed native demonstration** to visitors, with fixed synthetic scenario selection, measured findings, policy impact, evidence chain, EN/FR sample reports and full privacy separation. It does not allow public private-case reads, arbitrary evaluation, user-account changes, operator reviews or an Officer Pack download. No new design system was introduced.
+
+**E1/E4 technical progress:** original 69,865-byte Directive HTML captured and verified in CI; six proposed clause-to-native-control links are SHA-bound, not independent legal approvals. **E2 technical progress:** three v1 reference adapters (AI inventory, AIA metadata and OpenTelemetry agent spans), validation endpoint and negative tests, **not three live independently tested external integrations**. E3/E5 human/person authorization, data lifecycle and data residency remain partial. Q2 scientific TRL≥5 and Q3b competitive superiority are not externally substantiated.
+
+[ISC Phase 2 Q1–Q10 working master draft](ISC_PHASE2_SUBMISSION_MASTER_DRAFT_2026-11-19.md) follows the published official criteria and includes explicit mandatory evidence gaps; submission not asserted. **This note documents work on PR #26 pending final CI, merge and Railway receipt; do not mark it deployed until production SHA confirms.**

@@ -27,3 +27,11 @@ Store source snapshots in a controlled, backed-up evidence repository; commit or
 The code and CI tests shipped with this pull request establish **offline capture capability**, not an actual archived federal source or independent expert approval. The next agent run should perform the real capture and attach the resulting manifest to the existing Company OS WorkPacket.
 
 Existing work: [AEGIS-103](https://github.com/Noetfield-Systems/AEGIS/issues/3), [AEGIS-105](https://github.com/Noetfield-Systems/AEGIS/issues/5), [audit #23](https://github.com/Noetfield-Systems/AEGIS/issues/23).
+
+## Actual original-byte capture receipt — 19 November 2026
+
+**COMPLETE:** GitHub Actions [#44521533939](https://github.com/Noetfield-Systems/AEGIS/actions/runs/44521533939) fetched the original `Directive on Automated Decision-Making` HTML response from the official TBS host, saved **69,865 exact response bytes**, and independently recomputed the SHA-256:
+
+`225f990673205a49cee216fb8fc124909e8eb917559e3e258a8dd7fb7c35a0e3`
+
+The 90-day [original HTML + manifest + verification artifact](https://github.com/Noetfield-Systems/AEGIS/actions/runs/44521533939/artifacts/14526599860) is available; its durable receipt manifest is `ops/policy-snapshots/DIRECTIVE_ADM_2026-11-19.manifest.json`. Six **candidate only** section mappings (5.1, 6.2.7, 6.3.1, 6.3.2, 6.3.7 and 6.3.11) are in `ops/policy-mappings/DADM_candidate_v1.json` and checked by `test/policy-mapping.test.mjs`. No purported legal effective version, independent applicability ruling, expert signature or ISC evidence credit is attached. The other required policy instruments still lack complete original captures.
