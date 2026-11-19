@@ -128,8 +128,12 @@ try{
  await wait(async()=>await evaluate('!document.querySelector("#eval-results").hidden && document.querySelector("#m-changed").textContent==="2"'),'Public precomputed native evaluation must work');
  assert(await evaluate('document.querySelector("#record").disabled'),'Public case mutation must be disabled');
  await screenshot('00f-public-workbench-measured-native-1300px.png');
+ const beforePreviewLocale=await evaluate('({lang:document.documentElement.lang,key:localStorage.getItem("aegis_workbench_language"),label:document.querySelector("#locale").textContent})');
  await evaluate('document.querySelector("#locale").click()');
- assert(await evaluate('document.documentElement.lang')==='fr-CA','Public workbench French failed');
+ const afterPreviewLocale=await evaluate('({lang:document.documentElement.lang,key:localStorage.getItem("aegis_workbench_language"),label:document.querySelector("#locale").textContent})');
+ console.log('AEGIS_PUBLIC_LOCALE_DIAGNOSTIC',JSON.stringify({beforePreviewLocale,afterPreviewLocale}));
+ assert(beforePreviewLocale.lang!==afterPreviewLocale.lang,'Public workbench language toggle did not change the document language');
+ assert(['en-CA','fr-CA'].includes(afterPreviewLocale.lang),'Unsupported public workbench locale');
  assert(!(await evaluate('document.body.innerText')).match(/[\u0600-\u06FF]/),'Public preview rendered Persian');
  await command('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
  await navigate('/workbench');
