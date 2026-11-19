@@ -7,3 +7,22 @@ footer{max-width:1270px;border-top:1px solid #ffffff21;margin:0 auto;padding:28p
 @media(max-width:850px){.top{padding:14px 24px}.top nav{gap:12px}.top nav a:nth-child(1),.top nav a:nth-child(2){display:none}main{padding:0 24px}.hero{padding:70px 0 55px}.steps,.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.columns{gap:20px}.panel{padding:22px}footer{padding:28px 24px}}
 @media(max-width:520px){.top{gap:10px}.brand b{font-size:20px}.brand small{font-size:8px}.top nav a{display:none}.hero h1{font-size:45px}.intro{font-size:15px}.hero-actions a{text-align:center;flex:1 1 100%}.disclaimer{font-size:11px}.steps{grid-template-columns:repeat(2,1fr);gap:7px}.step{min-height:120px}.section-header{display:block}.badge{display:inline-block;margin-top:13px}.stats>div{padding:16px}.stats strong{font-size:28px}.meta{grid-template-columns:1fr}.status{align-items:start;flex-direction:column}.columns{grid-template-columns:1fr}footer{flex-wrap:wrap;gap:14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}a{transition:none!important}}
+/* AEGIS Trace Ribbon — the distinctive product signature, based on real native data. */
+.tour-lineage{background:radial-gradient(ellipse 72% 100% at 10% 0%,#ba985e1b,transparent),#121927;border:1px solid #927a5a64;border-radius:13px;padding:27px;margin:0 0 23px}
+.tour-lineage-top{display:flex;gap:20px;justify-content:space-between;align-items:start}
+.tour-lineage-top h3{font-size:24px;font-weight:600;letter-spacing:-.035em;margin:8px 0 5px}
+.tour-lineage-top p{font-size:11px;color:#aeb8c6;line-height:1.7;margin:0 0 24px}
+.tour-lineage-nodes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:13px}
+.trace-card{background:linear-gradient(160deg,#192435,#121927);border:1px solid #6c665d75;text-align:left;color:#eee9e5;border-radius:9px;padding:15px 11px;min-height:132px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;position:relative;transition:transform .16s,border-color .16s}
+.trace-card:not(:last-child):after{content:"";position:absolute;top:50%;left:calc(100% + 1px);width:12px;border-top:1px solid #d1b583a8}
+.trace-card:hover,.trace-card:focus-visible{border-color:var(--accent);transform:translateY(-2px)}
+.trace-number{font-size:10px;color:var(--accent);font-weight:750}
+.trace-card small{font-size:9px;letter-spacing:.06em;color:#aeb6c1;font-weight:700;line-height:1.25}
+.trace-card strong{font-size:20px;font-weight:650;line-height:1.25;overflow-wrap:anywhere}
+.trace-card:first-child strong,.trace-card:last-child strong{font-size:12px}
+.tour-lineage-detail{color:#b9c2cd;font-size:11px;padding-top:14px;margin-top:19px;border-top:1px solid #ffffff17;min-height:26px}
+.tour-selected{border-color:var(--accent)!important;box-shadow:0 0 0 1px #d1b58370,0 14px 32px #00000030}
+@media(max-width:1120px){.tour-lineage-nodes{grid-template-columns:repeat(3,minmax(0,1fr))}.trace-card:nth-child(3):after{display:none}}
+@media(max-width:620px){.tour-lineage{padding:20px}.tour-lineage-top{display:block}.tour-lineage-nodes{grid-template-columns:repeat(2,minmax(0,1fr))}.trace-card:not(:last-child):after{display:none}.trace-card{min-height:115px}.tour-lineage-top h3{font-size:21px}}
+@media(max-width:390px){.tour-lineage-nodes{grid-template-columns:1fr}.trace-card{min-height:80px}}
+@media(prefers-reduced-motion:reduce){.trace-card{transition:none}}
