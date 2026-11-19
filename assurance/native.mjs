@@ -9,6 +9,7 @@ import {compilePolicyImpact} from './policy.mjs';
 import {runIntegratedAssurance} from './integrated.mjs';
 import {benchmarkImpact,evaluateCounterfactual} from './benchmark.mjs';
 import {triageAiaScope} from './aia-scope.mjs';
+import {runGovernedLifecycle} from './governed-lifecycle.mjs';
 const maxRows=500;
 const fail=(msg)=>{throw new TypeError(msg)};
 const obj=(x,label)=>{if(!x||typeof x!=='object'||Array.isArray(x))fail(label+' must be an object');return x};
@@ -90,7 +91,7 @@ export function replayPolicy(input){
  }));
  return envelope('replay',input,{changedControls:changed,impactedSystems:impacted,unaffectedSystems:systems.filter(s=>!affected.has(s.id)).map(s=>s.id),assessmentsNeedingReview:replays},['A deterministic impact-planning and replay-invalidation fixture, not a native reevaluation of the data/model/output or a verified policy graph.','Original findings are retained; no changed result is marked MET until new tests and accountable human review.']);
 }
-export function runNative(input){
+export function runNative(input,context={}){
  obj(input,'evaluation request');
  const mode=String(input.mode||'');const payload=obj(input.input,'evaluation input');
  if(mode==='data')return evaluateData(payload);
@@ -103,5 +104,6 @@ export function runNative(input){
  if(mode==='impact-benchmark')return benchmarkImpact(payload);
  if(mode==='decision-what-if')return evaluateCounterfactual(payload);
  if(mode==='aia-scope')return triageAiaScope(payload);
- fail('mode must be data, classifier, output, replay, golden-replay, policy-impact integrated, impact-benchmark decision-what-if or aia-scope');
+ if(mode==='governed-lifecycle')return runGovernedLifecycle(payload,{data:evaluateData,classifier:evaluateClassifier,output:evaluateOutputs},context.trustedReviewerKeys||[]);
+ fail('mode must be data, classifier, output, replay, golden-replay, policy-impact integrated, impact-benchmark decision-what-if aia-scope or governed-lifecycle');
 }
