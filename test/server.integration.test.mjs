@@ -299,4 +299,39 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  const exportRes=await fetch(base+'/api/export?format=json',{headers});
  assert.equal(exportRes.status,200);
  const payload=await exportRes.json();assert.equal(payload.derived.score,0);
+ // v3.2: the Officer Evidence Pack is private, calculated from native inputs and cannot
+ // convert synthetic tests into official E1–E6, reviewer approval or TRL5.
+ assert.equal((await fetch(base+'/api/assurance/officer-pack')).status,401);
+ const evidencePackRes=await fetch(base+'/api/assurance/officer-pack',{headers});
+ assert.equal(evidencePackRes.status,200);
+ const evidencePack=await evidencePackRes.json();
+ assert.equal(evidencePack.essentialOutcomes.length,6);
+ assert.equal(evidencePack.essentialOutcomesFullyVerified,0);
+ assert.equal(evidencePack.trl5Established,false);
+ assert.equal(evidencePack.syntheticBenchmark.metrics.fn,1);
+ assert.equal(evidencePack.sourceReferences.fullDocumentsCapturedAndHashed,false);
+ assert.equal(evidencePack.officialPolicyApplicabilityVerified,false);
+ assert.equal(evidencePack.independentHumanReviewerVerified,false);
+ assert.equal(evidencePack.technicalExperiment.summary.changedTechnicalFindings,2);
+ // End-to-end CSV injection protection: the raw JSON evidence retains its original
+ // value, but spreadsheet exports do not begin a cell with a formula introducer.
+ const formula=await fetch(base+'/api/record',{method:'POST',headers,body:JSON.stringify({
+  collection:'evidence',record:{id:'formula-test',title:'formula-test',
+   url:'https://example.org/evidence',claim:'=1+1',status:'collected',
+   limitations:'Unreviewed test-only evidence'}
+ })});
+ assert.equal(formula.status,200);
+ const csv=await (await fetch(base+'/api/export?format=csv',{headers})).text();
+ assert.ok(csv.includes('"\'=1+1"'),'spreadsheet export must neutralize the user-supplied formula');
+ const original=await (await fetch(base+'/api/export?format=json',{headers})).json();
+ assert.equal(original.state.evidence.find(x=>x.id==='formula-test').claim,'=1+1');
+ // Signed cookie must be actively revoked server-side, not merely removed from
+ // the browser, and stale cookie reuse must not expose evidence again.
+ const logout=await fetch(base+'/api/auth/logout',{method:'POST',headers});
+ assert.equal(logout.status,200);
+ assert.match(logout.headers.get('set-cookie'),/Max-Age=0/);
+ assert.equal((await fetch(base+'/api/state',{headers})).status,401,'replayed logged-out session must be rejected');
+ const reLogin=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
+ assert.equal(reLogin.status,200,'operator must be able to sign in again after revocation');
+ assert.notEqual(reLogin.headers.get('set-cookie')?.split(';')[0],cookie);
 });
