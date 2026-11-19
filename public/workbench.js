@@ -17,6 +17,12 @@ reviewTitle:'Human judgment stays accountable.',reviewDesc:'Register a technical
 reportTitle:'A dossier that can be interrogated.',reportDesc:'Generate a bilingual, print-ready report from fresh native computation: source lineage, historical findings, lifecycle actions, review and scientific limits.',deliverable:'TECHNICAL EVIDENCE DOSSIER',paperEyebrow:'REPRODUCIBLE ASSURANCE / EXPERIMENTAL',paperTitle:'Decision Assurance & Regulatory Replay',paperText:'An auditable record of version changes, first-party measurements, review events and source limitations.',caseStatus:'Case status',reportReceipt:'Receipt',reportedFinding:'Regulatory finding',exportOptions:'EXPORT OPTIONS',exportDesc:'Choose a language. The server reruns the model checks and includes a matching internal review event when one exists. You can print the HTML dossier to PDF in your browser.',downloadEn:'Download English report',downloadFr:'Télécharger le rapport français',reportLimit:'The report contains no official government endorsement, no asserted TRL level and no independent review claim. It does not award ISC evidence credit.',
 coverageTitle:'Engineering evidence versus mandatory outcomes.',coverageDesc:'Six essential ISC outcomes with implemented artifacts, experimental tests and remaining proof gaps. This is an internal acceptance matrix, not a government score.',coverageNote:'Do not mark TRL 5, full E1–E6 compliance, Canadian data residency or independent reviewer verification without specific original evidence.',
 prev:'Previous stage',next:'Continue to next stage',footer:'Technical demonstration, not a Government of Canada determination.',
+benchmarkHeading:'BENCHMARK STUDIO / FIRST-PARTY POLICY IMPACT',benchmarkMethod:'ACTUAL COMPILER PREDICTIONS · SYNTHETIC LABELS',benchmarkTitle:'Measure predictions, not promises.',
+benchmarkCopy:'Eight controlled examples, two deliberately discordant reference labels, first-party impact classification and Wilson 95% intervals. The labels are not independently validated.',
+benchmarkInput:'DATASET',benchmarkRun:'Run policy benchmark',benchmarkWarning:'Illustrative measurements do not establish real-world accuracy, competitor superiority, official policy applicability or TRL 5.',
+benchmarkExport:'Download experiment receipt (JSON)',benchmarkOutcomes:'MEASURED CONFUSION MATRIX & UNCERTAINTY',benchmarkEmpty:'No benchmark has been run.',benchmarkEmptyText:'Run the experiment to generate genuine compiler predictions on synthetic test cases.',
+benchmarkFalsePos:'False positives',benchmarkFalseNeg:'False negatives',benchmarkPrecision95:'Precision 95% Wilson interval',benchmarkRecall95:'Recall 95% Wilson interval',benchmarkSample:'Sample size',benchmarkAttested:'Independent ground truth',benchmarkNo:'NOT VERIFIED',benchmarkReceipt:'Experiment SHA-256',
+benchmarkDone:'Eight-case synthetic benchmark computed. Interpret confidence intervals cautiously.',
 workStatus:'Workflow ready · synthetic only',stageOf:'Stage',controlCount:'Candidate controls',systemStatus:'System classification',onlySynthetic:'Synthetic sample',oldVersion:'Previous controlled version',newVersion:'Proposed synthetic version',changed:'CHANGED',unchanged:'UNCHANGED',sourceType:'Source class',noSources:'No policy sources recorded',officialRef:'Official source reference',noChange:'No section change',emptyHistory:'No internal cases recorded.',runFirst:'Run native evaluation before recording.',caseSaved:'Case recorded under its native receipt.',reviewSaved:'Review appended to the internal audit chain.',reviewUnavailable:'Record a case before submitting a review.',reportReady:'Report created with fresh native computation.',loadError:'Could not load the private workbench data.',requestError:'Request failed.',authError:'Your private session has expired.',noApproval:'UNABLE TO DETERMINE',trialOnly:'SIMULATED / UNVERIFIED',missing:'Missing independently verified evidence',implementation:'Implemented experiments',evidence:'Experimental tests',responsible:'Responsibility',needReview:'Requires further proof',completed:'Completed',inProgress:'In progress',planned:'Planned',yes:'Yes',no:'No',
 MET:'MET',NOT_MET:'NOT MET',PARTIALLY_MET:'PARTIALLY MET',NOT_APPLICABLE:'NOT APPLICABLE',UNABLE_TO_DETERMINE:'UNABLE TO DETERMINE',
 'Previous':'Previous','Current':'Current'
@@ -34,12 +40,18 @@ reviewTitle:'La décision humaine demeure responsable.',reviewDesc:'Enregistrez 
 reportTitle:'Un dossier que l’on peut examiner.',reportDesc:'Générez un rapport bilingue prêt à imprimer, issu d’un nouveau calcul natif : sources, constats historiques, actions et limites scientifiques.',deliverable:'DOSSIER TECHNIQUE DE PREUVES',paperEyebrow:'ASSURANCE REPRODUCTIBLE / EXPÉRIMENTAL',paperTitle:'Assurance décisionnelle et relecture réglementaire',paperText:'Document retraçant les modifications de versions, les mesures natives, les révisions et les limites des sources.',caseStatus:'État du dossier',reportReceipt:'Empreinte',reportedFinding:'Constat réglementaire',exportOptions:'EXPORTATION',exportDesc:'Choisissez la langue. Le serveur réexécute les contrôles et ajoute la révision interne correspondante, si elle existe. Le rapport HTML peut être imprimé en PDF.',downloadEn:'Télécharger le rapport anglais',downloadFr:'Télécharger le rapport français',reportLimit:'Aucune approbation gouvernementale, aucun NMT établi ni examen indépendant ne sont revendiqués. Aucun crédit de preuve ISC.',
 coverageTitle:'Preuves d’ingénierie et critères obligatoires.',coverageDesc:'Six résultats essentiels ISC avec code, tests et lacunes. Il s’agit d’une matrice interne, et non d’une évaluation gouvernementale.',coverageNote:'Ne revendiquez pas le NMT 5, la conformité E1 à E6, l’hébergement canadien ou une vérification indépendante sans preuve originale.',
 prev:'Étape précédente',next:'Passer à l’étape suivante',footer:'Démonstration technique et non détermination du gouvernement du Canada.',
+benchmarkHeading:'LABORATOIRE DE MESURES / IMPACT DES POLITIQUES',benchmarkMethod:'PRÉDICTIONS RÉELLES DU COMPILATEUR · ÉTIQUETTES FICTIVES',benchmarkTitle:'Mesurez les prédictions, pas les promesses.',
+benchmarkCopy:'Huit exemples contrôlés, deux étiquettes de référence volontairement discordantes, classification native des impacts et intervalles de Wilson à 95 %. Les étiquettes ne sont pas validées de façon indépendante.',
+benchmarkInput:'JEU DE DONNÉES',benchmarkRun:'Exécuter le benchmark',benchmarkWarning:'Ces mesures illustratives ne prouvent ni la précision réelle, ni une supériorité concurrentielle, ni l’applicabilité des politiques, ni le NMT 5.',
+benchmarkExport:'Télécharger le reçu de l’expérience (JSON)',benchmarkOutcomes:'MATRICE DE CONFUSION ET INCERTITUDE',benchmarkEmpty:'Aucun benchmark exécuté.',benchmarkEmptyText:'Lancez l’expérience pour mesurer les prédictions natives sur des données fictives.',
+benchmarkFalsePos:'Faux positifs',benchmarkFalseNeg:'Faux négatifs',benchmarkPrecision95:'Intervalle Wilson à 95 % de la précision',benchmarkRecall95:'Intervalle Wilson à 95 % du rappel',benchmarkSample:'Taille de l’échantillon',benchmarkAttested:'Vérité terrain indépendante',benchmarkNo:'NON VÉRIFIÉE',benchmarkReceipt:'Empreinte SHA-256 de l’expérience',
+benchmarkDone:'Expérience fictive de huit cas calculée. Interprétez les intervalles avec prudence.',
 workStatus:'Parcours prêt · simulation uniquement',stageOf:'Étape',controlCount:'Contrôles proposés',systemStatus:'Classification du système',onlySynthetic:'Exemple fictif',oldVersion:'Version précédente',newVersion:'Version fictive proposée',changed:'MODIFIÉ',unchanged:'INCHANGÉ',sourceType:'Type de source',noSources:'Aucune source enregistrée',officialRef:'Référence officielle',noChange:'Aucun changement de section',emptyHistory:'Aucun dossier interne enregistré.',runFirst:'Exécutez d’abord l’évaluation native.',caseSaved:'Dossier consigné avec son empreinte native.',reviewSaved:'Révision ajoutée au journal des événements.',reviewUnavailable:'Enregistrez le dossier avant la révision.',reportReady:'Rapport produit à partir d’un nouveau calcul natif.',loadError:'Impossible de charger les données privées.',requestError:'La requête a échoué.',authError:'Votre session privée a expiré.',noApproval:'IMPOSSIBLE À DÉTERMINER',trialOnly:'SIMULATION / NON VÉRIFIÉ',missing:'Preuves indépendantes manquantes',implementation:'Expériences mises en œuvre',evidence:'Tests expérimentaux',responsible:'Responsabilité',needReview:'Preuve complémentaire requise',completed:'Terminé',inProgress:'En cours',planned:'Planifié',yes:'Oui',no:'Non',
 MET:'SATISFAIT',NOT_MET:'NON SATISFAIT',PARTIALLY_MET:'PARTIELLEMENT SATISFAIT',NOT_APPLICABLE:'NON APPLICABLE',UNABLE_TO_DETERMINE:'IMPOSSIBLE À DÉTERMINER',
 Previous:'Précédent',Current:'Actuel'
 }
 };
-let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null;
+let language='en',stageIndex=0,fixture=null,catalogue=null,matrix=null,history=null,result=null,caseEntry=null,benchmark=null;
 const el=id=>document.getElementById(id),q=sel=>document.querySelector(sel),qq=sel=>document.querySelectorAll(sel);
 const t=k=>copy[language][k]??k;
 const value=v=>v==null?'—':String(v);
@@ -70,6 +82,7 @@ function updateLanguage(){
  el('locale').textContent=language==='fr'?'FR / EN':'EN / FR';
  el('locale').setAttribute('aria-label',language==='en'?'Switch to French':'Passer en anglais');
  if(fixture)renderAll();
+ if(benchmark)renderBenchmark();
 }
 function setStage(index){
  stageIndex=Math.max(0,Math.min(stages.length-1,index));
@@ -206,6 +219,42 @@ function renderCoverage(){
  }
 }
 function renderAll(){renderContext();renderPolicy();renderEvaluation();renderReview();renderReport();renderCoverage();setStage(stageIndex)}
+
+const percent=v=>v===null||v===undefined?'—':(v*100).toFixed(1)+'%';
+const interval=v=>v==null?'—':percent(v.lower)+' – '+percent(v.upper);
+function renderBenchmark(){
+ if(!el('benchmark-results'))return;
+ el('benchmark-placeholder').hidden=Boolean(benchmark);
+ el('benchmark-results').hidden=!benchmark;
+ el('benchmark-download').disabled=!benchmark;
+ if(!benchmark)return;
+ const m=benchmark.metrics;
+ setText('b-precision',percent(m.precision));
+ setText('b-recall',percent(m.recall));
+ setText('b-fp',m.fp);
+ setText('b-fn',m.fn);
+ setText('b-precision-ci',interval(m.precisionWilson95));
+ setText('b-recall-ci',interval(m.recallWilson95));
+ setText('b-samples',m.sampleCount);
+ setText('b-receipt',benchmark.receiptHash);
+}
+async function runBenchmark(){
+ const button=el('benchmark-run');button.disabled=true;clearError();
+ try{
+  const demo=await json('assurance/impact-experiment-demo');
+  if(demo.synthetic!==true||demo.referenceLabelsIndependentlyVerified!==false||!demo.fixture)throw Error('Expected an unverified synthetic benchmark');
+  const output=await json('assurance/run',{method:'POST',body:JSON.stringify({mode:'impact-experiment',input:demo.fixture})});
+  if(output.evidenceCredited!==false||output.result?.kind!=='compiled-policy-impact-benchmark'||output.result.referenceLabelsIndependentlyVerified!==false)throw Error('Benchmark attribution mismatch');
+  benchmark=output.result;renderBenchmark();el('flow-status').textContent=t('benchmarkDone');
+ }catch(e){fail(e.message)}finally{button.disabled=false}
+}
+function exportBenchmark(){
+ if(!benchmark)return;
+ const blob=new Blob([JSON.stringify(benchmark,null,2)],{type:'application/json'});
+ const href=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=href;a.download='aegis-synthetic-policy-impact-benchmark.json';a.hidden=true;
+ document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(href),1000);
+}
 async function refreshCases(){
  if(!fixture)return;
  history=await json('assurance/cases');
@@ -284,6 +333,8 @@ function boot(){
  el('run').addEventListener('click',runAssessment);
  el('record').addEventListener('click',recordCase);
  el('review-form').addEventListener('submit',saveReview);
+ el('benchmark-run').addEventListener('click',runBenchmark);
+ el('benchmark-download').addEventListener('click',exportBenchmark);
  qq('[data-report]').forEach(b=>b.addEventListener('click',()=>downloadReport(b.dataset.report)));
  start();
 }
