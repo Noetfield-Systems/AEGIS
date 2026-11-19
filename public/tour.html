@@ -29,6 +29,12 @@
 <div><small data-i18n="systems">Affected AI systems</small><strong id="stat-systems">—</strong></div>
 <div><small data-i18n="replays">Completed assessments replayed</small><strong id="stat-replays">—</strong></div>
 <div><small data-i18n="findings">Technical findings changed</small><strong id="stat-findings">—</strong></div></div>
+
+<div class="tour-lineage" aria-labelledby="tour-lineage-title">
+ <div class="tour-lineage-top"><div><div class="section-eyebrow" data-i18n="lineageEyebrow">AEGIS / TRACEABLE DECISIONS</div><h3 id="tour-lineage-title" data-i18n="lineageTitle">From rule change to evidence receipt.</h3><p data-i18n="lineageDesc">Select a stage to inspect its supporting technical result. Counts are computed by AEGIS, never hardcoded.</p></div><span class="badge" data-i18n="lineageScope">SYNTHETIC MEASUREMENT</span></div>
+ <div id="tour-lineage-nodes" class="tour-lineage-nodes" role="group" aria-label="Evidence provenance sequence"></div>
+ <p id="tour-lineage-detail" class="tour-lineage-detail" role="status" aria-live="polite" data-i18n="lineageHint">Select a stage to inspect a measured result.</p>
+</div>
 <div class="grid">
 <article class="panel"><div class="label" data-i18n="policy">01 / POLICY IMPACT</div><h3 data-i18n="impact">A change with traceable scope</h3><p data-i18n="impacttext">The compiler isolates affected controls. Unchanged systems are recorded separately rather than silently omitted.</p><div class="meta"><div><span data-i18n="previous">Previous version</span><code id="before-version"></code></div><div><span data-i18n="newversion">New version</span><code id="after-version"></code></div></div><div class="chip-label" data-i18n="affected">Affected</div><div id="affected" class="chips"></div><div class="chip-label" data-i18n="unaffected">Unaffected</div><div id="unaffected" class="chips muted"></div></article>
 <article class="panel"><div class="label" data-i18n="replaytitle">02 / HISTORICAL REASSESSMENT</div><h3 data-i18n="compare">Before and after, not a static score</h3><p data-i18n="comparetext">Original recorded findings are retained. The native evaluator reruns the same bound inputs against changed thresholds.</p><div class="tablewrap"><table><thead><tr><th data-i18n="control">Control</th><th data-i18n="was">Originally</th><th data-i18n="now">Recomputed</th><th data-i18n="metric">Measured value</th></tr></thead><tbody id="findings-rows"></tbody></table></div></article>
