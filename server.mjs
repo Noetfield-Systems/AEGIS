@@ -9,6 +9,7 @@ import {getSourceRegistry} from './assurance/source-registry.mjs';
 import {governedFixture} from './fixtures/governed.mjs';
 import {integratedFixture} from './fixtures/integrated.mjs';
 import {emptyReviewJournal,verifyReviewJournal,appendCase,appendReview,renderReviewReport} from './assurance/review-journal.mjs';
+import {renderIntegratedReport} from './assurance/integrated-report.mjs';
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dataDir=process.env.DATA_DIR||path.join(root,'data');
 const storeFile=path.join(dataDir,'aegis-isc.json');
@@ -71,7 +72,7 @@ const publicDemoEnvelope=Object.freeze({
   reassessmentQueue:publicDemonstration.reassessmentQueue,
   summary:publicDemonstration.summary,receiptHash:publicDemonstration.receiptHash}
 });
-const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js','/aegis-emblem.svg':'aegis-emblem.svg','/ottawa-silhouette.svg':'ottawa-silhouette.svg','/tour':'tour.html','/tour.html':'tour.html','/tour.css':'tour.css','/tour.js':'tour.js'};
+const files={'/':'index.html','/index.html':'index.html','/app.js':'app.js','/style.css':'style.css','/premium.css':'premium.css','/locale.js':'locale.js','/aegis-emblem.svg':'aegis-emblem.svg','/ottawa-silhouette.svg':'ottawa-silhouette.svg','/tour':'tour.html','/tour.html':'tour.html','/tour.css':'tour.css','/tour.js':'tour.js','/workbench':'workbench.html','/workbench.html':'workbench.html','/workbench.css':'workbench.css','/workbench.js':'workbench.js'};
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml'};
 const server=http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');res.setHeader('Cache-Control','no-store');
@@ -110,6 +111,28 @@ const server=http.createServer(async(req,res)=>{
 
    // Experimental assurance case registry is distinct from the ISC readiness score/evidence store.
    // Only a single local administrator identity exists. Reviewer display names are not verified.
+   // Read-only evidence acceptance matrix; this is the self-assessed project document.
+   if(url.pathname==='/api/assurance/isc-matrix'&&req.method==='GET'){
+    const raw=await readFile(path.join(root,'ops/isc-e1-e6-matrix.json'),'utf8');
+    return respond(res,200,JSON.parse(raw));
+   }
+   // Recompute the bounded native result for a print-ready, separately credited-zero
+   // report. The report only includes measurement lineage; it never archives raw input.
+   if(url.pathname==='/api/assurance/report-detail'&&req.method==='POST'){
+    try{
+     const payload=await body(req),lang=payload.lang||'en';
+     if(!['en','fr'].includes(lang))return respond(res,400,{error:'Only en and fr are available'});
+     const result=runNative({mode:'integrated',input:payload.input});
+     verifyReviewJournal(reviewJournal);
+     const recorded=reviewJournal.cases.some(c=>c.receiptHash===result.receiptHash);
+     const review=recorded?reviewJournal.events.filter(e=>e.caseReceiptHash===result.receiptHash).at(-1)??null:null;
+     const html=renderIntegratedReport(result,{lang,review,generatedAt:new Date().toISOString()});
+     res.writeHead(200,{'Content-Type':'text/html; charset=utf-8',
+      'Content-Disposition':'attachment; filename="aegis-assurance-technical-'+lang+'.html"',
+      'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});
+     return res.end(html);
+    }catch(err){if(err instanceof TypeError||err instanceof RangeError)return respond(res,400,{error:err.message});throw err;}
+   }
    if(url.pathname==='/api/assurance/sources'&&req.method==='GET')
     return respond(res,200,getSourceRegistry());
    if(url.pathname==='/api/assurance/governed-demo'&&req.method==='GET')

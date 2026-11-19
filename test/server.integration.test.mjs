@@ -61,6 +61,13 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.match(publicPayload.result.receiptHash,/^sha256:[a-f0-9]{64}$/);
  assert.equal((await fetch(base+'/api/public/demo',{method:'POST'})).status,405);
  assert.equal((await fetch(base+'/api/assurance/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'integrated',input:{}})})).status,401,'public access cannot run arbitrary assurance inputs');
+
+ for(const [uri,text] of [['/workbench','Assurance Workbench'],['/workbench.css','--gold'],['/workbench.js','assurance/report-detail']]){
+  const resource=await fetch(base+uri);assert.equal(resource.status,200,uri);
+  assert.ok((await resource.text()).includes(text),'new workbench resource '+uri);
+ }
+ assert.equal((await fetch(base+'/api/assurance/isc-matrix')).status,401);
+ assert.equal((await fetch(base+'/api/assurance/report-detail',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:'en',input:integratedFixture()})})).status,401);
  assert.equal((await fetch(base+'/api/state')).status,401,'private data must require login');
  const bad=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:'wrong'})});
  assert.equal(bad.status,401);
@@ -69,6 +76,22 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  const cookie=login.headers.get('set-cookie')?.split(';')[0];
  assert.ok(cookie?.startsWith('aegis_session='));
  const headers={Cookie:cookie,'Content-Type':'application/json'};
+
+ const iscMatrix=await (await fetch(base+'/api/assurance/isc-matrix',{headers})).json();
+ assert.equal(iscMatrix.gates.length,6);
+ assert.equal(iscMatrix.selfAssessedOnly,true);
+ assert.equal(iscMatrix.trl.claimedLevel,null);
+ const preCaseReport=await fetch(base+'/api/assurance/report-detail',{method:'POST',headers,body:JSON.stringify({lang:'en',input:integratedFixture()})});
+ assert.equal(preCaseReport.status,200);
+ assert.match(preCaseReport.headers.get('content-type'),/text\/html/);
+ assert.match(preCaseReport.headers.get('content-disposition'),/aegis-assurance-technical-en/);
+ const preHtml=await preCaseReport.text();
+ assert.match(preHtml,/No operator review has been recorded/);
+ assert.match(preHtml,/UNABLE TO DETERMINE/);
+ assert.match(preHtml,/synthetic/i);
+ assert.equal((await fetch(base+'/api/assurance/report-detail',{method:'POST',headers,body:JSON.stringify({lang:'fa',input:integratedFixture()})})).status,400);
+ const malformed=integratedFixture();malformed.policy.after.version='fabricated-incorrect-version';
+ assert.equal((await fetch(base+'/api/assurance/report-detail',{method:'POST',headers,body:JSON.stringify({lang:'en',input:malformed})})).status,400);
  const initial=await (await fetch(base+'/api/state',{headers})).json();
  assert.equal(initial.derived.score,0);
  assert.equal(initial.derived.openGates.length,10);
@@ -169,6 +192,16 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  const logged=await review.json();
  assert.equal(logged.independentReviewer,false);
  assert.equal(logged.event.scope,'INTERNAL_OPERATOR_COMMENT_ONLY');
+ const postCaseFrReport=await fetch(base+'/api/assurance/report-detail',{method:'POST',headers,body:JSON.stringify({lang:'fr',input:integratedFixture()})});
+ assert.equal(postCaseFrReport.status,200);
+ const postFrHtml=await postCaseFrReport.text();
+ assert.match(postFrHtml,/lang="fr-CA"/);
+ assert.match(postFrHtml,/Réévaluation native/);
+ assert.match(postFrHtml,/REQUEST_CHANGES/);
+ assert.match(postFrHtml,/This needs an independently reviewed policy snapshot/);
+ assert.ok(postFrHtml.includes(logged.event.eventHash));
+ assert.ok(postFrHtml.includes(receipt));
+
  const cases=await (await fetch(base+'/api/assurance/cases',{headers})).json();
  assert.equal(cases.cases.length,1);
  assert.equal(cases.events.length,1);
