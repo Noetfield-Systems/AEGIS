@@ -10,6 +10,7 @@ import {setTimeout as sleep} from 'node:timers/promises';
 import {randomBytes} from 'node:crypto';
 import {createGoldenFixture} from '../fixtures/golden.mjs';
 import {policyImpactFixture} from '../fixtures/policy-impact.mjs';
+import {integratedFixture} from '../fixtures/integrated.mjs';
 
 async function freePort(){
  return await new Promise((resolve,reject)=>{
@@ -72,6 +73,47 @@ test('E2E: private bilingual web application, static assets and evidence gate', 
  assert.equal(policyResult.result.proposedControls[0].complianceFinding,'UNABLE_TO_DETERMINE');
  assert.equal(policyResult.result.reassessmentQueue.length,3);
  assert.ok(policyResult.result.proposedControls.every(c=>c.isActive===false));
+ // Authenticated multi-engine demo, internal case hash and reviewer event chain.
+ assert.equal((await fetch(base+'/api/assurance/demo')).status,401);
+ assert.equal((await fetch(base+'/api/assurance/cases',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:integratedFixture()})})).status,401);
+ const demo=await (await fetch(base+'/api/assurance/demo',{headers})).json();
+ assert.equal(demo.synthetic,true);
+ assert.equal(demo.fixture.scenarioId,'synthetic-integrated-001');
+ const caseRes=await fetch(base+'/api/assurance/cases',{method:'POST',headers,body:JSON.stringify({input:demo.fixture})});
+ assert.equal(caseRes.status,200);
+ const casePayload=await caseRes.json();
+ assert.equal(casePayload.evidenceCredited,false);
+ assert.equal(casePayload.result.summary.historicalAssessmentsReexecuted,1);
+ assert.equal(casePayload.result.summary.regulatoryComplianceStatus,'UNABLE_TO_DETERMINE');
+ const receipt=casePayload.case.receiptHash;
+ const caseAgain=await (await fetch(base+'/api/assurance/cases',{method:'POST',headers,body:JSON.stringify({input:demo.fixture})})).json();
+ assert.equal(caseAgain.created,false,'exact same case must not be duplicated');
+ const invalidReview=await fetch(base+'/api/assurance/reviews',{method:'POST',headers,body:JSON.stringify({caseReceiptHash:receipt,decision:'APPROVE',reviewerDisplayName:'Test Operator',reason:'no'})});
+ assert.equal(invalidReview.status,400,'short reason must fail');
+ const unauthorizedReview=await fetch(base+'/api/assurance/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({caseReceiptHash:receipt,decision:'APPROVE',reviewerDisplayName:'Test Operator',reason:'Approved without login'})});
+ assert.equal(unauthorizedReview.status,401);
+ const review=await fetch(base+'/api/assurance/reviews',{method:'POST',headers,body:JSON.stringify({caseReceiptHash:receipt,decision:'REQUEST_CHANGES',reviewerDisplayName:'Internal Tester',reason:'This needs an independently reviewed policy snapshot'})});
+ assert.equal(review.status,200);
+ const logged=await review.json();
+ assert.equal(logged.independentReviewer,false);
+ assert.equal(logged.event.scope,'INTERNAL_OPERATOR_COMMENT_ONLY');
+ const cases=await (await fetch(base+'/api/assurance/cases',{headers})).json();
+ assert.equal(cases.cases.length,1);
+ assert.equal(cases.events.length,1);
+ assert.equal(cases.events[0].caseReceiptHash,receipt);
+ assert.equal((await fetch(base+'/api/assurance/report?lang=fr')).status,401);
+ const frReport=await fetch(base+'/api/assurance/report?lang=fr',{headers});
+ assert.equal(frReport.status,200);
+ const frHtml=await frReport.text();
+ assert.match(frHtml,/lang="fr-CA"/);
+ assert.match(frHtml,/Révision interne/);
+ assert.match(frHtml,/INTERNAL|REQUEST_CHANGES/);
+ assert.equal((await fetch(base+'/api/assurance/report?lang=fa',{headers})).status,400);
+ const savedLedger=JSON.parse(await (await import('node:fs/promises')).readFile(path.join(temp,'aegis-assurance-reviews.json'),'utf8'));
+ assert.equal(savedLedger.cases.length,1);
+ assert.equal(savedLedger.events.length,1);
+ assert.ok(!JSON.stringify(savedLedger).includes('Synthetic tolerance'), 'raw synthetic inputs must not be stored by review ledger');
+
 
 
  const invalid=await fetch(base+'/api/assurance/run',{method:'POST',headers,body:JSON.stringify({mode:'classifier',input:{labels:[1],predictions:[1,0]}})});
