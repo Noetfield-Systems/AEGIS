@@ -62,3 +62,9 @@ All report and evidence routes are authenticated and accept no language other th
 
 Research references: [Official ISC challenge](https://www.ised-isde.canada.ca/site/innovative-solutions-canada/en/artificial-intelligence-ai-decision-making-process-visibility-traceability-and-compliance-governance), [DADM Scope Guide](https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/guide-scope-directive-automated-decision-making.html), [AIA](https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/responsible-use-ai/automated-decision-making/algorithmic-impact-assessment.html), and [Canadian AI Safety Institute guidance for evaluation reporting](https://ised-isde.canada.ca/site/ised/en/canadian-artificial-intelligence-safety-institute/what-information-should-ai-evaluators-share).
 
+
+## Policy impact Benchmark Studio — compiler-derived experimental measurements
+
+The private Workbench's **ISC coverage** stage now includes Benchmark Studio. The authenticated `GET /api/assurance/impact-experiment-demo` returns eight synthetic policy-change cases, including two intentionally conflicting synthetic reference labels. The `POST /api/assurance/run` native `impact-experiment` mode invokes the **actual** Policy Impact Compiler for each case, compares the compiler-derived prediction to its caller-supplied reference label, and reports TP/FP/TN/FN, precision, recall, specificity, Wilson 95% intervals and reproducible hashes. Downloadable JSON includes each comparison. Results are explicitly **not independently verified** and make no TRL 5 or competitive performance claim.
+
+[Method, test protocol and limitations](docs/IMPACT_BENCHMARK_METHOD.md).
