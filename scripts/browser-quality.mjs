@@ -136,6 +136,26 @@ try{
  await screenshot('02-premium-login-fr-dark.png');
  await evaluate('document.querySelector("#lang-toggle").click()');
  await wait(async()=>await evaluate('document.documentElement.lang==="en-CA" && !!document.querySelector("#login-form")'),'English locale not restored');
+ // The original customer screenshot was the login: test actual sign-in geometry at
+ // the most constrained mobile breakpoints, in both premium appearances.
+ for(const width of [390,320]){
+  await command('Emulation.setDeviceMetricsOverride',{width,height:844,deviceScaleFactor:1,mobile:true});
+  await navigate('/login');
+  await wait(async()=>await evaluate('!!document.querySelector("#login-form")'),'Mobile auth page unavailable');
+  const geometry=await evaluate('(()=>{const e=document.querySelector(".login-card").getBoundingClientRect();return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,left:e.left,right:e.right,cardWidth:e.width}})()');
+  assert(geometry.left>=-1&&geometry.right<=geometry.viewport+2&&geometry.scrollWidth<=geometry.viewport+3,'Login overflows at '+width+': '+JSON.stringify(geometry));
+  if(width===390){
+   await screenshot('02b-premium-login-390px-dark.png');
+   await evaluate('window.AegisTheme.set("light")');
+   assert(await evaluate('document.documentElement.dataset.bsTheme')==='light','Mobile login light appearance failed');
+   await screenshot('02c-premium-login-390px-light.png');
+   await evaluate('window.AegisTheme.set("dark")');
+  }
+ }
+ await command('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ await navigate('/login');
+ await wait(async()=>await evaluate('!!document.querySelector("#login-form")'),'Desktop login unavailable after mobile layout checks');
+
  const loginStatus=await evaluate('(async()=> (await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:'+JSON.stringify(password)+'})})).status)()');
  assert(loginStatus===200,'Local authorized login failed');
  await navigate('/workbench');
