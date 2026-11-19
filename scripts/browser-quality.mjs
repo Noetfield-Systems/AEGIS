@@ -109,6 +109,12 @@ try{
  await evaluate('document.querySelector(\'[data-view="evaluation"]\').click()');
  assert(await evaluate('document.querySelectorAll("#findings-rows tr").length')===2,'Native findings view missing');
  await screenshot('00c-enterprise-evaluation-desktop.png');
+ await evaluate('document.querySelector("#locale").click()');
+ await wait(async()=>await evaluate('document.documentElement.lang==="fr-CA" && document.body.innerText.includes("Laboratoire d’évaluation")'),'Public French localization did not translate the active view');
+ assert(!(await evaluate('document.body.innerText')).match(/[\u0600-\u06FF]/),'Public French contained Persian copy');
+ await screenshot('00d-enterprise-evaluation-fr-desktop.png');
+ await evaluate('document.querySelector("#locale").click()');
+ await wait(async()=>await evaluate('document.documentElement.lang==="en-CA"'),'Public English locale not restored');
  await navigate('/login');
  await wait(async()=>await evaluate('!!document.querySelector("#login-form")'),'Private login did not render');
  let body=await evaluate('document.body.innerText');
@@ -161,6 +167,10 @@ try{
  assert(width.document<=width.viewport+3,'Mobile workbench horizontal overflow: '+JSON.stringify(width));
  await screenshot('06-workbench-lineage-mobile.png');
  await navigate('/tour');
+ await evaluate('document.querySelector("#menu-button").click()');
+ assert(await evaluate('document.querySelector("#sidebar").classList.contains("open")'),'Mobile sidebar did not open');
+ await evaluate('document.querySelector("#backdrop").click()');
+ assert(!(await evaluate('document.querySelector("#sidebar").classList.contains("open")')),'Mobile backdrop did not close sidebar');
  await wait(async()=>await evaluate('!!document.querySelector("#demo-content") && !document.querySelector("#demo-content").hidden'),'Public command center did not render native result');
  assert(await evaluate('document.querySelector("#stat-findings").textContent')==='2','Mobile command center did not populate');
  await screenshot('07a-command-center-mobile-overview.png');
