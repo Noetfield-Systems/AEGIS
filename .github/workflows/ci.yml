@@ -54,6 +54,7 @@ jobs:
           node --check assurance/advanced-native.mjs
           node --check public/tour.js
           node --check public/workbench.js
+          node --check public/theme.js
           node --check scripts/browser-quality.mjs
           node --check assurance/integrated-report.mjs
           node --check assurance/impact-experiment.mjs
