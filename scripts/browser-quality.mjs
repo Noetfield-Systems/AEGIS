@@ -104,7 +104,7 @@ try{
  await evaluate('document.querySelector(\'[data-view="systems"]\').click()');
  assert(await evaluate('document.querySelector(\'[data-screen="systems"]\').classList.contains("active")'),'Systems view not interactive');
  await evaluate('document.querySelector(\'[data-filter="affected"]\').click()');
- assert(await evaluate('document.querySelector("#system-count-label").textContent.startsWith("1 ")),'Affected-system filter incorrect');
+ assert(await evaluate('document.querySelector("#system-count-label").textContent.startsWith("1 ")'),'Affected-system filter incorrect');
  await screenshot('00b-enterprise-inventory-desktop.png');
  await evaluate('document.querySelector(\'[data-view="evaluation"]\').click()');
  assert(await evaluate('document.querySelectorAll("#findings-rows tr").length')===2,'Native findings view missing');
