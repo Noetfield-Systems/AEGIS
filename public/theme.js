@@ -36,7 +36,7 @@ document.documentElement.style.colorScheme=effective();
 document.addEventListener('DOMContentLoaded',()=>{
  document.addEventListener('click',event=>{
   const choice=event.target.closest('[data-theme-choice]'),toggle=event.target.closest('[data-theme-toggle]');
-  if(choice){event.preventDefault();set(choice.dataset.themeChoice)}
+  if(choice){event.preventDefault();set(choice.dataset.themeChoice);choice.closest('.appearance-select')?.removeAttribute('open')}
   else if(toggle){event.preventDefault();cycle()}
  });
  paint();
