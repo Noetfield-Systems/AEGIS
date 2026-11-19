@@ -105,7 +105,7 @@ test('review journal stores only case summary + operator assertions with verifia
  assert.equal(verifyReviewJournal(reviewed.journal),true);
  const tampered=structuredClone(reviewed.journal);tampered.events[0].decision='APPROVE';
  assert.throws(()=>verifyReviewJournal(tampered),/chain mismatch/);
- assert.throws(()=>appendReview(first.journal,{caseReceiptHash:caseResult.receiptHash,decision:'APPROVE',reviewerDisplayName:'Q',reason:'Approved now'},'local-admin',now),/review reason/);
+ assert.throws(()=>appendReview(first.journal,{caseReceiptHash:caseResult.receiptHash,decision:'APPROVE',reviewerDisplayName:'Q',reason:'short'},'local-admin',now),/review reason/);
  assert.throws(()=>appendReview(first.journal,{caseReceiptHash:caseResult.receiptHash,decision:'APPROVE',reviewerDisplayName:'Fake',reason:'Looks good enough for me'},'external-user',now),/not authorized/);
 });
 
