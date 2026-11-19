@@ -19,9 +19,16 @@ Exit: internal verdict with all 10 gates, documentary evidence, price validation
 Missing mandatory evidence = not-ready; choose a compliant partner only if it supplies genuinely integrated proof, not for ceremonial inclusion.
 
 ## Product release lanes
-L0: current private cockpit, FA/EN premium redesign.
+L0: existing private cockpit; Tabler-backed EN/FR-only design system with persistent Dark/Light/System.
 L1: evidence APIs, explicit audit, encrypted storage and backup, signed internal review.
 L2: native evaluator & replay proof (sell 3–5-system pilot).
 L3: multi-tenant / enterprise controls, EN/FR customer edition, verified adapters and SLAs.
 L4: subscriptions, partner programs, international policy packs and community.
 Each lane must pass test/QA and real-user acceptance; higher lanes are not yet delivered.
+
+## v3.2 evidence-first execution addendum (19 Nov 2026)
+- P0-A: bounded session revocation, proxy-aware client login guard and CSV formula handling, regression tested; [PR #24](https://github.com/Noetfield-Systems/AEGIS/pull/24).
+- P0-B: Officer Pack generator and authenticated Workbench export, with each of ten proof steps and all six essential outcomes honestly labelled; [officer contract](ISC_OFFICER_EVIDENCE_PACK_V32.md).
+- P0-C/D: expert-archived source versions, signed applicability mappings, independent labelled benchmark and representative TRL protocol remain **open**; [TRL dossier](TRL_EVIDENCE_DOSSIER_V32.md).
+- P1: identity-backed reviewer, tenancy/RBAC, retention/export/deletion, restore drill and three actual adapters remain separate work requiring external authorization/evidence.
+- P1 sales: [bounded three-system pilot offer](THREE_SYSTEM_PILOT_V32.md); no customer payment or independent reviewer is presumed.
