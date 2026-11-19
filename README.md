@@ -1,6 +1,6 @@
 # Noetfield AEGIS — English/French Evidence Operations + Experimental AI Assurance
 
-**Official product source: `Noetfield-Systems/AEGIS`**. Live private workspace: https://aegis-isc-web-production.up.railway.app/.
+**Official product source: `Noetfield-Systems/AEGIS`**. Public product console: https://aegis-isc-web-production.up.railway.app/ · Private login: https://aegis-isc-web-production.up.railway.app/login · Assurance Workbench: https://aegis-isc-web-production.up.railway.app/workbench.
 
 Dedicated EN/FR premium, private, evidence-gated operational application for **EN578-24ISC4/100**, with a separate experimental native AI evaluation lab and venture Company OS operating context. It is an internal estimate, **not a federal ISC assessment**. Scenario values 43/102/120 are analytical hypotheticals and do not seed real evidence.
 
@@ -11,11 +11,11 @@ Dedicated EN/FR premium, private, evidence-gated operational application for **E
 - **Company OS (partial):** specialist roles, venture manifest, task/receipt schemas, real GitHub Actions scheduled daily work queue, first successful dispatch; no verified full autonomous coding chain or Sina OS endpoint.
 - **Assurance Workbench (private, experimental):** six guided EN/FR stages from system context and policy diff through native replay, case review, bilingual print-ready technical dossier and E1–E6 acceptance gaps. This is not a validated commercial multi-tenant or TRL-certified product.
 
-Canonical docs: [Product](docs/PRODUCT_SSOT.md), [Architecture](docs/ARCHITECTURE.md), [ISC evidence and benchmarks](docs/ISC_EVIDENCE_AND_BENCHMARKS.md), [Company OS](docs/COMPANY_OS.md), [30-day plan](docs/ROADMAP_30_DAY.md), [Design system](docs/UX_DESIGN_SYSTEM.md), [Current status](docs/CURRENT_STATUS.md).
+Canonical docs: [Product](docs/PRODUCT_SSOT.md), [Architecture](docs/ARCHITECTURE.md), [ISC evidence and benchmarks](docs/ISC_EVIDENCE_AND_BENCHMARKS.md), [Company OS](docs/COMPANY_OS.md), [30-day plan](docs/ROADMAP_30_DAY.md), [Canonical Tabler Design System v1.0](docs/DESIGN_SYSTEM.md), [Current status](docs/CURRENT_STATUS.md).
 
 ## Run
 
-Node 22+ (no third-party packages). Set `ADMIN_PASSWORD` (12+ characters), `SESSION_SECRET` (32+ chars), and `DATA_DIR` (persistent, writable path). `npm start`; visit `http://localhost:3000`. For Railway, mount a **persistent volume at `/data`**, set `DATA_DIR=/data`, and use one replica. `GET /api/health` is public; all data endpoints require a signed, HttpOnly, SameSite=Strict session.
+Node 22+; `npm install` loads the pinned MIT-licensed Tabler UI stylesheet (`@tabler/core@1.5.1`), served locally. No external CDN dependency. Set `ADMIN_PASSWORD` (12+ characters), `SESSION_SECRET` (32+ chars), and `DATA_DIR` (persistent, writable path). `npm start`; visit `http://localhost:3000`. For Railway, mount a **persistent volume at `/data`**, set `DATA_DIR=/data`, and use one replica. `GET /api/health` is public; all data endpoints require a signed, HttpOnly, SameSite=Strict session.
 
 ## Evidence and score contract
 
@@ -41,7 +41,7 @@ Website and login use **English (en-CA) as the default** and **French (fr-CA) as
 
 ## Public read-only evaluator demonstration (pre-submission)
 
-Open `/tour` to view the same engine's **precomputed synthetic integrated assurance result** without signing in. The independent evaluator can see a fictional policy version change, affected/unaffected systems, measured before/after technical findings, completed/active/planned work states and a deterministic content receipt. The page uses **en-CA / fr-CA only**, with English default, and adopts the approved Obsidian/Champagne system without redesigning the private workspace.
+Open `/tour` to view the same engine's **precomputed synthetic integrated assurance result** without signing in. The independent evaluator can see a fictional policy version change, affected/unaffected systems, measured before/after technical findings, completed/active/planned work states and a deterministic content receipt. The page uses **en-CA / fr-CA only**, with English default, and adopts the canonical Tabler-backed AEGIS Graphite/Porcelain design system, with Dark/Light/System and shared iconography.
 
 The endpoint `GET /api/public/demo` returns **only** the fixed synthetic result calculated at service start. It does not accept input, expose sources, review journal or evidence, set a cookie, award ISC points or claim government acceptance. All `/api/assurance/*` endpoints and the internal application remain authenticated. See `test/server.integration.test.mjs` and `test/tour.test.mjs` for acceptance tests. This tour is not a TRL 5 demonstration or external scientific review.
 
@@ -91,3 +91,7 @@ Benchmark directions: ModelOp Center (inventory and risk portfolios), Credo AI (
 ### Manual acceptance and go-live
 
 `npm test` and the automated Chromium browser-quality job validate the seven-view public console, real backend values, impacted-only filter, linked evaluation table, private login and workbench isolation, EN/FR and responsive 390px mobile. Review the captured screenshots before assigning visual quality signoff. No paid customer or real external policy change is implied by the acceptance evidence.
+
+## Canonical institutional design system (binding, November 19)
+
+AEGIS uses the **real, pinned MIT Tabler UI v1.5.1** and MIT Tabler Icons, not a fresh hand-built theme per task. Read [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md) before changing public console, login or Workbench visuals. All three surfaces support persistent Dark / Light / System appearance, use the same icon family and spacing scale, and keep EN/FR only. Workbench uses a mobile drawer and responsive native components; do not alter API authorization, evidence metrics, ownership or persisted state when changing appearance.
