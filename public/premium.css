@@ -1,5 +1,7 @@
 
-/* AEGIS Obsidian / Champagne v2: accessible dark workspace, independent of landing imagery */
+/* AEGIS Obsidian / Champagne v2: EN/FR LTR Canadian workspace */
+html,body{direction:ltr}
+
 :root{
  --nav:#080b19;--nav2:#111628;--ink:#f2eced;--muted:#abb1c5;
  --green:#68d9b6;--mint:#143b32;--line:#2c3045;
@@ -138,15 +140,15 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:lin
 .lang-toggle{border:1px solid #9c805f;background:#231d31;color:#f8dca9;padding:7px 12px;border-radius:20px;min-height:36px;cursor:pointer;white-space:nowrap;font-weight:700;letter-spacing:.5px}
 .lang-toggle:hover{background:#43304a;border-color:#e0bf8c}
 .top-actions .lang-toggle{order:-1}
-html[data-lang="en"] .side,html[data-lang="en"] .main{direction:ltr}
-html[data-lang="en"] .nav button{text-align:left}
-html[data-lang="en"] .app-layout{direction:ltr}
-html[data-lang="en"] .topbar{text-align:left}
-html[data-lang="en"] .work-meta{direction:ltr}
-html[data-lang="en"] .top-actions{flex-direction:row}
-html[data-lang="en"] .hero-metric{border-right:0;border-left:1px solid #dec18c55}
-html[data-lang="en"] .logo-mark{letter-spacing:0}
-html[data-lang="en"] .source-note{text-align:left}
+html[data-lang] .side,html[data-lang] .main{direction:ltr}
+html[data-lang] .nav button{text-align:left}
+html[data-lang] .app-layout{direction:ltr}
+html[data-lang] .topbar{text-align:left}
+html[data-lang] .work-meta{direction:ltr}
+html[data-lang] .top-actions{flex-direction:row}
+html[data-lang] .hero-metric{border-right:0;border-left:1px solid #dec18c55}
+html[data-lang] .logo-mark{letter-spacing:0}
+html[data-lang] .source-note{text-align:left}
 a{transition:color .2s}a:hover{color:#f0c78a}
 ::selection{background:#9474a4;color:#fff}
 :focus-visible{outline:2px solid #f0cd9a;outline-offset:3px}
@@ -185,3 +187,13 @@ a{transition:color .2s}a:hover{color:#f0c78a}
 .lab-contracts strong{display:block;color:#e6c193;margin-bottom:8px}
 .lab-contracts code{display:block;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;line-height:1.65;color:#ccc5e3;direction:ltr;text-align:left}
 @media(max-width:720px){.lab-contracts{grid-template-columns:1fr}}
+
+/* Canadian EN/FR typography: bilingual Latin-script type, no RTL layout. */
+html[data-lang] .side,html[data-lang] .main,html[data-lang] .login-story,html[data-lang] .login-side{direction:ltr;text-align:left}
+html[data-lang] .login-card{text-align:left}
+html[data-lang] .login-card label{text-align:left}
+html[data-lang] .login-card input{text-align:left}
+html[data-lang] .side{border-right:1px solid #b8944f44}
+html[data-lang] .nav button{text-align:left}
+html[data-lang] .nav-badge{margin-left:auto;margin-right:0}
+html[data-lang] .brand,html[data-lang] .side .brand{direction:ltr}

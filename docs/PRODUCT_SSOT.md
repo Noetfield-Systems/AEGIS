@@ -9,7 +9,7 @@ AEGIS transforms policy, AI-model and assurance changes into versioned impact an
 **Assurance Engine**: target customer-facing product for continuous AI assurance, policy replay, source-linked obligations, native risk evaluation, five-state findings, granular permissions, collaboration, change impact, controlled replay and signed export. Do not claim it is implemented by the cockpit.
 
 ## Original Founder goals
-Excellent bilingual FA/EN premium workflow, practical revenue, defensible benchmarked technical differentiation, low-friction operation, preserve reusable Noetfield IP, independence of other ventures, frequent autonomous supervised development by AEGIS Company OS under Sina Founder OS.
+Excellent bilingual EN/FR premium workflow, practical revenue, defensible benchmarked technical differentiation, low-friction operation, preserve reusable Noetfield IP, independence of other ventures, frequent autonomous supervised development by AEGIS Company OS under Sina Founder OS.
 Target customer sequence: Canadian AI firms and regulated mid-market proof pilots; federal departments through official processes; then financial services and international AI governance buyers. Neither an ISC award nor a customer contract is assumed.
 
 ## Operational data truth
@@ -22,3 +22,6 @@ Not an AI foundation model, not generic document GRC, not a competitor clone, no
 
 ## Commercial wedge
 Fixed-fee AI Assurance Readiness followed by paid 3–5-system Policy Change Impact Pilot, then enterprise annual license, integration and support after customer validation. Prices and ARR are hypotheses until agreements and payments exist.
+
+## Binding AEGIS website language decision — 2026-11-18
+All AEGIS web routes, including the private ISC cockpit, login, and customer assurance workspace, must use only English (en-CA, default) and French (fr-CA). Do not offer FA, RTL, or Persian site strings. The previous internal FA/EN interface choice is superseded. UI localization does not translate or overwrite user-entered evidence values. Federal EN/FR evidence requires end-to-end workflow and report QA beyond a language selector.

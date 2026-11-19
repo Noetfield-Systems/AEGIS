@@ -9,6 +9,13 @@ Canonical owner: Noetfield Systems Inc. Product: AEGIS. Repository: Noetfield-Sy
 4. docs/ISC_EVIDENCE_AND_BENCHMARKS.md
 5. docs/ROADMAP_30_DAY.md
 
+## Public interface language — binding Founder decision (November 18, 2026)
+- **AEGIS web interface: English (en-CA) by default and French (fr-CA) as the only alternative.** No Persian / FA locale, Persian language toggle, or RTL pages on the website.
+- This applies to the login, readiness workspace, Assurance Engine, labels, forms, errors, status messaging and report previews.
+- Protect existing user-entered data: changing UI language must never rewrite stored evidence or free-text records.
+- English/French UI availability is not in itself evidence that the federal additional bilingual outcome has been completely tested.
+- Spoken/planning communications with the Founder may be in Persian; this does not authorize a Persian public interface.
+
 ## Rules
 - Work here; do not relocate product ownership to Noetfield's website repository, TrustField, BuildRelay, or Cairn.
 - Sina Founder OS is supervisory authority. AEGIS Company OS is the venture-specific orchestration context. Existing Company OS, Runway, Paperclip, and Verifier execute through explicit contracts; do not duplicate their runtimes.

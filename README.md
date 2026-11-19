@@ -1,8 +1,8 @@
-# Noetfield AEGIS — Bilingual Evidence Operations + Experimental AI Assurance
+# Noetfield AEGIS — English/French Evidence Operations + Experimental AI Assurance
 
 **Official product source: `Noetfield-Systems/AEGIS`**. Live private workspace: https://aegis-isc-web-production.up.railway.app/.
 
-Dedicated FA/EN premium, private, evidence-gated operational application for **EN578-24ISC4/100**, with a separate experimental native AI evaluation lab and venture Company OS operating context. It is an internal estimate, **not a federal ISC assessment**. Scenario values 43/102/120 are analytical hypotheticals and do not seed real evidence.
+Dedicated EN/FR premium, private, evidence-gated operational application for **EN578-24ISC4/100**, with a separate experimental native AI evaluation lab and venture Company OS operating context. It is an internal estimate, **not a federal ISC assessment**. Scenario values 43/102/120 are analytical hypotheticals and do not seed real evidence.
 
 ## Current scope
 
@@ -36,3 +36,5 @@ Deadline: 22 Dec 2026, 14:00 ET. Pass: 65/130 **and all mandatory criteria**. Go
 ## QA
 
 `npm test` tests evidence gating, scenario isolation, criterion scoring, team availability, and special Q8 conditions.
+## Website language policy
+Website and login use **English (en-CA) as the default** and **French (fr-CA) as the only other locale**. Previous localStorage `fa` preferences are ignored in favour of English. The public-facing and private workspace UI is LTR in both languages. Persian is restricted to internal conversation/planning, never a website language option. Changing language must not mutate the persisted evidence store.
